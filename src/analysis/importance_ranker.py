@@ -9,7 +9,7 @@ from utils.decorators import measure_time
 
 load_dotenv()
 
-template = load_prompt("src/prompts/importance_ranker_prompt.txt")
+template = load_prompt("prompts/importance_ranker_prompt.txt")
 
 @measure_time
 def generate_importance_ranker(text, topics):

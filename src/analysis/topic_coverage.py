@@ -9,7 +9,7 @@ from utils.decorators import measure_time
 
 load_dotenv()
 
-template = load_prompt("src/prompts/topic_coverage_prompt.txt")
+template = load_prompt("prompts/topic_coverage_prompt.txt")
 
 @measure_time
 def generate_topic_coverage(text):

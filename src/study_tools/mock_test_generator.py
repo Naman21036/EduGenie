@@ -9,7 +9,7 @@ from utils.decorators import measure_time
 
 load_dotenv()
 
-template = load_prompt("src/prompts/mock_test_prompt.txt")
+template = load_prompt("prompts/mock_test_prompt.txt")
 
 @measure_time
 def generate_mock_test(text, num_2_mark, num_5_mark, num_10_mark, difficulty):

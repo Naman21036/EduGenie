@@ -9,7 +9,7 @@ from utils.decorators import measure_time
 
 load_dotenv()
 
-template = load_prompt("src/prompts/question_bank_prompt.txt")
+template = load_prompt("prompts/question_bank_prompt.txt")
 
 @measure_time
 def generate_question_bank(text, num_2_mark, num_5_mark, num_10_mark):

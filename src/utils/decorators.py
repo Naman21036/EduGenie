@@ -1,5 +1,7 @@
 import time
-from src.utils.logger import logger
+from src.utils.logger import get_logger
+
+logger = get_logger()
 
 def measure_time(func):
 

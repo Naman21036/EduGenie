@@ -9,11 +9,11 @@ from utils.decorators import measure_time
 
 load_dotenv()
 
-template = load_prompt("src/prompts/mcq_prompt.txt")
+template = load_prompt("prompts/mcq_prompt.txt")
 
 @measure_time
-def generate_mcqs(text, num_ques=10):
-    prompt= template.format(text=text, num_ques=num_ques)
+def generate_mcqs(text, num_questions=10):
+    prompt= template.format(text=text, num_questions=num_questions)
     response = generate_response(prompt)
 
     return parse_json_response(response)

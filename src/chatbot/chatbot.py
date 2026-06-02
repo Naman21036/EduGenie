@@ -2,7 +2,7 @@ from src.services.llm_service import generate_response
 from src.services.prompt_service import load_prompt
 
 template = load_prompt(
-    "src/chatbot/chatbot_prompt.txt"
+    "chatbot/chatbot_prompt.txt"
 )
 
 def chat(

@@ -16,14 +16,14 @@ Rules:
 Output Format:
 
 [
-  {
-    "front": "What is supervised learning?",
-    "back": "A machine learning approach that trains models using labeled data."
-  },
-  {
-    "front": "What is overfitting?",
-    "back": "When a model learns training data too closely and performs poorly on unseen data."
-  }
+  {{
+      "front": "Question",
+      "back": "Answer"
+  }},
+  {{
+      "front": "What is overfitting?",
+      "back": "When a model learns training data too closely and performs poorly on unseen data."
+  }}
 ]
 
 Study Material:

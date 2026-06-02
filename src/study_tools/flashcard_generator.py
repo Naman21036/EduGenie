@@ -8,12 +8,12 @@ from utils.decorators import measure_time
 
 load_dotenv()
 
-template = load_prompt("src/prompts/flashcard_prompt.txt")
+template = load_prompt("prompts/flashcard_prompt.txt")
 
 
 @measure_time
-def generate_flashcards(text):
-    prompt= template.format(text=text)
+def generate_flashcards(text, num_cards=10):
+    prompt= template.format(text=text, num_cards=num_cards)
     response = generate_response(prompt)
 
     return parse_json_response(response)

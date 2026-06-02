@@ -10,7 +10,7 @@ from utils.decorators import measure_time
 
 load_dotenv()
 
-template = load_prompt("src/prompts/revision_sheet_prompt.txt")
+template = load_prompt("prompts/revision_sheet_prompt.txt")
 
 @measure_time
 def generate_revision_sheet(text):
