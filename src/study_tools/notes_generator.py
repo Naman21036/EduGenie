@@ -1,5 +1,7 @@
 from src.model.llm import get_llm
+from utils.decorators import measure_time
 
+@measure_time
 def generate_notes(context):
     llm = get_llm()
 
