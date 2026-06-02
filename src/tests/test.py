@@ -2,24 +2,30 @@ from src.ingestion.pdf_loader import load_pdf
 from src.ingestion.vector_db import create_vector_db
 from src.ingestion.text_splitter import split_documents
 from src.ingestion.retriever import retrieve
-from src.generators.notes_generator import generate_notes
 
-document = load_pdf([r"saved_files\Resume- Naman Gupta (1).pdf"])
 
-chunks = split_documents(document)
-vector_db = create_vector_db(chunks)
-query = "What is the name of the person in the resume?"
-results = retrieve(query, vector_db)
+def test_rag_pipeline():
 
-print(f"Documents: {len(document)}")
-print(f"Chunks: {len(chunks)}")
-for result in results:
-    print(result.page_content)
+    documents = load_pdf(
+        [r"saved_files\Analysis-of-2-kV-HBM-ESD-Event-in-CMOS.pdf"]
+    )
 
-context = "\n".join(
-    [doc.page_content for doc in results]
-)
+    assert len(documents) > 0
 
-notes = generate_notes(context)
+    chunks = split_documents(documents)
 
-print(notes)
+    assert len(chunks) > 0
+
+    vector_db = create_vector_db(chunks)
+
+    assert vector_db is not None
+
+    results = retrieve(
+        "What is the name of the person in the resume?",
+        vector_db
+    )
+
+    assert len(results) > 0
+
+if __name__ == "__main__":
+    test_rag_pipeline()

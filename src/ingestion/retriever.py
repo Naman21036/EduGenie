@@ -1,9 +1,7 @@
 from src.utils.logger import get_logger
-import config.settings
+from src.config.settings import TOP_K
 
-logger = get_logger(__name__)
-
-TOP_K = config.settings.TOP_K
+logger = get_logger()
 
 
 def retrieve(query, vector_db, top_k=TOP_K):
