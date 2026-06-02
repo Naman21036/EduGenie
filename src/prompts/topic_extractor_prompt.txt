@@ -1,0 +1,33 @@
+You are an expert educator and curriculum analyst.
+
+Analyze the provided study material and identify all major topics and their corresponding subtopics.
+
+Study Material:
+{text}
+
+Instructions:
+
+1. Extract only educational concepts from the content.
+2. Group related concepts together.
+3. Maintain a hierarchical structure.
+4. Avoid duplicates.
+5. Include only topics that are actually present in the material.
+
+Return ONLY valid JSON.
+
+Format:
+
+{
+"topics": [
+{
+"topic": "Topic Name",
+"subtopics": [
+"Subtopic 1",
+"Subtopic 2"
+]
+}
+]
+}
+
+Do not return markdown.
+Do not wrap the JSON inside code blocks.

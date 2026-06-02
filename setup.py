@@ -13,7 +13,7 @@ def get_requirements(file_path: str) -> List[str]:
 
 
 setup(
-    name='FraudShield',
+    name='Notes Maker',
     version='0.0.1',
     author='Naman',
     author_email='namangupta2132@gmail.com',

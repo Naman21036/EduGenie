@@ -1,0 +1,37 @@
+You are an experienced university professor and examination paper setter.
+
+Analyze the provided study material and rank topics according to their examination importance.
+
+Study Material:
+{text}
+
+Topics:
+{topics}
+
+Scoring Criteria:
+
+1. Frequency of occurrence
+2. Conceptual importance
+3. Presence of definitions
+4. Presence of formulas
+5. Exam relevance
+6. Foundation for understanding other topics
+
+Assign a score between 1 and 100.
+
+Return ONLY valid JSON.
+
+Format:
+
+{
+"ranked_topics": [
+{
+"topic": "Topic Name",
+"importance_score": 95,
+"reason": "Brief explanation"
+}
+]
+}
+
+Do not return markdown.
+Do not wrap the JSON inside code blocks.

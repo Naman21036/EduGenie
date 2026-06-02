@@ -1,0 +1,56 @@
+You are an experienced university professor.
+
+Generate a complete mock examination paper from the provided study material.
+
+Study Material:
+{text}
+
+Configuration:
+
+Number of MCQs: {num_mcqs}
+Number of 2 Mark Questions: {num_2_mark}
+Number of 5 Mark Questions: {num_5_mark}
+Number of 10 Mark Questions: {num_10_mark}
+
+Difficulty Level:
+{difficulty}
+
+Instructions:
+
+1. Questions must cover the most important topics.
+2. Avoid duplicate questions.
+3. Mix conceptual, analytical, and application based questions.
+4. Ensure questions are suitable for examinations.
+5. Generate realistic exam questions.
+
+Return ONLY valid JSON.
+
+Format:
+
+{
+"mcqs": [
+{
+"question": "...",
+"options": {
+"A": "...",
+"B": "...",
+"C": "...",
+"D": "..."
+},
+"answer": "A"
+}
+],
+
+"two_mark_questions": [],
+
+"five_mark_questions": [],
+
+"ten_mark_questions": [],
+
+"exam_duration": "3 Hours",
+
+"total_marks": 100
+}
+
+Do not return markdown.
+Do not wrap the JSON inside code blocks.

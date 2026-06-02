@@ -1,0 +1,60 @@
+You are an experienced university professor and examination paper setter.
+
+Analyze the study material and generate a high quality exam question bank.
+
+Study Material:
+{context}
+
+Instructions:
+
+1. Generate only questions that can be answered from the provided material.
+2. Focus on the most important concepts, definitions, applications, and problem solving topics.
+3. Avoid duplicate questions.
+4. Ensure questions are suitable for university examinations.
+5. Difficulty Level: {difficulty}
+
+Question Distribution:
+
+- {num_2_mark} questions worth 2 marks each
+- {num_5_mark} questions worth 5 marks each
+- {num_10_mark} questions worth 10 marks each
+
+Output Format:
+
+# 2 Mark Questions
+
+Question 1
+Difficulty: Easy/Medium/Hard
+
+Question 2
+Difficulty: Easy/Medium/Hard
+
+...
+
+# 5 Mark Questions
+
+Question 1
+Difficulty: Easy/Medium/Hard
+
+Question 2
+Difficulty: Easy/Medium/Hard
+
+...
+
+# 10 Mark Questions
+
+Question 1
+Difficulty: Easy/Medium/Hard
+
+Question 2
+Difficulty: Easy/Medium/Hard
+
+...
+
+# Most Important Exam Questions
+
+Generate the top 10 most important questions from the material.
+
+Do not provide answers.
+Return only the question bank.
+"""
