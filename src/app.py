@@ -1,19 +1,28 @@
 import os
+
 import streamlit as st
+
+from streamlit_option_menu import option_menu
 
 from src.ingestion.pdf_loader import load_pdf
 from src.ingestion.text_splitter import split_documents
 from src.ingestion.vector_db import create_vector_db
 
-from src.ui.study_tools import render_study_tools
-from src.ui.analysis import render_analysis
-from src.ui.exam_prep import render_exam_prep
-from src.ui.chatbot_ui import render_chatbot
+from src.frontend.ui.dashboard_ui import render_dashboard
+from src.frontend.ui.study_tools import render_study_tools
+from src.frontend.ui.analysis import render_analysis
+from src.frontend.ui.exam_prep import render_exam_prep
+from src.frontend.ui.chatbot_ui import render_chatbot
 
 from src.utils.logger import get_logger
 
 
 logger = get_logger()
+
+
+# ==================================================
+# PAGE CONFIG
+# ==================================================
 
 st.set_page_config(
     page_title="EduGenie",
@@ -21,31 +30,66 @@ st.set_page_config(
     layout="wide"
 )
 
-st.markdown("""
+
+# ==================================================
+# GLOBAL CSS
+# ==================================================
+
+st.markdown(
+    """
 <style>
 
 .block-container{
-    max-width:1400px;
-    padding-top:2rem;
+    max-width:1600px;
+    padding-top:1rem;
 }
 
-[data-testid="stMetric"]{
-    background:#1E293B;
-    padding:20px;
-    border-radius:16px;
-    border:1px solid #334155;
+.stApp{
+    background:
+    linear-gradient(
+        135deg,
+        #020617,
+        #0f172a
+    );
 }
 
 .stButton > button{
+
+    width:100%;
+
     border-radius:12px;
+
     height:3rem;
+
+    border:none;
+
+    background:
+    linear-gradient(
+        90deg,
+        #6366f1,
+        #8b5cf6
+    );
+
+    color:white;
+
+    font-weight:600;
+}
+
+.stButton > button:hover{
+
+    transform:
+    translateY(-2px);
 }
 
 </style>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True
+)
 
 
-# Session State
+# ==================================================
+# SESSION STATE
+# ==================================================
 
 if "documents" not in st.session_state:
     st.session_state.documents = None
@@ -59,52 +103,96 @@ if "vector_db" not in st.session_state:
 if "processed" not in st.session_state:
     st.session_state.processed = False
 
+if "activity_log" not in st.session_state:
+    st.session_state.activity_log = []
 
-# UI Header
+if "file_names" not in st.session_state:
+    st.session_state.file_names = []
+
+if "doc_count" not in st.session_state:
+    st.session_state.doc_count = 0
+
+if "chunk_count" not in st.session_state:
+    st.session_state.chunk_count = 0
+
+if "topic_count" not in st.session_state:
+    st.session_state.topic_count = 0
+
+if "selected_tool" not in st.session_state:
+    st.session_state.selected_tool = "notes"
+
+if "chat_history" not in st.session_state:
+    st.session_state.chat_history = []
+
+# ==================================================
+# HEADER
+# ==================================================
 
 st.title("📚 EduGenie")
+
 st.caption(
-    "AI Powered Study Assistant using RAG"
+    "AI Powered Learning Workspace"
 )
 
 
-# Sidebar for Document Upload and Stats
+# ==================================================
+# SIDEBAR
+# ==================================================
 
 with st.sidebar:
 
-    st.header("Document Upload")
+    st.markdown(
+        "## 📚 EduGenie"
+    )
+
+    st.caption(
+        "AI Powered Learning Workspace"
+    )
+
+    st.divider()
 
     uploaded_files = st.file_uploader(
-        "Upload PDF Files",
+        "Upload PDFs",
         type=["pdf"],
         accept_multiple_files=True
     )
 
     process_button = st.button(
-        "Process Documents",
+        "⚡ Process Documents",
         use_container_width=True
     )
 
     st.divider()
 
-    st.subheader("Statistics")
+    st.subheader(
+        "Knowledge Base"
+    )
 
-    if st.session_state.documents:
+    st.metric(
+        "Documents",
+        st.session_state.doc_count
+    )
 
-        st.metric(
-            "Documents",
-            len(st.session_state.documents)
-        )
+    st.metric(
+        "Chunks",
+        st.session_state.chunk_count
+    )
 
-    if st.session_state.chunks:
+    status = (
+        "🟢 Ready"
+        if st.session_state.processed
+        else "🔴 Waiting"
+    )
 
-        st.metric(
-            "Chunks",
-            len(st.session_state.chunks)
-        )
+    st.write(
+        f"Status: {status}"
+    )
 
 
-# Document Processing Logic
+# ==================================================
+# DOCUMENT PROCESSING
+# ==================================================
+
 if process_button:
 
     if not uploaded_files:
@@ -145,14 +233,10 @@ if process_button:
             )
 
         with st.spinner(
-            "Processing documents..."
+            "Processing Documents..."
         ):
 
             try:
-
-                logger.info(
-                    f"Loading PDFs: {file_paths}"
-                )
 
                 documents = load_pdf(
                     file_paths
@@ -167,68 +251,136 @@ if process_button:
                 )
 
                 st.session_state.documents = documents
+
                 st.session_state.chunks = chunks
+
                 st.session_state.vector_db = vector_db
+
                 st.session_state.processed = True
 
-                logger.info(
-                    "Document processing completed"
+                st.session_state.doc_count = len(
+                    documents
+                )
+
+                st.session_state.chunk_count = len(
+                    chunks
+                )
+
+                st.session_state.file_names = [
+                    file.name
+                    for file in uploaded_files
+                ]
+
+                st.session_state.activity_log.append(
+                    "Processed Documents"
                 )
 
                 st.success(
-                    "Documents processed successfully!"
+                    "Documents Processed Successfully!"
                 )
 
             except Exception as e:
 
                 logger.exception(
-                    "Document processing failed"
+                    "Document Processing Failed"
                 )
 
                 st.error(
-                    f"Error: {str(e)}"
+                    str(e)
                 )
 
 
-# Main Tabs for Study Tools, Analysis, Exam Prep, and Chatbot
+# ==================================================
+# NAVIGATION
+# ==================================================
 
-if st.session_state.processed:
+selected = option_menu(
+    menu_title=None,
 
-    study_tab, analysis_tab, exam_tab, chat_tab = st.tabs(
-        [
-            "📖 Study Tools",
-            "📊 Analysis",
-            "📝 Exam Prep",
-            "💬 Chat"
-        ]
-    )
+    options=[
+        "Dashboard",
+        "Study Tools",
+        "Analysis",
+        "Exam Prep",
+        "Chat"
+    ],
 
-    with study_tab:
+    icons=[
+        "house",
+        "book",
+        "graph-up",
+        "clipboard",
+        "chat-dots"
+    ],
+
+    orientation="horizontal"
+)
+
+
+# ==================================================
+# PAGE ROUTING
+# ==================================================
+
+if selected == "Dashboard":
+
+    render_dashboard()
+
+
+elif selected == "Study Tools":
+
+    if st.session_state.processed:
 
         render_study_tools(
             st.session_state.vector_db
         )
 
-    with analysis_tab:
+    else:
+
+        st.warning(
+            "Please process documents first."
+        )
+
+
+elif selected == "Analysis":
+
+    if st.session_state.processed:
 
         render_analysis(
             st.session_state.vector_db
         )
 
-    with exam_tab:
+    else:
+
+        st.warning(
+            "Please process documents first."
+        )
+
+
+elif selected == "Exam Prep":
+
+    if st.session_state.processed:
 
         render_exam_prep(
             st.session_state.vector_db
         )
 
-    with chat_tab:
+    else:
+
+        st.warning(
+            "Please process documents first."
+        )
+
+
+elif selected == "Chat":
+
+    if st.session_state.processed:
 
         render_chatbot(
             st.session_state.vector_db
         )
 
-else:
+    else:
 
-    st.info(
-        "Upload and process PDFs to get started."
-    )
+        st.warning(
+            "Please process documents first."
+        )

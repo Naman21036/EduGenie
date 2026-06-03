@@ -1,0 +1,237 @@
+<div class="dashboard">
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <div class="badge">
+                🚀 AI Powered Learning Workspace
+            </div>
+
+            <h1>
+                📚 EduGenie
+            </h1>
+
+            <p>
+                Transform PDFs into Notes, Flashcards, MCQs,
+                Question Banks, Mock Tests and AI Insights.
+            </p>
+
+        </div>
+
+    </section>
+
+    <section class="metrics">
+
+        <div class="metric-card">
+
+            <h2
+                class="counter"
+                data-target="{{DOCS}}"
+            >
+                0
+            </h2>
+
+            <span>
+                Documents
+            </span>
+
+        </div>
+
+        <div class="metric-card">
+
+            <h2
+                class="counter"
+                data-target="{{CHUNKS}}"
+            >
+                0
+            </h2>
+
+            <span>
+                Chunks
+            </span>
+
+        </div>
+
+        <div class="metric-card">
+
+            <h2
+                class="counter"
+                data-target="{{TOPICS}}"
+            >
+                0
+            </h2>
+
+            <span>
+                Topics
+            </span>
+
+        </div>
+
+        <div class="metric-card">
+
+            <h2>
+                {{STATUS}}
+            </h2>
+
+            <span>
+                Status
+            </span>
+
+        </div>
+
+    </section>
+
+    <section class="quick-actions">
+
+        <h2>
+            ⚡ Quick Actions
+        </h2>
+
+        <div class="action-grid">
+
+            <button onclick="goToNotes()">
+                📝 Notes
+            </button>
+
+            <button>
+                🎯 MCQs
+            </button>
+
+            <button>
+                🃏 Flashcards
+            </button>
+
+            <button>
+                💬 Chat
+            </button>
+
+        </div>
+
+    </section>
+
+    <section class="features">
+
+        <div class="feature-card">
+
+            <h2>
+                📖 Study Tools
+            </h2>
+
+            <ul>
+
+                <li>
+                    Notes Generator
+                </li>
+
+                <li>
+                    Flashcards
+                </li>
+
+                <li>
+                    MCQs
+                </li>
+
+                <li>
+                    Question Bank
+                </li>
+
+            </ul>
+
+        </div>
+
+        <div class="feature-card">
+
+            <h2>
+                📊 Analysis
+            </h2>
+
+            <ul>
+
+                <li>
+                    Topic Extraction
+                </li>
+
+                <li>
+                    Topic Coverage
+                </li>
+
+                <li>
+                    Importance Ranking
+                </li>
+
+            </ul>
+
+        </div>
+
+        <div class="feature-card">
+
+            <h2>
+                📝 Exam Preparation
+            </h2>
+
+            <ul>
+
+                <li>
+                    Mock Tests
+                </li>
+
+                <li>
+                    Revision Sheets
+                </li>
+
+                <li>
+                    Important Questions
+                </li>
+
+            </ul>
+
+        </div>
+
+        <div class="feature-card">
+
+            <h2>
+                💬 AI Assistant
+            </h2>
+
+            <ul>
+
+                <li>
+                    RAG Chat
+                </li>
+
+                <li>
+                    Semantic Search
+                </li>
+
+                <li>
+                    Context Aware Answers
+                </li>
+
+            </ul>
+
+        </div>
+
+    </section>
+
+    <section class="documents">
+
+        <h2>
+            📄 Uploaded Documents
+        </h2>
+
+        {{FILES}}
+
+    </section>
+
+    <section class="activity">
+
+        <h2>
+            📈 Recent Activity
+        </h2>
+
+        {{ACTIVITY}}
+
+    </section>
+
+</div>
