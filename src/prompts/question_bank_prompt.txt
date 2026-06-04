@@ -1,71 +1,109 @@
-def generate_question_bank(
-    context,
-    num_2_mark=10,
-    num_5_mark=10,
-    num_10_mark=5,
-    difficulty="Mixed"
-):
+You are an experienced university professor, examiner, and question paper setter.
 
-    prompt = f"""
-You are an experienced university professor and examination paper setter.
+Your task is to generate a comprehensive examination question bank from the provided study material.
 
-Analyze the study material and generate a high quality exam question bank.
+STUDY MATERIAL:
 
-Study Material:
 {context}
 
-Instructions:
+INSTRUCTIONS:
 
-1. Generate only questions that can be answered from the provided material.
-2. Focus on the most important concepts, definitions, applications, and problem solving topics.
-3. Avoid duplicate questions.
-4. Ensure questions are suitable for university examinations.
-5. Difficulty Level: {difficulty}
+1. Generate questions ONLY from the provided study material.
+2. Do not invent concepts that are not present in the material.
+3. Ensure all questions are unique.
+4. Avoid repeating the same concept in multiple sections unless absolutely necessary.
+5. Questions should resemble real university examination questions.
+6. Cover definitions, theory, applications, numerical concepts, derivations, comparisons, advantages, disadvantages, and practical implications wherever applicable.
+7. Difficulty Level: {difficulty}
 
-Question Distribution:
+QUESTION DISTRIBUTION:
 
-- {num_2_mark} questions worth 2 marks each
-- {num_5_mark} questions worth 5 marks each
-- {num_10_mark} questions worth 10 marks each
+• {num_2_mark} questions worth 2 marks each
+• {num_5_mark} questions worth 5 marks each
+• {num_10_mark} questions worth 10 marks each
 
-Output Format:
+QUESTION DESIGN RULES:
 
-# 2 Mark Questions
+2 MARK QUESTIONS:
 
-Question 1
-Difficulty: Easy/Medium/Hard
+* Short factual questions
+* Definitions
+* Basic concepts
+* Direct recall
 
-Question 2
-Difficulty: Easy/Medium/Hard
+5 MARK QUESTIONS:
+
+* Explanations
+* Comparisons
+* Working principles
+* Conceptual understanding
+* Moderate analytical thinking
+
+10 MARK QUESTIONS:
+
+* Detailed explanations
+* Derivations
+* Design based questions
+* Problem solving
+* Case based questions
+* Application and analysis oriented questions
+
+OUTPUT FORMAT:
+
+========================
+2 MARK QUESTIONS
+================
+
+Q1. Question text
+Difficulty: Easy
+
+Q2. Question text
+Difficulty: Easy
 
 ...
 
-# 5 Mark Questions
+========================
+5 MARK QUESTIONS
+================
 
-Question 1
-Difficulty: Easy/Medium/Hard
+Q1. Question text
+Difficulty: Medium
 
-Question 2
-Difficulty: Easy/Medium/Hard
-
-...
-
-# 10 Mark Questions
-
-Question 1
-Difficulty: Easy/Medium/Hard
-
-Question 2
-Difficulty: Easy/Medium/Hard
+Q2. Question text
+Difficulty: Medium
 
 ...
 
-# Most Important Exam Questions
+========================
+10 MARK QUESTIONS
+=================
 
-Generate the top 10 most important questions from the material.
+Q1. Question text
+Difficulty: Hard
 
-Do not provide answers.
-Return only the question bank.
-"""
+Q2. Question text
+Difficulty: Hard
 
-    return prompt
+...
+
+========================
+MOST IMPORTANT EXAM QUESTIONS
+=============================
+
+1. Question text
+
+2. Question text
+
+3. Question text
+
+...
+
+Generate the 10 most important examination questions that a student must prepare before the exam.
+
+IMPORTANT:
+
+* Do NOT provide answers.
+* Do NOT explain your reasoning.
+* Do NOT include notes or commentary.
+* Do NOT use markdown code fences.
+* Return only the final question bank.

@@ -17,17 +17,18 @@ Return ONLY valid JSON.
 
 Format:
 
-{
-"topics": [
-{
-"topic": "Topic Name",
-"subtopics": [
-"Subtopic 1",
-"Subtopic 2"
-]
-}
-]
-}
+{{
+  "topics": [
+    {{
+      "topic": "Topic Name",
+      "subtopics": [
+        "Subtopic 1",
+        "Subtopic 2"
+      ]
+    }}
+  ]
+}}
 
 Do not return markdown.
-Do not wrap the JSON inside code blocks.
+Do not wrap JSON inside code blocks.
+Return only valid JSON.

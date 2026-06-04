@@ -3,14 +3,14 @@
     --primary:#6366f1;
     --secondary:#8b5cf6;
 
-    --bg:#0f172a;
+    --bg:#020617;
 
     --card-bg:
     rgba(
-        255,
-        255,
-        255,
-        .05
+        15,
+        23,
+        42,
+        .9
     );
 
     --border:
@@ -21,9 +21,14 @@
         .08
     );
 
-    --text:#ffffff;
+    --text:#f8fafc;
 
     --muted:#94a3b8;
+}
+
+*{
+
+    box-sizing:border-box;
 }
 
 body{
@@ -35,4 +40,141 @@ body{
     font-family:
     Inter,
     sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6{
+
+    color:#f8fafc !important;
+}
+
+p,
+span,
+label,
+li,
+small{
+
+    color:#cbd5e1 !important;
+}
+
+.feature-card h1,
+.feature-card h2,
+.feature-card h3,
+
+.analysis-card h1,
+.analysis-card h2,
+.analysis-card h3,
+
+.exam-card h1,
+.exam-card h2,
+.exam-card h3,
+
+.stat-card h1,
+.stat-card h2,
+.stat-card h3{
+
+    color:#ffffff !important;
+}
+
+.feature-card p,
+.analysis-card p,
+.exam-card p,
+.stat-card p{
+
+    color:#94a3b8 !important;
+}
+
+.metric-card h2{
+
+    color:#818cf8 !important;
+}
+
+.metric-card span{
+
+    color:#cbd5e1 !important;
+}
+
+.icon{
+
+    filter:
+    drop-shadow(
+        0 0 10px rgba(
+            99,
+            102,
+            241,
+            .5
+        )
+    );
+}
+/* ==========================
+   FORCE TEXT COLORS
+========================== */
+
+.page-header h1{
+    color:#ffffff !important;
+}
+
+.page-header h2{
+    color:#ffffff !important;
+}
+
+.page-header p{
+    color:#94a3b8 !important;
+}
+
+.stat-card span{
+    color:#cbd5e1 !important;
+}
+
+.stat-card p{
+    color:#cbd5e1 !important;
+}
+
+.analytics-panel h2{
+    color:#ffffff !important;
+}
+
+.difficulty-panel h2{
+    color:#ffffff !important;
+}
+
+.documents h2{
+    color:#ffffff !important;
+}
+
+.activity h2{
+    color:#ffffff !important;
+}
+
+.quick-actions h2{
+    color:#ffffff !important;
+}
+
+.feature-card li{
+    color:#cbd5e1 !important;
+}
+
+.feature-card ul{
+    color:#cbd5e1 !important;
+}
+.dashboard *,
+.study-tools-page *,
+.analysis-page *,
+.exam-page *,
+.chat-page *{
+
+    color:inherit;
+}
+
+.dashboard,
+.study-tools-page,
+.analysis-page,
+.exam-page,
+.chat-page{
+
+    color:#f8fafc;
 }

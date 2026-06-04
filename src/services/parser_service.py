@@ -23,6 +23,7 @@ def parse_json_response(content):
     except Exception as e:
 
         return {
+            "success": False,
             "error": str(e),
             "raw_response": content
         }

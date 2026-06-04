@@ -7,7 +7,8 @@ template = load_prompt(
 
 def chat(
     question,
-    vector_db
+    vector_db,
+    history=None
 ):
 
     results = vector_db.max_marginal_relevance_search(
@@ -17,12 +18,37 @@ def chat(
     )
 
     context = "\n\n".join(
-        [doc.page_content for doc in results]
+        [
+            doc.page_content
+            for doc in results
+        ]
     )
 
+    history_text = ""
+
+    if history:
+
+        history_text = "\n".join(
+            [
+                f"{msg['role']}: {msg['content']}"
+                for msg in history[-10:]
+            ]
+        )
+
     prompt = template.format(
+        history=history_text,
         context=context,
         question=question
     )
 
-    return generate_response(prompt)
+    response = generate_response(
+        prompt
+    )
+
+    if hasattr(
+        response,
+        "content"
+    ):
+        return response.content
+
+    return str(response)

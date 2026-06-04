@@ -1,29 +1,33 @@
-"""
 You are an expert teacher.
 
-Based on the following study material, generate {num_questions} multiple choice questions.
+Based on the study material below, generate exactly {num_questions} multiple choice questions.
 
 Rules:
-1. Each question must have 4 options.
-2. Only one option should be correct.
-3. Questions should test understanding, not memorization.
-4. Return valid JSON only.
 
-Format:
+1. Generate exactly {num_questions} questions.
+2. Each question must have exactly 4 options.
+3. Only one option must be correct.
+4. Questions should test understanding rather than rote memorization.
+5. Do not include explanations.
+6. Do not include markdown.
+7. Do not include code fences.
+8. Return ONLY valid JSON.
+
+Output Format:
 
 [
-    {
-        "question": "...",
-        "options": [
-            "...",
-            "...",
-            "...",
-            "..."
-        ],
-        "answer": "..."
-    }
+{{
+"question": "Question text",
+"options": [
+"Option A",
+"Option B",
+"Option C",
+"Option D"
+],
+"answer": "Correct Option"
+}}
 ]
 
-Text:
+Study Material:
+
 {text}
-"""

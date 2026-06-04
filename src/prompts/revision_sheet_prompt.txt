@@ -17,38 +17,24 @@ Return ONLY valid JSON.
 
 Format:
 
-{
-"summary": "...",
+{{
+  "summary": "...",
 
-"important_definitions": [
-{
-"term": "...",
-"definition": "..."
-}
-],
+  "important_concepts": [
+    "Concept 1",
+    "Concept 2"
+  ],
 
-"important_formulas": [
-{
-"formula": "...",
-"explanation": "..."
-}
-],
-
-"important_concepts": [
-"Concept 1",
-"Concept 2"
-],
-
-"exam_tips": [
-"Tip 1",
-"Tip 2"
-],
-
-"most_important_questions": [
-"Question 1",
-"Question 2"
-]
-}
+  "most_important_questions": [
+    "Question 1",
+    "Question 2"
+  ]
+}}
 
 Do not return markdown.
-Do not wrap the JSON inside code blocks.
+Do not wrap JSON inside code blocks.
+Return only valid JSON.
+Return STRICT JSON.
+Do not include newline characters inside values.
+Do not include markdown.
+Do not truncate the response.

@@ -362,3 +362,30 @@ body{
         repeat(2,1fr);
     }
 }
+
+.hero h1{
+
+    color:#ffffff;
+}
+
+.hero p{
+
+    color:#e2e8f0;
+}
+
+.feature-card h2{
+
+    color:#ffffff;
+}
+
+.documents h2,
+.activity h2{
+
+    color:#ffffff;
+}
+
+.document-item,
+.activity-item{
+
+    color:#e2e8f0;
+}

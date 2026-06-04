@@ -138,3 +138,27 @@
 
     border-radius:15px;
 }
+.exam-card h2{
+
+    color:#ffffff;
+}
+
+.exam-card p{
+
+    color:#94a3b8;
+}
+
+.difficulty-panel h2{
+
+    color:#ffffff;
+}
+
+.stat-card h2{
+
+    color:#818cf8;
+}
+
+.stat-card p{
+
+    color:#cbd5e1;
+}

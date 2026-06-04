@@ -3,6 +3,8 @@ from pathlib import Path
 import streamlit as st
 import streamlit.components.v1 as components
 
+from src.chatbot.chatbot import chat
+
 
 def render_chatbot(vector_db):
 
@@ -41,14 +43,13 @@ def render_chatbot(vector_db):
         0
     )
 
-    chat_history = st.session_state.get(
-        "chat_history",
-        []
-    )
+    if "chat_history" not in st.session_state:
+
+        st.session_state.chat_history = []
 
     messages_html = ""
 
-    for message in chat_history:
+    for message in st.session_state.chat_history:
 
         role = message["role"]
 
@@ -94,6 +95,53 @@ def render_chatbot(vector_db):
 
         <script>{js}</script>
         """,
-        height=1000,
+        height=700,
         scrolling=True
     )
+
+    st.divider()
+    col1, col2 = st.columns(
+        [5,1]
+    )
+
+    with col2:
+
+        if st.button(
+            "🗑 Clear"
+        ):
+
+            st.session_state.chat_history = []
+
+            st.rerun()
+
+    question = st.chat_input(
+        "Ask a question about your documents..."
+    )
+
+    if question:
+
+        st.session_state.chat_history.append(
+            {
+                "role": "user",
+                "content": question
+            }
+        )
+
+        with st.spinner(
+            "Thinking..."
+        ):
+
+            answer = chat(
+                question,
+                vector_db,
+                st.session_state.chat_history
+            )
+
+        st.session_state.chat_history.append(
+            {
+                "role": "assistant",
+                "content": answer
+            }
+        )
+
+        st.rerun()

@@ -23,15 +23,16 @@ Return ONLY valid JSON.
 
 Format:
 
-{
-"ranked_topics": [
-{
-"topic": "Topic Name",
-"importance_score": 95,
-"reason": "Brief explanation"
-}
-]
-}
+{{
+  "ranked_topics": [
+    {{
+      "topic": "Topic Name",
+      "importance_score": 95,
+      "reason": "Brief explanation"
+    }}
+  ]
+}}
 
 Do not return markdown.
-Do not wrap the JSON inside code blocks.
+Do not wrap JSON inside code blocks.
+Return only valid JSON.

@@ -1,56 +1,59 @@
 You are an experienced university professor.
 
-Generate a complete mock examination paper from the provided study material.
+Generate a mock examination consisting of multiple choice questions only.
+Generate EXACTLY 5 MCQs.
 
 Study Material:
+
 {text}
 
-Configuration:
-
-Number of MCQs: {num_mcqs}
-Number of 2 Mark Questions: {num_2_mark}
-Number of 5 Mark Questions: {num_5_mark}
-Number of 10 Mark Questions: {num_10_mark}
-
 Difficulty Level:
+
 {difficulty}
 
 Instructions:
 
-1. Questions must cover the most important topics.
-2. Avoid duplicate questions.
-3. Mix conceptual, analytical, and application based questions.
-4. Ensure questions are suitable for examinations.
-5. Generate realistic exam questions.
+1. Generate exactly 15 MCQs.
+2. Questions must be based only on the provided study material.
+3. Each question must have 4 options.
+4. Only one option should be correct.
+5. Mix conceptual, numerical and application based questions.
+6. Avoid duplicate questions.
 
 Return ONLY valid JSON.
 
 Format:
 
-{
-"mcqs": [
-{
-"question": "...",
-"options": {
-"A": "...",
-"B": "...",
-"C": "...",
-"D": "..."
-},
-"answer": "A"
-}
-],
-
-"two_mark_questions": [],
-
-"five_mark_questions": [],
-
-"ten_mark_questions": [],
-
-"exam_duration": "3 Hours",
-
-"total_marks": 100
-}
+{{
+  "mcqs": [
+    {{
+      "question": "Question text",
+      "options": {{
+        "A": "Option A",
+        "B": "Option B",
+        "C": "Option C",
+        "D": "Option D"
+      }},
+      "answer": "A"
+    }}
+  ]
+}}
 
 Do not return markdown.
-Do not wrap the JSON inside code blocks.
+
+Do not wrap JSON in code blocks.
+
+Return only valid JSON.
+CRITICAL:
+
+Return ONLY valid JSON.
+
+Every string must be closed properly.
+
+Do not include markdown.
+
+Do not include explanations.
+
+Do not truncate output.
+
+Ensure the JSON can be parsed directly using json.loads().

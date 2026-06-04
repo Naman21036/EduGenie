@@ -6,13 +6,13 @@ from src.study_tools.notes_generator import generate_notes
 
 def render_notes(vector_db):
 
-    st.subheader(
-        "📄 Notes Generator"
-    )
+    st.success("Notes UI Loaded")
 
-    topic = st.text_input(
-        "Topic"
-    )
+    st.subheader("📄 Notes Generator")
+
+    topic = st.text_input("Topic")
+
+    st.write("Current topic:", topic)
 
     if st.button(
         "Generate Notes",
@@ -35,10 +35,4 @@ def render_notes(vector_db):
             context
         )
 
-        st.markdown(
-            notes
-        )
-
-        st.session_state.activity_log.append(
-            f"Generated Notes on {topic}"
-        )
+        st.markdown(notes)

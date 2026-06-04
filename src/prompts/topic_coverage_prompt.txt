@@ -11,39 +11,38 @@ For each topic:
 
 1. Estimate how extensively it is covered.
 2. Consider:
-
-   * Number of mentions
-   * Amount of explanation
-   * Number of examples
-   * Number of definitions
-   * Number of formulas
-   * Number of applications
+   - Number of mentions
+   - Amount of explanation
+   - Number of examples
+   - Number of definitions
+   - Number of formulas
+   - Number of applications
 3. Assign a coverage percentage relative to the entire document.
-4. Ensure the total coverage percentages approximately sum to 100%.
+4. Ensure total coverage percentages approximately sum to 100.
 
 Return ONLY valid JSON.
 
 Format:
 
-{
-"topic_coverage": [
-{
-"topic": "Topic Name",
-"subtopics": [
-"Subtopic 1",
-"Subtopic 2"
-],
-"coverage_percentage": 35,
-"coverage_level": "High"
-}
-]
-}
+{{
+  "topic_coverage": [
+    {{
+      "topic": "Topic Name",
+      "subtopics": [
+        "Subtopic 1",
+        "Subtopic 2"
+      ],
+      "coverage_percentage": 35,
+      "coverage_level": "Medium"
+    }}
+  ]
+}}
 
 Coverage Levels:
 
-0-20%   → Low
-21-50%  → Medium
-51-100% → High
+0-20  = Low
+21-50 = Medium
+51-100 = High
 
 Do not return markdown.
 Do not wrap JSON inside code blocks.

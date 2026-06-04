@@ -19,12 +19,20 @@ def render_study_tools(vector_db):
         encoding="utf-8"
     )
 
-    css = (
+    theme_css = (
+        Path("src/frontend/shared/theme.css")
+    ).read_text(
+        encoding="utf-8"
+    )
+
+    page_css = (
         base /
         "study_tools.css"
     ).read_text(
         encoding="utf-8"
     )
+
+    css = theme_css + "\n" + page_css
 
     js = (
         base /
