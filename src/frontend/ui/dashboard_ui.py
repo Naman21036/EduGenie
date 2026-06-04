@@ -150,3 +150,38 @@ def render_dashboard():
         height=1800,
         scrolling=True
     )
+    st.markdown("## ⚡ Quick Actions")
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        if st.button(
+            "📝 Notes Generator",
+            use_container_width=True
+        ):
+            st.session_state.nav_target = "Study Tools"
+            st.rerun()
+
+    with col2:
+        if st.button(
+            "🎯 MCQ Generator",
+            use_container_width=True
+        ):
+            st.session_state.nav_target = "Study Tools"
+            st.rerun()
+
+    with col3:
+        if st.button(
+            "🃏 Flashcards",
+            use_container_width=True
+        ):
+            st.session_state.nav_target = "Study Tools"
+            st.rerun()
+
+    with col4:
+        if st.button(
+            "💬 AI Chat",
+            use_container_width=True
+        ):
+            st.session_state.nav_target = "Chat"
+            st.rerun()

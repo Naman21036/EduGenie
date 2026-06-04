@@ -7,28 +7,21 @@ def render_sidebar():
 
         st.markdown(
             """
-            <div style="
+            <style>
+            .logo-box{
+                background: linear-gradient(135deg,#6366f1,#8b5cf6);
+                padding:20px;
+                border-radius:20px;
                 text-align:center;
-                padding:15px;
-                border-radius:15px;
-                background:linear-gradient(
-                    135deg,
-                    #6366f1,
-                    #8b5cf6
-                );
-                color:white;
                 margin-bottom:20px;
-            ">
-                <h2 style="margin:0;">
-                    📚 EduGenie
-                </h2>
-                <p style="margin:5px 0;">
-                    AI Learning Workspace
-                </p>
-            </div>
+            }
+            </style>
             """,
             unsafe_allow_html=True
         )
+
+        st.markdown("## 🎓 EduGenie")
+        st.caption("AI Learning Workspace")
 
         status = (
             "🟢 Ready"
@@ -71,7 +64,7 @@ def render_sidebar():
         with col1:
 
             st.metric(
-                "Documents",
+                "Pages",
                 st.session_state.get(
                     "doc_count",
                     0

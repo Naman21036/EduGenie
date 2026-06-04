@@ -1,8 +1,8 @@
 import os
 
 import streamlit as st
-
-from streamlit_option_menu import option_menu
+from src.frontend.components.sidebar import render_sidebar
+from src.frontend.components.navbar import render_navbar
 
 from src.ingestion.pdf_loader import load_pdf
 from src.ingestion.text_splitter import split_documents
@@ -128,65 +128,13 @@ if "chat_history" not in st.session_state:
 # HEADER
 # ==================================================
 
-st.title("📚 EduGenie")
-
-st.caption(
-    "AI Powered Learning Workspace"
-)
 
 
 # ==================================================
 # SIDEBAR
 # ==================================================
 
-with st.sidebar:
-
-    st.markdown(
-        "## 📚 EduGenie"
-    )
-
-    st.caption(
-        "AI Powered Learning Workspace"
-    )
-
-    st.divider()
-
-    uploaded_files = st.file_uploader(
-        "Upload PDFs",
-        type=["pdf"],
-        accept_multiple_files=True
-    )
-
-    process_button = st.button(
-        "⚡ Process Documents",
-        use_container_width=True
-    )
-
-    st.divider()
-
-    st.subheader(
-        "Knowledge Base"
-    )
-
-    st.metric(
-        "Documents",
-        st.session_state.doc_count
-    )
-
-    st.metric(
-        "Chunks",
-        st.session_state.chunk_count
-    )
-
-    status = (
-        "🟢 Ready"
-        if st.session_state.processed
-        else "🔴 Waiting"
-    )
-
-    st.write(
-        f"Status: {status}"
-    )
+uploaded_files, process_button = render_sidebar()
 
 
 # ==================================================
@@ -294,27 +242,29 @@ if process_button:
 # NAVIGATION
 # ==================================================
 
-selected = option_menu(
-    menu_title=None,
+if "selected_page" not in st.session_state:
+    st.session_state.selected_page = "Dashboard"
 
-    options=[
-        "Dashboard",
-        "Study Tools",
-        "Analysis",
-        "Exam Prep",
-        "Chat"
-    ],
+if "nav_target" not in st.session_state:
+    st.session_state.nav_target = None
 
-    icons=[
-        "house",
-        "book",
-        "graph-up",
-        "clipboard",
-        "chat-dots"
-    ],
+navbar_selection = render_navbar()
 
-    orientation="horizontal"
-)
+if st.session_state.nav_target:
+
+    st.session_state.selected_page = (
+        st.session_state.nav_target
+    )
+
+    st.session_state.nav_target = None
+
+else:
+
+    st.session_state.selected_page = (
+        navbar_selection
+    )
+
+selected = st.session_state.selected_page
 
 
 # ==================================================
