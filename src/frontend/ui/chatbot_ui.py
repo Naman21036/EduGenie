@@ -1,5 +1,5 @@
 import streamlit as st
-from src.chatbot.chatbot import chat
+from chatbot.chatbot import chat
 
 
 # ── Page-level CSS ───────────────────────────────────────────────────────────
