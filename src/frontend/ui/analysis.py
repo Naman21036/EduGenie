@@ -1,9 +1,9 @@
 import json
 import streamlit as st
-from src.ingestion.retriever import retrieve
-from src.analysis.topic_extractor import generate_topic_extractor
-from src.analysis.topic_coverage import generate_topic_coverage
-from src.analysis.importance_ranker import generate_importance_ranker
+from ingestion.retriever import retrieve
+from analysis.topic_extractor import generate_topic_extractor
+from analysis.topic_coverage import generate_topic_coverage
+from analysis.importance_ranker import generate_importance_ranker
 
 
 # ── CSS ──────────────────────────────────────────────────────────────────────
