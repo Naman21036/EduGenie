@@ -1,4 +1,4 @@
-from src.model.llm import get_llm
+from model.llm import get_llm
 
 llm = get_llm()
 
