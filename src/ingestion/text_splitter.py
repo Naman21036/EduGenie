@@ -1,6 +1,6 @@
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from src.config.settings import CHUNK_SIZE, CHUNK_OVERLAP
-from src.utils.logger import get_logger
+from config.settings import CHUNK_SIZE, CHUNK_OVERLAP
+from utils.logger import get_logger
 
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=CHUNK_SIZE, chunk_overlap=CHUNK_OVERLAP)
 
