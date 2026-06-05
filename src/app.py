@@ -14,7 +14,7 @@ from frontend.ui.analysis import render_analysis
 from frontend.ui.exam_prep import render_exam_prep
 from frontend.ui.chatbot_ui import render_chatbot
 
-from src.utils.logger import get_logger
+from utils.logger import get_logger
 
 logger = get_logger()
 
