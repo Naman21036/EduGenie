@@ -1,5 +1,5 @@
-from src.evaluation.retrieval_metrics import evaluate_retrieval
-from src.evaluation.generation_metrics import evaluate_generation
+from evaluation.retrieval_metrics import evaluate_retrieval
+from evaluation.generation_metrics import evaluate_generation
 
 def evaluate_pipeline(
     vector_db,
