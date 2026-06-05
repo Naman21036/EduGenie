@@ -1,6 +1,6 @@
 from langchain_huggingface import HuggingFaceEmbeddings
 from dotenv import load_dotenv
-from src.config.settings import EMBEDDING_MODEL
+from config.settings import EMBEDDING_MODEL
 from functools import lru_cache
 
 load_dotenv()
