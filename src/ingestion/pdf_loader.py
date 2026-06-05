@@ -1,5 +1,5 @@
 from langchain_community.document_loaders import PyPDFLoader
-from src.utils.logger import get_logger
+from utils.logger import get_logger
 
 logger = get_logger()
 
