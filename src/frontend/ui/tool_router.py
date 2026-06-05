@@ -1,9 +1,9 @@
 import streamlit as st
 
-from src.frontend.ui.tools.notes_ui import render_notes
-from src.frontend.ui.tools.mcq_ui import render_mcqs
-from src.frontend.ui.tools.flashcard_ui import render_flashcards
-from src.frontend.ui.tools.question_bank_ui import render_question_bank
+from frontend.ui.tools.notes_ui import render_notes
+from frontend.ui.tools.mcq_ui import render_mcqs
+from frontend.ui.tools.flashcard_ui import render_flashcards
+from frontend.ui.tools.question_bank_ui import render_question_bank
 
 
 def render_selected_tool(vector_db):
