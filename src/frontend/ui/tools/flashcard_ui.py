@@ -1,10 +1,10 @@
 import json
 import streamlit as st
 
-from src.ingestion.retriever import retrieve
-from src.study_tools.flashcard_generator import generate_flashcards
+from ingestion.retriever import retrieve
+from study_tools.flashcard_generator import generate_flashcards
 
-from src.frontend.components.cards import (
+from frontend.components.cards import (
     render_flashcards as render_flashcard_cards
 )
 
