@@ -1,180 +1,115 @@
-:root{
+/* ============================================================
+   EduGenie AI — Shared Design System
+   Enterprise color palette. No purple gradients.
+   ============================================================ */
 
-    --primary:#6366f1;
-    --secondary:#8b5cf6;
+:root {
+  /* Backgrounds */
+  --bg-base:       #0B1020;
+  --bg-surface:    #161B2E;
+  --bg-elevated:   #1E2640;
+  --bg-overlay:    #242B42;
 
-    --bg:#020617;
+  /* Borders */
+  --border-subtle: rgba(39, 52, 73, 0.8);
+  --border-default: #273449;
+  --border-strong: rgba(59, 130, 246, 0.3);
 
-    --card-bg:
-    rgba(
-        15,
-        23,
-        42,
-        .9
-    );
+  /* Accent — blue, not purple */
+  --accent:        #3B82F6;
+  --accent-hover:  #60A5FA;
+  --accent-muted:  rgba(59, 130, 246, 0.12);
+  --accent-border: rgba(59, 130, 246, 0.25);
 
-    --border:
-    rgba(
-        255,
-        255,
-        255,
-        .08
-    );
+  /* Semantic */
+  --success:       #10B981;
+  --success-muted: rgba(16, 185, 129, 0.12);
+  --warning:       #F59E0B;
+  --warning-muted: rgba(245, 158, 11, 0.12);
+  --error:         #EF4444;
+  --error-muted:   rgba(239, 68, 68, 0.12);
 
-    --text:#f8fafc;
+  /* Text */
+  --text-primary:   #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted:     #4B5A72;
+  --text-accent:    #60A5FA;
 
-    --muted:#94a3b8;
+  /* Typography */
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-*{
+/* ── Base reset for all embedded HTML ── */
+* { box-sizing: border-box; }
 
-    box-sizing:border-box;
+body {
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font);
 }
 
-body{
-
-    background:var(--bg);
-
-    color:var(--text);
-
-    font-family:
-    Inter,
-    sans-serif;
+/* ── Shared section label ── */
+.eg-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 20px 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.eg-label::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border-subtle);
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6{
-
-    color:#f8fafc !important;
+/* ── Shared page header ── */
+.eg-page-header { margin-bottom: 20px; }
+.eg-page-header h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 3px;
+  letter-spacing: -0.02em;
+}
+.eg-page-header p {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
 }
 
-p,
-span,
-label,
-li,
-small{
-
-    color:#cbd5e1 !important;
+/* ── Shared card base ── */
+.eg-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: 12px;
+  padding: 18px 20px;
 }
 
-.feature-card h1,
-.feature-card h2,
-.feature-card h3,
-
-.analysis-card h1,
-.analysis-card h2,
-.analysis-card h3,
-
-.exam-card h1,
-.exam-card h2,
-.exam-card h3,
-
-.stat-card h1,
-.stat-card h2,
-.stat-card h3{
-
-    color:#ffffff !important;
+/* ── Shared stat box ── */
+.eg-stat {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 14px 16px;
 }
+.eg-stat .sv { font-size: 22px; font-weight: 800; color: var(--text-accent); letter-spacing: -0.02em; }
+.eg-stat .sl { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
 
-.feature-card p,
-.analysis-card p,
-.exam-card p,
-.stat-card p{
-
-    color:#94a3b8 !important;
+/* ── Badge variants ── */
+.eg-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: 20px;
 }
-
-.metric-card h2{
-
-    color:#818cf8 !important;
-}
-
-.metric-card span{
-
-    color:#cbd5e1 !important;
-}
-
-.icon{
-
-    filter:
-    drop-shadow(
-        0 0 10px rgba(
-            99,
-            102,
-            241,
-            .5
-        )
-    );
-}
-/* ==========================
-   FORCE TEXT COLORS
-========================== */
-
-.page-header h1{
-    color:#ffffff !important;
-}
-
-.page-header h2{
-    color:#ffffff !important;
-}
-
-.page-header p{
-    color:#94a3b8 !important;
-}
-
-.stat-card span{
-    color:#cbd5e1 !important;
-}
-
-.stat-card p{
-    color:#cbd5e1 !important;
-}
-
-.analytics-panel h2{
-    color:#ffffff !important;
-}
-
-.difficulty-panel h2{
-    color:#ffffff !important;
-}
-
-.documents h2{
-    color:#ffffff !important;
-}
-
-.activity h2{
-    color:#ffffff !important;
-}
-
-.quick-actions h2{
-    color:#ffffff !important;
-}
-
-.feature-card li{
-    color:#cbd5e1 !important;
-}
-
-.feature-card ul{
-    color:#cbd5e1 !important;
-}
-.dashboard *,
-.study-tools-page *,
-.analysis-page *,
-.exam-page *,
-.chat-page *{
-
-    color:inherit;
-}
-
-.dashboard,
-.study-tools-page,
-.analysis-page,
-.exam-page,
-.chat-page{
-
-    color:#f8fafc;
-}
+.eg-badge.ready   { background: var(--success-muted); color: var(--success); }
+.eg-badge.pending { background: var(--accent-muted);  color: var(--text-accent); }
+.eg-badge.warning { background: var(--warning-muted); color: var(--warning); }
