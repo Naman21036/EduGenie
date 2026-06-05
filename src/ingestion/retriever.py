@@ -1,5 +1,5 @@
-from src.utils.logger import get_logger
-from src.config.settings import TOP_K
+from utils.logger import get_logger
+from config.settings import TOP_K
 
 logger = get_logger()
 
