@@ -1,5 +1,5 @@
-from src.services.llm_service import generate_response
-from src.services.prompt_service import load_prompt
+from services.llm_service import generate_response
+from services.prompt_service import load_prompt
 
 template = load_prompt(
     "chatbot/chatbot_prompt.txt"
