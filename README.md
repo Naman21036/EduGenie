@@ -8,6 +8,19 @@ EduGenie AI is an intelligent learning assistant designed to help students conve
 
 ## ✨ Features
 
+## 📄 Document Support
+
+EduGenie AI is currently optimized for academic PDFs and study material ranging from **10–20 pages**, with support for larger documents depending on content complexity and system resources.
+
+The platform uses:
+
+- Recursive text chunking
+- Voyage AI embeddings
+- FAISS vector search
+- Retrieval Augmented Generation (RAG)
+
+This architecture is designed to scale to larger document collections through efficient chunk based retrieval and semantic search.
+
 ### 📚 Study Tools
 
 Generate high quality learning material from uploaded PDFs:
@@ -161,9 +174,9 @@ EduGenie/
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/edugenie-ai.git
+git clone https://github.com/Naman21036/EduGenie
 
-cd edugenie-ai
+cd EduGenie
 ```
 
 ### 2. Create Virtual Environment
@@ -250,6 +263,7 @@ The LLM generates intelligent responses, notes, flashcards, questions, and analy
 
 * Multi Document Comparison
 * PDF Export
+* Large Scale Document Processing (100+ Page PDFs)
 * Learning Analytics Dashboard
 * Personalized Study Plans
 * Voice Based Learning Assistant
