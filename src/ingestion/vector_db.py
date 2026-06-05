@@ -2,8 +2,8 @@ from pathlib import Path
 
 from langchain_community.vectorstores import FAISS
 
-from src.ingestion.embeddings import get_embeddings
-from src.utils.logger import get_logger
+from ingestion.embeddings import get_embeddings
+from utils.logger import get_logger
 
 
 INDEX_PATH = Path("vector_store")
