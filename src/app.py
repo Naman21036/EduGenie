@@ -16,7 +16,6 @@ from src.frontend.ui.chatbot_ui import render_chatbot
 
 from src.utils.logger import get_logger
 
-
 logger = get_logger()
 
 
@@ -25,9 +24,9 @@ logger = get_logger()
 # ==================================================
 
 st.set_page_config(
-    page_title="EduGenie",
-    page_icon="📚",
-    layout="wide"
+    page_title="EduGenie AI",
+    page_icon="🎓",
+    layout="wide",
 )
 
 
@@ -37,53 +36,127 @@ st.set_page_config(
 
 st.markdown(
     """
-<style>
+    <style>
+    /* ── App background ── */
+    .stApp {
+        background: #020617;
+    }
 
-.block-container{
-    max-width:1600px;
-    padding-top:1rem;
-}
+    /* ── Max width + top padding ── */
+    .block-container {
+        max-width: 1440px;
+        padding-top: 0.6rem;
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
 
-.stApp{
-    background:
-    linear-gradient(
-        135deg,
-        #020617,
-        #0f172a
-    );
-}
+    /* ── Hide default Streamlit chrome ── */
+    #MainMenu { visibility: hidden; }
+    footer { visibility: hidden; }
+    header { visibility: hidden; }
 
-.stButton > button{
+    /* ── Streamlit primary button ── */
+    .stButton > button[kind="primary"] {
+        background: linear-gradient(135deg, #4f46e5, #6366f1);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 13.5px;
+        padding: 10px 20px;
+        transition: opacity 0.15s;
+    }
+    .stButton > button[kind="primary"]:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+    }
 
-    width:100%;
+    /* ── Secondary buttons ── */
+    .stButton > button {
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 500;
+        border: 1px solid rgba(255,255,255,0.08);
+        background: #111827;
+        color: #94a3b8;
+        padding: 8px 14px;
+        transition: background 0.15s, color 0.15s;
+    }
+    .stButton > button:hover {
+        background: #1e293b;
+        color: #e2e8f0;
+        border-color: rgba(99,102,241,0.3);
+    }
 
-    border-radius:12px;
+    /* ── Workspace nav card buttons: hide them visually, keep them clickable ── */
+    [data-testid="stVerticalBlock"] .stButton > button[key^="nav_card"] {
+        background: transparent;
+        border: none;
+        color: #6366f1;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 0;
+        height: auto;
+        box-shadow: none;
+        margin-top: -8px;
+    }
+    [data-testid="stVerticalBlock"] .stButton > button[key^="nav_card"]:hover {
+        background: transparent;
+        color: #818cf8;
+    }
 
-    height:3rem;
+    /* ── Text inputs ── */
+    .stTextInput > div > div > input {
+        background: #0f172a;
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 10px;
+        color: #e2e8f0;
+        font-size: 14px;
+    }
 
-    border:none;
+    /* ── Divider ── */
+    hr {
+        border-color: rgba(255,255,255,0.06);
+    }
 
-    background:
-    linear-gradient(
-        90deg,
-        #6366f1,
-        #8b5cf6
-    );
+    /* ── Metrics widget ── */
+    [data-testid="stMetric"] {
+        background: #0c1120;
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 14px;
+        padding: 14px 18px;
+    }
+    [data-testid="stMetricLabel"] { color: #475569; font-size: 12px; }
+    [data-testid="stMetricValue"] { color: #a5b4fc; font-size: 22px; }
 
-    color:white;
+    /* ── Spinner ── */
+    .stSpinner > div { border-top-color: #6366f1 !important; }
 
-    font-weight:600;
-}
+    /* ── Alerts ── */
+    .stAlert {
+        background: #0f172a;
+        border-radius: 12px;
+        border: 1px solid rgba(99,102,241,0.18);
+        color: #94a3b8;
+    }
 
-.stButton > button:hover{
+    /* ── File uploader ── */
+    [data-testid="stFileUploader"] {
+        background: #0f172a;
+        border: 1px dashed rgba(99,102,241,0.25);
+        border-radius: 12px;
+        padding: 12px;
+    }
 
-    transform:
-    translateY(-2px);
-}
-
-</style>
-""",
-    unsafe_allow_html=True
+    /* ── Chat input ── */
+    .stChatInput > div {
+        background: #0f172a;
+        border: 1px solid rgba(99,102,241,0.2);
+        border-radius: 12px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
 )
 
 
@@ -91,43 +164,25 @@ st.markdown(
 # SESSION STATE
 # ==================================================
 
-if "documents" not in st.session_state:
-    st.session_state.documents = None
+defaults = {
+    "documents": None,
+    "chunks": None,
+    "vector_db": None,
+    "processed": False,
+    "activity_log": [],
+    "file_names": [],
+    "doc_count": 0,
+    "chunk_count": 0,
+    "topic_count": 0,
+    "selected_tool": "notes",
+    "chat_history": [],
+    "selected_page": "Dashboard",
+    "nav_target": None,
+}
 
-if "chunks" not in st.session_state:
-    st.session_state.chunks = None
-
-if "vector_db" not in st.session_state:
-    st.session_state.vector_db = None
-
-if "processed" not in st.session_state:
-    st.session_state.processed = False
-
-if "activity_log" not in st.session_state:
-    st.session_state.activity_log = []
-
-if "file_names" not in st.session_state:
-    st.session_state.file_names = []
-
-if "doc_count" not in st.session_state:
-    st.session_state.doc_count = 0
-
-if "chunk_count" not in st.session_state:
-    st.session_state.chunk_count = 0
-
-if "topic_count" not in st.session_state:
-    st.session_state.topic_count = 0
-
-if "selected_tool" not in st.session_state:
-    st.session_state.selected_tool = "notes"
-
-if "chat_history" not in st.session_state:
-    st.session_state.chat_history = []
-
-# ==================================================
-# HEADER
-# ==================================================
-
+for key, val in defaults.items():
+    if key not in st.session_state:
+        st.session_state[key] = val
 
 
 # ==================================================
@@ -142,127 +197,51 @@ uploaded_files, process_button = render_sidebar()
 # ==================================================
 
 if process_button:
-
     if not uploaded_files:
-
-        st.warning(
-            "Please upload at least one PDF."
-        )
-
+        st.warning("Please upload at least one PDF.")
     else:
-
         save_dir = "saved_files"
-
-        os.makedirs(
-            save_dir,
-            exist_ok=True
-        )
-
+        os.makedirs(save_dir, exist_ok=True)
         file_paths = []
 
         for uploaded_file in uploaded_files:
+            file_path = os.path.join(save_dir, uploaded_file.name)
+            with open(file_path, "wb") as f:
+                f.write(uploaded_file.getbuffer())
+            file_paths.append(file_path)
 
-            file_path = os.path.join(
-                save_dir,
-                uploaded_file.name
-            )
-
-            with open(
-                file_path,
-                "wb"
-            ) as f:
-
-                f.write(
-                    uploaded_file.getbuffer()
-                )
-
-            file_paths.append(
-                file_path
-            )
-
-        with st.spinner(
-            "Processing Documents..."
-        ):
-
+        with st.spinner("Processing documents…"):
             try:
-
-                documents = load_pdf(
-                    file_paths
-                )
-
-                chunks = split_documents(
-                    documents
-                )
-
-                vector_db = create_vector_db(
-                    chunks
-                )
+                documents = load_pdf(file_paths)
+                chunks = split_documents(documents)
+                vector_db = create_vector_db(chunks)
 
                 st.session_state.documents = documents
-
                 st.session_state.chunks = chunks
-
                 st.session_state.vector_db = vector_db
-
                 st.session_state.processed = True
-
-                st.session_state.doc_count = len(
-                    documents
-                )
-
-                st.session_state.chunk_count = len(
-                    chunks
-                )
-
-                st.session_state.file_names = [
-                    file.name
-                    for file in uploaded_files
-                ]
-
-                st.session_state.activity_log.append(
-                    "Processed Documents"
-                )
-
-                st.success(
-                    "Documents Processed Successfully!"
-                )
+                st.session_state.doc_count = len(documents)
+                st.session_state.chunk_count = len(chunks)
+                st.session_state.file_names = [f.name for f in uploaded_files]
+                st.session_state.activity_log.append("Processed Documents")
+                st.success("Documents processed successfully!")
 
             except Exception as e:
-
-                logger.exception(
-                    "Document Processing Failed"
-                )
-
-                st.error(
-                    str(e)
-                )
+                logger.exception("Document processing failed")
+                st.error(str(e))
 
 
 # ==================================================
 # NAVIGATION
 # ==================================================
 
-if "selected_page" not in st.session_state:
-    st.session_state.selected_page = "Dashboard"
-
-if "nav_target" not in st.session_state:
-    st.session_state.nav_target = None
-
 navbar_selection = render_navbar()
 
 if st.session_state.nav_target:
-
-    st.session_state.selected_page = (
-        st.session_state.nav_target
-    )
-
+    st.session_state.selected_page = st.session_state.nav_target
     st.session_state.nav_target = None
-
 else:
-
-    st.session_state.selected_page = (
-        navbar_selection
-    )
+    st.session_state.selected_page = navbar_selection
 
 selected = st.session_state.selected_page
 
@@ -272,65 +251,28 @@ selected = st.session_state.selected_page
 # ==================================================
 
 if selected == "Dashboard":
-
     render_dashboard()
 
-
 elif selected == "Study Tools":
-
     if st.session_state.processed:
-
-        render_study_tools(
-            st.session_state.vector_db
-        )
-
+        render_study_tools(st.session_state.vector_db)
     else:
-
-        st.warning(
-            "Please process documents first."
-        )
-
+        st.warning("Please process documents first.")
 
 elif selected == "Analysis":
-
     if st.session_state.processed:
-
-        render_analysis(
-            st.session_state.vector_db
-        )
-
+        render_analysis(st.session_state.vector_db)
     else:
-
-        st.warning(
-            "Please process documents first."
-        )
-
+        st.warning("Please process documents first.")
 
 elif selected == "Exam Prep":
-
     if st.session_state.processed:
-
-        render_exam_prep(
-            st.session_state.vector_db
-        )
-
+        render_exam_prep(st.session_state.vector_db)
     else:
-
-        st.warning(
-            "Please process documents first."
-        )
-
+        st.warning("Please process documents first.")
 
 elif selected == "Chat":
-
     if st.session_state.processed:
-
-        render_chatbot(
-            st.session_state.vector_db
-        )
-
+        render_chatbot(st.session_state.vector_db)
     else:
-
-        st.warning(
-            "Please process documents first."
-        )
+        st.warning("Please process documents first.")
