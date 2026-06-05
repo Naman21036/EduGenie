@@ -1,18 +1,18 @@
 import os
 
 import streamlit as st
-from src.frontend.components.sidebar import render_sidebar
-from src.frontend.components.navbar import render_navbar
+from frontend.components.sidebar import render_sidebar
+from frontend.components.navbar import render_navbar
 
-from src.ingestion.pdf_loader import load_pdf
-from src.ingestion.text_splitter import split_documents
-from src.ingestion.vector_db import create_vector_db
+from ingestion.pdf_loader import load_pdf
+from ingestion.text_splitter import split_documents
+from ingestion.vector_db import create_vector_db
 
-from src.frontend.ui.dashboard_ui import render_dashboard
-from src.frontend.ui.study_tools import render_study_tools
-from src.frontend.ui.analysis import render_analysis
-from src.frontend.ui.exam_prep import render_exam_prep
-from src.frontend.ui.chatbot_ui import render_chatbot
+from frontend.ui.dashboard_ui import render_dashboard
+from frontend.ui.study_tools import render_study_tools
+from frontend.ui.analysis import render_analysis
+from frontend.ui.exam_prep import render_exam_prep
+from frontend.ui.chatbot_ui import render_chatbot
 
 from src.utils.logger import get_logger
 
