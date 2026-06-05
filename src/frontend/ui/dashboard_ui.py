@@ -330,7 +330,7 @@ def _hero(processed, file_names, doc_count, chunk_count):
             <div class="dash-hero-eyebrow">
                 ✦ AI Learning Platform
             </div>
-            <h1>EduGenie <span>AMI</span></h1>
+            <h1>EduGenie <span>AI</span></h1>
             <p class="dash-hero-sub">
                 Transform PDFs into Notes, Flashcards, Question Banks,
                 Mock Tests and AI powered insights.
