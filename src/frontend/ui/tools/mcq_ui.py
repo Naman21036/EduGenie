@@ -1,8 +1,8 @@
 import json
 import streamlit as st
 
-from src.ingestion.retriever import retrieve
-from src.study_tools.mcq_generator import generate_mcqs
+from ingestion.retriever import retrieve
+from study_tools.mcq_generator import generate_mcqs
 
 
 def render_mcqs(vector_db):
