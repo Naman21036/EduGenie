@@ -3,7 +3,7 @@ from pathlib import Path
 import streamlit as st
 import streamlit.components.v1 as components
 
-from src.frontend.ui.tool_router import render_selected_tool
+from frontend.ui.tool_router import render_selected_tool
 
 
 def render_study_tools(vector_db):
