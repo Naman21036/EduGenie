@@ -13,7 +13,7 @@ def get_requirements(file_path: str) -> List[str]:
 
 
 setup(
-    name='Notes Maker',
+    name='EduGenie',
     version='0.0.1',
     author='Naman',
     author_email='namangupta2132@gmail.com',
