@@ -1,5 +1,5 @@
 import streamlit as st
-from src.frontend.ui.tool_router import render_selected_tool
+from frontend.ui.tool_router import render_selected_tool
 
 
 STUDY_TOOLS_CSS = """
