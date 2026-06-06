@@ -6,7 +6,7 @@ from analysis.topic_coverage import generate_topic_coverage
 from analysis.importance_ranker import generate_importance_ranker
 
 
-# ── CSS ──────────────────────────────────────────────────────────────────────
+#CSS 
 
 ANALYSIS_CSS = """
 <style>
@@ -177,9 +177,7 @@ ANALYSIS_CSS = """
     color: #e2e8f0;
     margin: 0 0 14px;
 }
-/* ─────────────────────────────────────────────
-   ANALYSIS BUTTON OVERRIDE
-───────────────────────────────────────────── */
+/* ANALYSIS BUTTON OVERRIDE*/
 
 div[data-testid="stButton"] > button {
 
@@ -254,7 +252,7 @@ def safe_json(data):
     return {}
 
 
-# ── Result renderers (clean Streamlit native) ────────────────────────────────
+#Result renderers (clean Streamlit native)
 
 def render_topics(result):
     topics = result.get("topics", [])
@@ -295,11 +293,6 @@ def render_importance(result):
             st.progress(score)
             st.caption(topic.get("reason", ""))
 
-
-# ── Workspace panel HTML builders ─────────────────────────────────────────────
-# Each function returns a complete, self-contained .ws-panel div.
-# Keeping the HTML inside a single short function (no f-string nesting)
-# eliminates the multiline interpolation that was corrupting the output.
 
 def _panel_topics(topics_result):
     topics = (topics_result or {}).get("topics", [])
@@ -398,7 +391,7 @@ def _panel_ranking(importance_result):
     )
 
 
-# ── Main render ──────────────────────────────────────────────────────────────
+# Main render
 
 def render_analysis(vector_db):
 
@@ -409,7 +402,7 @@ def render_analysis(vector_db):
     topic_count = st.session_state.get("topic_count", 0)
     processed   = st.session_state.get("processed", False)
 
-    # ── Page header ──────────────────────────────────
+    # Page header
     st.markdown(
         '<div class="an-header">'
         '<h2>📊 Content Analysis</h2>'
@@ -418,7 +411,7 @@ def render_analysis(vector_db):
         unsafe_allow_html=True,
     )
 
-    # ── Analysis modules ─────────────────────────────
+    #Analysis modules
     st.markdown('<div class="an-label">Analysis Modules</div>', unsafe_allow_html=True)
     st.markdown(
         '<div class="module-grid">'
@@ -441,7 +434,7 @@ def render_analysis(vector_db):
         unsafe_allow_html=True,
     )
 
-    # ── Learning insights ────────────────────────────
+    #Learning insights
     st.markdown('<div class="an-label">Learning Insights</div>', unsafe_allow_html=True)
 
     status_cls = "ready" if processed else "waiting"
@@ -470,9 +463,7 @@ def render_analysis(vector_db):
     )
     st.markdown(insight_html, unsafe_allow_html=True)
 
-    # ── Analysis workspace ────────────────────────────
-    # Use st.columns(3) as the layout grid — this is Streamlit-native and
-    # cannot be broken by HTML sanitisation. Each panel is its own markdown call.
+    #Analysis workspace 
     st.markdown('<div class="an-label">Analysis Workspace</div>', unsafe_allow_html=True)
 
     topics_result     = st.session_state.get("analysis_topics_result", None)
@@ -490,7 +481,7 @@ def render_analysis(vector_db):
     with ws_col3:
         st.markdown(_panel_ranking(importance_result), unsafe_allow_html=True)
 
-    # ── Action area ──────────────────────────────────
+    #Action area 
     st.markdown('<div class="an-label">Generate Analysis</div>', unsafe_allow_html=True)
     st.markdown(
         '<div class="action-area">'
@@ -514,7 +505,7 @@ def render_analysis(vector_db):
     with col3:
         importance_rank = st.button("⭐ Rank by Importance",  use_container_width=True)
 
-    # ── Results ──────────────────────────────────────
+    #Results
     if topic_extract or topic_coverage or importance_rank:
         if not topic:
             st.warning("Please enter a topic first.")
