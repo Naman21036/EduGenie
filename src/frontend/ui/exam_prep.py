@@ -245,6 +245,53 @@ EXAM_CSS = f"""
     .readiness-grid {{ grid-template-columns: 1fr; }}
     .prep-stats      {{ grid-template-columns: 1fr 1fr; }}
 }}
+/* ─────────────────────────────────────────────
+   Exam Prep Button Override
+───────────────────────────────────────────── */
+
+div[data-testid="stButton"] > button {
+
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #0891b2
+    ) !important;
+
+    color: #ffffff !important;
+
+    border: none !important;
+
+    border-radius: 12px !important;
+
+    font-weight: 600 !important;
+
+    transition: all .2s ease !important;
+}
+
+div[data-testid="stButton"] > button:hover {
+
+    background: linear-gradient(
+        135deg,
+        #3b82f6,
+        #06b6d4
+    ) !important;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(
+            6,
+            182,
+            212,
+            .35
+        ) !important;
+}
+
+div[data-testid="stButton"] > button p {
+
+    color: #ffffff !important;
+}
+
 </style>
 """
 
@@ -394,7 +441,6 @@ def render_exam_prep(vector_db) -> None:
                 level,
                 key=f"diff_{level}",
                 use_container_width=True,
-                type="primary" if is_active else "secondary",
             ):
                 st.session_state.exam_difficulty = level
                 st.rerun()
@@ -499,7 +545,7 @@ def render_exam_prep(vector_db) -> None:
 
     btn_col1, btn_col2 = st.columns(2, gap="small")
     with btn_col1:
-        mock_test_btn = st.button("📝 Generate Mock Test",     use_container_width=True, type="primary")
+        mock_test_btn = st.button("📝 Generate Mock Test",     use_container_width=True)
     with btn_col2:
         revision_btn  = st.button("⚡ Generate Revision Sheet", use_container_width=True)
 
