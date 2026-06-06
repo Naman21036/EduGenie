@@ -48,6 +48,45 @@ NOTES_CSS = """
     padding-bottom: 10px;
     border-bottom: 1px solid rgba(255,255,255,0.05);
 }
+/* Generate button override */
+
+div[data-testid="stButton"] > button {
+
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #0891b2
+    ) !important;
+
+    color: #ffffff !important;
+
+    border: none !important;
+
+    border-radius: 12px !important;
+
+    font-weight: 600 !important;
+
+    transition: all .2s ease !important;
+}
+
+div[data-testid="stButton"] > button:hover {
+
+    background: linear-gradient(
+        135deg,
+        #3b82f6,
+        #06b6d4
+    ) !important;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(
+            6,
+            182,
+            212,
+            .35
+        ) !important;
+}
 </style>
 """
 
@@ -90,7 +129,6 @@ def render_notes(vector_db):
         "📄 Generate Notes",
         key="notes_btn",
         use_container_width=True,
-        type="primary",
     )
 
     if generate_btn:
