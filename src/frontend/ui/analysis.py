@@ -1,5 +1,6 @@
 import json
 import streamlit as st
+import streamlit.components.v1 as components
 from ingestion.retriever import retrieve
 from analysis.topic_extractor import generate_topic_extractor
 from analysis.topic_coverage import generate_topic_coverage
@@ -135,7 +136,7 @@ def render_importance(result):
 
 def render_analysis(vector_db):
 
-    st.markdown(ANALYSIS_CSS, unsafe_allow_html=True)
+    components.html(ANALYSIS_CSS, height=0)
 
     doc_count   = st.session_state.get("doc_count",   0)
     chunk_count = st.session_state.get("chunk_count", 0)
