@@ -144,7 +144,6 @@ def render_mcqs(vector_db):
         f"🎯 Generate {int(num_mcqs)} MCQ{'s' if num_mcqs != 1 else ''}",
         key="mcq_btn",
         use_container_width=True,
-        type="primary",
     )
 
     if generate_btn:
