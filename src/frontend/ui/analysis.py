@@ -141,6 +141,31 @@ ANALYSIS_CSS = """
     color: #f59e0b;
 }
 
+/* ── Empty state ── */
+.ws-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 36px 20px;
+    text-align: center;
+    gap: 10px;
+}
+.ws-empty .ws-empty-icon { font-size: 28px; opacity: 0.4; }
+.ws-empty .ws-empty-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    margin: 0;
+}
+.ws-empty .ws-empty-sub {
+    font-size: 12px;
+    color: #334155;
+    line-height: 1.5;
+    max-width: 200px;
+    margin: 0;
+}
+
 /* ── Action area ── */
 .action-area {
     background: #0c1120;
@@ -156,31 +181,6 @@ ANALYSIS_CSS = """
 }
 </style>
 """
-
-# ── Default placeholder data for workspace preview ───────────────────────────
-
-_PLACEHOLDER_TOPICS = [
-    "Introduction & Overview",
-    "Core Principles",
-    "Key Mechanisms",
-    "Applications",
-    "Advanced Concepts",
-]
-
-_PLACEHOLDER_COVERAGE = [
-    ("Introduction", 88),
-    ("Theory", 74),
-    ("Practice", 61),
-    ("Review", 45),
-]
-
-_PLACEHOLDER_RANKING = [
-    ("Core Principles", 94),
-    ("Key Mechanisms", 87),
-    ("Applications", 79),
-    ("Overview", 65),
-    ("Advanced Concepts", 52),
-]
 
 
 def safe_json(data):
@@ -234,6 +234,78 @@ def render_importance(result):
         with st.expander(f"{icon} {topic.get('topic','Unknown')} — {score}/100", expanded=False):
             st.progress(score)
             st.caption(topic.get("reason", ""))
+
+
+# ── Workspace panel HTML builders ────────────────────────────────────────────
+
+def _build_topics_panel(topics_result):
+    """Return inner HTML for the Top Topics panel, or an empty-state block."""
+    topics = topics_result.get("topics", []) if topics_result else []
+    if not topics:
+        return """
+        <div class="ws-empty">
+            <div class="ws-empty-icon">🧠</div>
+            <p class="ws-empty-title">No topics yet</p>
+            <p class="ws-empty-sub">Run Topic Extraction to populate this panel.</p>
+        </div>
+        """
+    items = "".join(
+        f'<div class="topic-item"><span class="ti-badge">T{i+1}</span>{item.get("topic","")}</div>'
+        for i, item in enumerate(topics[:6])
+    )
+    return items
+
+
+def _build_coverage_panel(coverage_result):
+    """Return inner HTML for the Coverage Visualisation panel, or an empty-state block."""
+    coverage = coverage_result.get("topic_coverage", []) if coverage_result else []
+    if not coverage:
+        return """
+        <div class="ws-empty">
+            <div class="ws-empty-icon">📈</div>
+            <p class="ws-empty-title">No coverage data yet</p>
+            <p class="ws-empty-sub">Run Topic Coverage to populate this panel.</p>
+        </div>
+        """
+    bars = "".join(
+        f"""
+        <div class="cov-row">
+            <div class="cov-label">
+                <span>{item.get("topic","")}</span>
+                <span>{min(max(int(item.get("coverage_percentage",0)),0),100)}%</span>
+            </div>
+            <div class="cov-track">
+                <div class="cov-fill" style="width:{min(max(int(item.get("coverage_percentage",0)),0),100)}%"></div>
+            </div>
+        </div>
+        """
+        for item in coverage[:5]
+    )
+    return bars
+
+
+def _build_ranking_panel(importance_result):
+    """Return inner HTML for the Importance Ranking panel, or an empty-state block."""
+    ranked = importance_result.get("ranked_topics", []) if importance_result else []
+    if not ranked:
+        return """
+        <div class="ws-empty">
+            <div class="ws-empty-icon">⭐</div>
+            <p class="ws-empty-title">No rankings yet</p>
+            <p class="ws-empty-sub">Run Importance Ranking to populate this panel.</p>
+        </div>
+        """
+    items = "".join(
+        f"""
+        <div class="rank-item">
+            <span class="ri-num">#{i+1}</span>
+            <span>{item.get("topic","")}</span>
+            <span class="ri-score">{min(max(int(item.get("importance_score",0)),0),100)}</span>
+        </div>
+        """
+        for i, item in enumerate(ranked[:5])
+    )
+    return items
 
 
 # ── Main render ──────────────────────────────────────────────────────────────
@@ -318,59 +390,35 @@ def render_analysis(vector_db):
         unsafe_allow_html=True,
     )
 
-    # ── Analysis workspace (preview panels) ──────────
+    # ── Analysis workspace ────────────────────────────
     st.markdown(
         '<div class="an-label">Analysis Workspace</div>',
         unsafe_allow_html=True,
     )
 
-    # Build topic items HTML
-    topic_items = "".join(
-        f'<div class="topic-item"><span class="ti-badge">T{i+1}</span>{t}</div>'
-        for i, t in enumerate(_PLACEHOLDER_TOPICS)
-    )
+    # Read any previously stored results from session state
+    topics_result    = st.session_state.get("analysis_topics_result", None)
+    coverage_result  = st.session_state.get("analysis_coverage_result", None)
+    importance_result = st.session_state.get("analysis_importance_result", None)
 
-    # Build coverage bars HTML
-    cov_bars = "".join(
-        f"""
-        <div class="cov-row">
-            <div class="cov-label">
-                <span>{label}</span><span>{pct}%</span>
-            </div>
-            <div class="cov-track">
-                <div class="cov-fill" style="width:{pct}%"></div>
-            </div>
-        </div>
-        """
-        for label, pct in _PLACEHOLDER_COVERAGE
-    )
-
-    # Build rank list HTML
-    rank_items = "".join(
-        f"""
-        <div class="rank-item">
-            <span class="ri-num">#{i+1}</span>
-            <span>{name}</span>
-            <span class="ri-score">{score}</span>
-        </div>
-        """
-        for i, (name, score) in enumerate(_PLACEHOLDER_RANKING)
-    )
+    topics_html   = _build_topics_panel(topics_result)
+    coverage_html = _build_coverage_panel(coverage_result)
+    ranking_html  = _build_ranking_panel(importance_result)
 
     st.markdown(
         f"""
         <div class="workspace">
             <div class="ws-panel">
                 <div class="wp-title">Top Topics</div>
-                {topic_items}
+                {topics_html}
             </div>
             <div class="ws-panel">
                 <div class="wp-title">Coverage Visualisation</div>
-                {cov_bars}
+                {coverage_html}
             </div>
             <div class="ws-panel">
                 <div class="wp-title">Importance Ranking</div>
-                {rank_items}
+                {ranking_html}
             </div>
         </div>
         """,
@@ -420,17 +468,26 @@ def render_analysis(vector_db):
             st.markdown("---")
             st.markdown("#### 🧠 Extracted Topics")
             result = generate_topic_extractor(context)
-            render_topics(safe_json(result))
+            parsed = safe_json(result)
+            st.session_state["analysis_topics_result"] = parsed
+            render_topics(parsed)
 
         if topic_coverage:
             st.markdown("---")
             st.markdown("#### 📈 Topic Coverage")
             result = generate_topic_coverage(context)
-            render_coverage(safe_json(result))
+            parsed = safe_json(result)
+            st.session_state["analysis_coverage_result"] = parsed
+            render_coverage(parsed)
 
         if importance_rank:
             st.markdown("---")
             st.markdown("#### ⭐ Importance Ranking")
-            topics = generate_topic_extractor(context)
-            result = generate_importance_ranker(context, topics)
-            render_importance(safe_json(result))
+            topics_raw = generate_topic_extractor(context)
+            result = generate_importance_ranker(context, topics_raw)
+            parsed = safe_json(result)
+            st.session_state["analysis_importance_result"] = parsed
+            render_importance(parsed)
+
+        # Rerun so the workspace panels reflect the new results immediately
+        st.rerun()
