@@ -52,7 +52,7 @@ ANALYSIS_CSS = """
     height: 2px;
     border-radius: 14px 14px 0 0;
 }
-.module-card.extract::before { background: #6366f1; }
+.module-card.extract::before { background: #3b82f6; }
 .module-card.coverage::before { background: #22c55e; }
 .module-card.ranking::before  { background: #f59e0b; }
 .module-card .mc-icon { font-size: 22px; margin-bottom: 10px; }
@@ -67,7 +67,7 @@ ANALYSIS_CSS = """
     border-radius: 12px;
     padding: 14px 16px;
 }
-.insight-box .ib-val { font-size: 22px; font-weight: 800; color: #a5b4fc; letter-spacing:-0.02em; }
+.insight-box .ib-val { font-size: 22px; font-weight: 800; color: #60a5fa; letter-spacing:-0.02em; }
 .insight-box .ib-lbl { font-size: 11px; color: #475569; margin-top: 3px; }
 .insight-box.status .ib-val { font-size: 14px; padding-top: 3px; }
 .insight-box.status .ib-val.ready   { color: #4ade80; }
@@ -105,8 +105,8 @@ ANALYSIS_CSS = """
 .topic-item .ti-badge {
     font-size: 10px;
     font-weight: 700;
-    color: #6366f1;
-    background: rgba(99,102,241,0.1);
+    color: #3b82f6;
+    background: rgba(59,130,246,0.12);
     border-radius: 4px;
     padding: 1px 6px;
     flex-shrink: 0;
@@ -115,7 +115,7 @@ ANALYSIS_CSS = """
 .cov-row { margin-bottom: 10px; }
 .cov-label { font-size: 12px; color: #94a3b8; margin-bottom: 5px; display:flex; justify-content:space-between; }
 .cov-track { height: 6px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
-.cov-fill  { height: 100%; border-radius: 4px; background: linear-gradient(90deg, #6366f1, #8b5cf6); }
+.cov-fill  { height: 100%; border-radius: 4px; background: linear-gradient(90deg, #3b82f6, #06b6d4); }
 /* Rank list */
 .rank-item {
     display: flex;
@@ -130,7 +130,7 @@ ANALYSIS_CSS = """
 .rank-item .ri-num {
     font-size: 11px;
     font-weight: 700;
-    color: #6366f1;
+    color: #3b82f6;
     width: 20px;
     flex-shrink: 0;
 }
@@ -167,7 +167,7 @@ ANALYSIS_CSS = """
 /* ── Action area ── */
 .action-area {
     background: #0c1120;
-    border: 1px solid rgba(99,102,241,0.14);
+    border: 1px solid rgba(59,130,246,0.18);
     border-radius: 14px;
     padding: 20px 22px;
 }
