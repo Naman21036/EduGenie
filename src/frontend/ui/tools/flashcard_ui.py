@@ -33,6 +33,50 @@ FLASH_CSS = """
     color: #475569;
     margin-bottom: 14px;
 }
+/* ── Generate Button Override ───────────────────── */
+
+div[data-testid="stButton"] > button {
+
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #0891b2
+    ) !important;
+
+    color: #ffffff !important;
+
+    border: none !important;
+
+    border-radius: 12px !important;
+
+    font-weight: 600 !important;
+
+    transition: all .2s ease !important;
+}
+
+div[data-testid="stButton"] > button:hover {
+
+    background: linear-gradient(
+        135deg,
+        #3b82f6,
+        #06b6d4
+    ) !important;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(
+            6,
+            182,
+            212,
+            .35
+        ) !important;
+}
+
+div[data-testid="stButton"] > button p {
+
+    color: #ffffff !important;
+}
 </style>
 """
 
@@ -99,7 +143,6 @@ def render_flashcards(vector_db):
         f"🃏 Generate {int(num_cards)} Flashcard{'s' if num_cards != 1 else ''}",
         key="flash_btn",
         use_container_width=True,
-        type="primary",
     )
 
     if generate_btn:
