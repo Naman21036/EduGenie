@@ -12,6 +12,11 @@ Rules:
 6. Cover the most important topics from the material.
 7. Return ONLY valid JSON.
 8. Do not include markdown, explanations, or code fences.
+9. Return ONLY valid JSON.
+10. Do not include markdown.
+11. Do not include explanations.
+12. Do not wrap in ```json.
+13. The response must be parseable by json.loads().
 
 Output Format:
 
