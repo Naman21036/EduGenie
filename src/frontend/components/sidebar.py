@@ -10,8 +10,8 @@ def render_sidebar():
             """
             <style>
             [data-testid="stSidebar"] {
-                background: #0c1120;
-                border-right: 1px solid rgba(99,102,241,0.15);
+                background: #111827;
+                border-right: 1px solid rgba(59,130,246,0.15);
             }
             [data-testid="stSidebar"] .stMarkdown p,
             [data-testid="stSidebar"] .stMarkdown span {
@@ -40,7 +40,7 @@ def render_sidebar():
                 width: 34px;
                 height: 34px;
                 border-radius: 10px;
-                background: #3730a3;
+                background: #1e40af;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -55,7 +55,7 @@ def render_sidebar():
             }
             .sb-wordmark .tag {
                 font-size: 11px;
-                color: #6366f1;
+                color: #3b82f6;
                 font-weight: 500;
                 margin-top: 1px;
             }
@@ -110,8 +110,7 @@ def render_sidebar():
             .sb-stat .val {
                 font-size: 20px;
                 font-weight: 700;
-                color: #a5b4fc;
-                line-height: 1;
+                color: #93c5fd;
             }
             .sb-stat .lbl {
                 font-size: 11px;
@@ -129,7 +128,7 @@ def render_sidebar():
                 margin-bottom: 6px;
             }
             .sb-stat-full .lbl { font-size: 12px; color: #64748b; }
-            .sb-stat-full .val { font-size: 16px; font-weight: 700; color: #a5b4fc; }
+            .sb-stat-full .val { font-size: 16px; font-weight: 700; color: #93c5fd; }
             /* Activity items */
             .sb-activity-item {
                 display: flex;
@@ -144,7 +143,7 @@ def render_sidebar():
                 width: 5px;
                 height: 5px;
                 border-radius: 50%;
-                background: #6366f1;
+                background: #3b82f6;
                 margin-top: 5px;
                 flex-shrink: 0;
             }
