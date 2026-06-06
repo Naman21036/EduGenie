@@ -92,7 +92,7 @@ CHAT_CSS = """
     transition: border-color 0.15s, background 0.15s;
 }
 .prompt-card:hover {
-    border-color: rgba(99,102,241,0.35);
+    border-color: rgba(59,130,246,0.35);
     background: #111827;
 }
 .prompt-card .pc-icon { font-size: 18px; margin-bottom: 6px; }
@@ -133,8 +133,8 @@ CHAT_CSS = """
     flex-shrink: 0;
     margin-top: 2px;
 }
-.msg-avatar.user-av { background: #3730a3; }
-.msg-avatar.bot-av  { background: #1e293b; border: 1px solid rgba(99,102,241,0.25); }
+.msg-avatar.user-av { background: #2563eb; }
+.msg-avatar.bot-av  { background: #1e293b; border: 1px solid rgba(59,130,246,0.25); }
 
 .msg-bubble {
     max-width: 72%;
@@ -144,8 +144,8 @@ CHAT_CSS = """
     line-height: 1.65;
 }
 .msg-bubble.user {
-    background: #312e81;
-    color: #e0e7ff;
+    background: linear-gradient(135deg,#2563eb,#0891b2);
+    color: #ffffff;
     border-bottom-right-radius: 4px;
 }
 .msg-bubble.bot {
@@ -184,7 +184,7 @@ CHAT_CSS = """
 }
 .kb-row:last-child { border-bottom: none; }
 .kb-row .kr-label { color: #475569; }
-.kb-row .kr-val   { color: #a5b4fc; font-weight: 600; }
+.kb-row .kr-val   { color: #60a5fa; font-weight: 600; }
 .kb-row .kr-val.ready { color: #4ade80; }
 
 /* ── Input row ── */
@@ -212,6 +212,50 @@ CHAT_CSS = """
     flex: 1;
     height: 1px;
     background: rgba(255,255,255,0.05);
+}
+/* Chat Page Button Override */
+
+div[data-testid="stButton"] > button {
+
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #0891b2
+    ) !important;
+
+    color: #ffffff !important;
+
+    border: none !important;
+
+    border-radius: 12px !important;
+
+    font-weight: 600 !important;
+
+    transition: all .2s ease !important;
+}
+
+div[data-testid="stButton"] > button:hover {
+
+    background: linear-gradient(
+        135deg,
+        #3b82f6,
+        #06b6d4
+    ) !important;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(
+            6,
+            182,
+            212,
+            .35
+        ) !important;
+}
+
+div[data-testid="stButton"] > button p {
+
+    color: #ffffff !important;
 }
 </style>
 """
