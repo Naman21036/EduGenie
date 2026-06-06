@@ -3,6 +3,14 @@
 > Transform PDFs into Notes, Flashcards, MCQs, Question Banks, Mock Tests, Revision Sheets, and AI Powered Insights.
 
 EduGenie AI is an intelligent learning assistant designed to help students convert study material into exam ready resources. By leveraging Large Language Models, Retrieval Augmented Generation (RAG), and vector search, EduGenie enables learners to interact with their documents and generate personalized study content instantly.
+---
+🌐 Live Demo
+
+Try EduGenie AI here:
+
+👉 https://edugenie-naman.streamlit.app/
+
+No installation required. Upload your study PDFs and start generating notes, flashcards, MCQs, question banks, revision sheets, mock tests, and AI powered insights instantly.
 
 ---
 
