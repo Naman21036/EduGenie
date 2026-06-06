@@ -1,10 +1,10 @@
 import json
 import streamlit as st
 import streamlit.components.v1 as components
-from src.ingestion.retriever import retrieve
-from src.study_tools.mock_test_generator import generate_mock_test
-from src.study_tools.revision_sheet_generator import generate_revision_sheet
-from src.frontend.exam_prep.mock_test_engine import initialize_test, render_mock_test, reset_test
+from ingestion.retriever import retrieve
+from study_tools.mock_test_generator import generate_mock_test
+from study_tools.revision_sheet_generator import generate_revision_sheet
+from frontend.exam_prep.mock_test_engine import initialize_test, render_mock_test, reset_test
 
 
 # ── CSS ──────────────────────────────────────────────────────────────────────
