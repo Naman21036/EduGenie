@@ -73,13 +73,13 @@ ANALYSIS_CSS = """
 .insight-box.status .ib-val.ready   { color: #4ade80; }
 .insight-box.status .ib-val.waiting { color: #f87171; }
 
-/* ── Workspace preview ── */
-.workspace { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+/* ── Workspace panel (used inside st.columns, one per column) ── */
 .ws-panel {
     background: #0c1120;
     border: 1px solid rgba(255,255,255,0.06);
     border-radius: 14px;
     padding: 18px 20px;
+    min-height: 220px;
 }
 .ws-panel .wp-title {
     font-size: 11px;
@@ -140,29 +140,27 @@ ANALYSIS_CSS = """
     font-weight: 700;
     color: #f59e0b;
 }
-
-/* ── Empty state ── */
+/* Empty state (inside a ws-panel) */
 .ws-empty {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 36px 20px;
+    padding: 32px 16px;
     text-align: center;
-    gap: 10px;
+    gap: 8px;
 }
-.ws-empty .ws-empty-icon { font-size: 28px; opacity: 0.4; }
-.ws-empty .ws-empty-title {
+.ws-empty-icon { font-size: 26px; opacity: 0.35; line-height: 1; }
+.ws-empty-title {
     font-size: 13px;
     font-weight: 600;
     color: #475569;
-    margin: 0;
+    margin: 4px 0 0;
 }
-.ws-empty .ws-empty-sub {
+.ws-empty-sub {
     font-size: 12px;
     color: #334155;
     line-height: 1.5;
-    max-width: 200px;
     margin: 0;
 }
 
@@ -236,76 +234,106 @@ def render_importance(result):
             st.caption(topic.get("reason", ""))
 
 
-# ── Workspace panel HTML builders ────────────────────────────────────────────
+# ── Workspace panel HTML builders ─────────────────────────────────────────────
+# Each function returns a complete, self-contained .ws-panel div.
+# Keeping the HTML inside a single short function (no f-string nesting)
+# eliminates the multiline interpolation that was corrupting the output.
 
-def _build_topics_panel(topics_result):
-    """Return inner HTML for the Top Topics panel, or an empty-state block."""
-    topics = topics_result.get("topics", []) if topics_result else []
+def _panel_topics(topics_result):
+    topics = (topics_result or {}).get("topics", [])
     if not topics:
-        return """
-        <div class="ws-empty">
-            <div class="ws-empty-icon">🧠</div>
-            <p class="ws-empty-title">No topics yet</p>
-            <p class="ws-empty-sub">Run Topic Extraction to populate this panel.</p>
-        </div>
-        """
-    items = "".join(
-        f'<div class="topic-item"><span class="ti-badge">T{i+1}</span>{item.get("topic","")}</div>'
-        for i, item in enumerate(topics[:6])
+        body = (
+            '<div class="ws-empty">'
+            '<div class="ws-empty-icon">🧠</div>'
+            '<p class="ws-empty-title">No topics extracted yet</p>'
+            '<p class="ws-empty-sub">Run Topic Extraction to populate this panel.</p>'
+            '</div>'
+        )
+    else:
+        rows = []
+        for i, item in enumerate(topics[:6]):
+            label = item.get("topic", "")
+            rows.append(
+                f'<div class="topic-item">'
+                f'<span class="ti-badge">T{i + 1}</span>'
+                f'{label}'
+                f'</div>'
+            )
+        body = "".join(rows)
+
+    return (
+        '<div class="ws-panel">'
+        '<div class="wp-title">Top Topics</div>'
+        + body +
+        '</div>'
     )
-    return items
 
 
-def _build_coverage_panel(coverage_result):
-    """Return inner HTML for the Coverage Visualisation panel, or an empty-state block."""
-    coverage = coverage_result.get("topic_coverage", []) if coverage_result else []
+def _panel_coverage(coverage_result):
+    coverage = (coverage_result or {}).get("topic_coverage", [])
     if not coverage:
-        return """
-        <div class="ws-empty">
-            <div class="ws-empty-icon">📈</div>
-            <p class="ws-empty-title">No coverage data yet</p>
-            <p class="ws-empty-sub">Run Topic Coverage to populate this panel.</p>
-        </div>
-        """
-    bars = "".join(
-        f"""
-        <div class="cov-row">
-            <div class="cov-label">
-                <span>{item.get("topic","")}</span>
-                <span>{min(max(int(item.get("coverage_percentage",0)),0),100)}%</span>
-            </div>
-            <div class="cov-track">
-                <div class="cov-fill" style="width:{min(max(int(item.get("coverage_percentage",0)),0),100)}%"></div>
-            </div>
-        </div>
-        """
-        for item in coverage[:5]
+        body = (
+            '<div class="ws-empty">'
+            '<div class="ws-empty-icon">📈</div>'
+            '<p class="ws-empty-title">No coverage data yet</p>'
+            '<p class="ws-empty-sub">Run Topic Coverage to populate this panel.</p>'
+            '</div>'
+        )
+    else:
+        rows = []
+        for item in coverage[:5]:
+            pct = min(max(int(item.get("coverage_percentage", 0)), 0), 100)
+            label = item.get("topic", "")
+            rows.append(
+                '<div class="cov-row">'
+                '<div class="cov-label">'
+                f'<span>{label}</span><span>{pct}%</span>'
+                '</div>'
+                '<div class="cov-track">'
+                f'<div class="cov-fill" style="width:{pct}%"></div>'
+                '</div>'
+                '</div>'
+            )
+        body = "".join(rows)
+
+    return (
+        '<div class="ws-panel">'
+        '<div class="wp-title">Coverage Visualisation</div>'
+        + body +
+        '</div>'
     )
-    return bars
 
 
-def _build_ranking_panel(importance_result):
-    """Return inner HTML for the Importance Ranking panel, or an empty-state block."""
-    ranked = importance_result.get("ranked_topics", []) if importance_result else []
+def _panel_ranking(importance_result):
+    ranked = (importance_result or {}).get("ranked_topics", [])
     if not ranked:
-        return """
-        <div class="ws-empty">
-            <div class="ws-empty-icon">⭐</div>
-            <p class="ws-empty-title">No rankings yet</p>
-            <p class="ws-empty-sub">Run Importance Ranking to populate this panel.</p>
-        </div>
-        """
-    items = "".join(
-        f"""
-        <div class="rank-item">
-            <span class="ri-num">#{i+1}</span>
-            <span>{item.get("topic","")}</span>
-            <span class="ri-score">{min(max(int(item.get("importance_score",0)),0),100)}</span>
-        </div>
-        """
-        for i, item in enumerate(ranked[:5])
+        body = (
+            '<div class="ws-empty">'
+            '<div class="ws-empty-icon">⭐</div>'
+            '<p class="ws-empty-title">No rankings yet</p>'
+            '<p class="ws-empty-sub">Run Importance Ranking to populate this panel.</p>'
+            '</div>'
+        )
+    else:
+        rows = []
+        for i, item in enumerate(ranked[:5]):
+            topic = item.get("topic", "")
+            score = min(max(int(item.get("importance_score", 0)), 0), 100)
+            rows.append(
+                '<div class="rank-item">'
+                f'<span class="ri-num">#{i + 1}</span>'
+                f'<span>{topic}</span>'
+                f'<span class="ri-score">{score}</span>'
+                '</div>'
+            )
+        body = "".join(rows)
+
+    return (
+        '<div class="ws-panel">'
+        '<div class="wp-title">Importance Ranking</div>'
+        + body +
+        '</div>'
     )
-    return items
 
 
 # ── Main render ──────────────────────────────────────────────────────────────
@@ -321,118 +349,91 @@ def render_analysis(vector_db):
 
     # ── Page header ──────────────────────────────────
     st.markdown(
-        """
-        <div class="an-header">
-            <h2>📊 Content Analysis</h2>
-            <p>Understand your learning material — extract topics, measure coverage, rank by importance</p>
-        </div>
-        """,
+        '<div class="an-header">'
+        '<h2>📊 Content Analysis</h2>'
+        '<p>Understand your learning material — extract topics, measure coverage, rank by importance</p>'
+        '</div>',
         unsafe_allow_html=True,
     )
 
     # ── Analysis modules ─────────────────────────────
+    st.markdown('<div class="an-label">Analysis Modules</div>', unsafe_allow_html=True)
     st.markdown(
-        '<div class="an-label">Analysis Modules</div>',
-        unsafe_allow_html=True,
-    )
-    st.markdown(
-        """
-        <div class="module-grid">
-            <div class="module-card extract">
-                <div class="mc-icon">🧠</div>
-                <h4>Topic Extraction</h4>
-                <p>Identify all major topics and subtopics present in your documents.</p>
-            </div>
-            <div class="module-card coverage">
-                <div class="mc-icon">📈</div>
-                <h4>Topic Coverage</h4>
-                <p>Visualise how thoroughly each topic is covered across your material.</p>
-            </div>
-            <div class="module-card ranking">
-                <div class="mc-icon">⭐</div>
-                <h4>Importance Ranking</h4>
-                <p>Score and rank topics by their significance and exam relevance.</p>
-            </div>
-        </div>
-        """,
+        '<div class="module-grid">'
+        '<div class="module-card extract">'
+        '<div class="mc-icon">🧠</div>'
+        '<h4>Topic Extraction</h4>'
+        '<p>Identify all major topics and subtopics present in your documents.</p>'
+        '</div>'
+        '<div class="module-card coverage">'
+        '<div class="mc-icon">📈</div>'
+        '<h4>Topic Coverage</h4>'
+        '<p>Visualise how thoroughly each topic is covered across your material.</p>'
+        '</div>'
+        '<div class="module-card ranking">'
+        '<div class="mc-icon">⭐</div>'
+        '<h4>Importance Ranking</h4>'
+        '<p>Score and rank topics by their significance and exam relevance.</p>'
+        '</div>'
+        '</div>',
         unsafe_allow_html=True,
     )
 
     # ── Learning insights ────────────────────────────
-    st.markdown(
-        '<div class="an-label">Learning Insights</div>',
-        unsafe_allow_html=True,
-    )
-    status_cls = "ready" if processed else "waiting"
-    status_txt = "Ready"  if processed else "Waiting"
+    st.markdown('<div class="an-label">Learning Insights</div>', unsafe_allow_html=True)
 
-    st.markdown(
-        f"""
-        <div class="insight-bar">
-            <div class="insight-box">
-                <div class="ib-val">{topic_count}</div>
-                <div class="ib-lbl">Topics Found</div>
-            </div>
-            <div class="insight-box">
-                <div class="ib-val">{chunk_count}</div>
-                <div class="ib-lbl">Chunks Analysed</div>
-            </div>
-            <div class="insight-box">
-                <div class="ib-val">{doc_count}</div>
-                <div class="ib-lbl">Pages Loaded</div>
-            </div>
-            <div class="insight-box status">
-                <div class="ib-val {status_cls}">{status_txt}</div>
-                <div class="ib-lbl">Processing Status</div>
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True,
+    status_cls = "ready" if processed else "waiting"
+    status_txt = "Ready" if processed else "Waiting"
+
+    # Build insight bar as plain string concatenation — no multiline f-string
+    insight_html = (
+        '<div class="insight-bar">'
+        '<div class="insight-box">'
+        f'<div class="ib-val">{topic_count}</div>'
+        '<div class="ib-lbl">Topics Found</div>'
+        '</div>'
+        '<div class="insight-box">'
+        f'<div class="ib-val">{chunk_count}</div>'
+        '<div class="ib-lbl">Chunks Analysed</div>'
+        '</div>'
+        '<div class="insight-box">'
+        f'<div class="ib-val">{doc_count}</div>'
+        '<div class="ib-lbl">Pages Loaded</div>'
+        '</div>'
+        '<div class="insight-box status">'
+        f'<div class="ib-val {status_cls}">{status_txt}</div>'
+        '<div class="ib-lbl">Processing Status</div>'
+        '</div>'
+        '</div>'
     )
+    st.markdown(insight_html, unsafe_allow_html=True)
 
     # ── Analysis workspace ────────────────────────────
-    st.markdown(
-        '<div class="an-label">Analysis Workspace</div>',
-        unsafe_allow_html=True,
-    )
+    # Use st.columns(3) as the layout grid — this is Streamlit-native and
+    # cannot be broken by HTML sanitisation. Each panel is its own markdown call.
+    st.markdown('<div class="an-label">Analysis Workspace</div>', unsafe_allow_html=True)
 
-    # Read any previously stored results from session state
-    topics_result    = st.session_state.get("analysis_topics_result", None)
-    coverage_result  = st.session_state.get("analysis_coverage_result", None)
+    topics_result     = st.session_state.get("analysis_topics_result", None)
+    coverage_result   = st.session_state.get("analysis_coverage_result", None)
     importance_result = st.session_state.get("analysis_importance_result", None)
 
-    topics_html   = _build_topics_panel(topics_result)
-    coverage_html = _build_coverage_panel(coverage_result)
-    ranking_html  = _build_ranking_panel(importance_result)
+    ws_col1, ws_col2, ws_col3 = st.columns(3, gap="small")
 
-    st.markdown(
-        f"""
-        <div class="workspace">
-            <div class="ws-panel">
-                <div class="wp-title">Top Topics</div>
-                {topics_html}
-            </div>
-            <div class="ws-panel">
-                <div class="wp-title">Coverage Visualisation</div>
-                {coverage_html}
-            </div>
-            <div class="ws-panel">
-                <div class="wp-title">Importance Ranking</div>
-                {ranking_html}
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    with ws_col1:
+        st.markdown(_panel_topics(topics_result), unsafe_allow_html=True)
+
+    with ws_col2:
+        st.markdown(_panel_coverage(coverage_result), unsafe_allow_html=True)
+
+    with ws_col3:
+        st.markdown(_panel_ranking(importance_result), unsafe_allow_html=True)
 
     # ── Action area ──────────────────────────────────
+    st.markdown('<div class="an-label">Generate Analysis</div>', unsafe_allow_html=True)
     st.markdown(
-        '<div class="an-label">Generate Analysis</div>',
-        unsafe_allow_html=True,
-    )
-
-    st.markdown(
-        '<div class="action-area"><div class="aa-title">Enter a topic to analyse your documents</div></div>',
+        '<div class="action-area">'
+        '<div class="aa-title">Enter a topic to analyse your documents</div>'
+        '</div>',
         unsafe_allow_html=True,
     )
 
@@ -445,11 +446,11 @@ def render_analysis(vector_db):
 
     col1, col2, col3 = st.columns(3, gap="small")
     with col1:
-        topic_extract   = st.button("🧠 Extract Topics",    use_container_width=True)
+        topic_extract   = st.button("🧠 Extract Topics",     use_container_width=True)
     with col2:
-        topic_coverage  = st.button("📈 Topic Coverage",    use_container_width=True)
+        topic_coverage  = st.button("📈 Topic Coverage",     use_container_width=True)
     with col3:
-        importance_rank = st.button("⭐ Rank by Importance", use_container_width=True)
+        importance_rank = st.button("⭐ Rank by Importance",  use_container_width=True)
 
     # ── Results ──────────────────────────────────────
     if topic_extract or topic_coverage or importance_rank:
@@ -489,5 +490,5 @@ def render_analysis(vector_db):
             st.session_state["analysis_importance_result"] = parsed
             render_importance(parsed)
 
-        # Rerun so the workspace panels reflect the new results immediately
+        # Rerun so workspace panels reflect the new results immediately
         st.rerun()
