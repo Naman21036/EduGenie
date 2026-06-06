@@ -1,7 +1,7 @@
 import streamlit as st
 import streamlit.components.v1 as components
-from src.ingestion.retriever import retrieve
-from src.study_tools.question_bank_generator import generate_question_bank
+from ingestion.retriever import retrieve
+from study_tools.question_bank_generator import generate_question_bank
 
 _CSS = """
 <style>
