@@ -10,7 +10,7 @@ def render_sidebar():
             """
             <style>
             [data-testid="stSidebar"] {
-                background: #111827;
+                background: linear-gradient(180deg, #111827 0%, #0f172a 100%);
                 border-right: 1px solid rgba(59,130,246,0.15);
             }
             [data-testid="stSidebar"] .stMarkdown p,
@@ -40,7 +40,7 @@ def render_sidebar():
                 width: 34px;
                 height: 34px;
                 border-radius: 10px;
-                background: #1e40af;
+                background: linear-gradient(135deg, #3b82f6, #06b6d4);
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -110,7 +110,8 @@ def render_sidebar():
             .sb-stat .val {
                 font-size: 20px;
                 font-weight: 700;
-                color: #93c5fd;
+                color: #60a5fa;
+                line-height: 1;
             }
             .sb-stat .lbl {
                 font-size: 11px;
@@ -128,7 +129,7 @@ def render_sidebar():
                 margin-bottom: 6px;
             }
             .sb-stat-full .lbl { font-size: 12px; color: #64748b; }
-            .sb-stat-full .val { font-size: 16px; font-weight: 700; color: #93c5fd; }
+            .sb-stat-full .val { font-size: 16px; font-weight: 700; color: #60a5fa; }
             /* Activity items */
             .sb-activity-item {
                 display: flex;
@@ -146,6 +147,24 @@ def render_sidebar():
                 background: #3b82f6;
                 margin-top: 5px;
                 flex-shrink: 0;
+            }
+            /* Process Documents button — override Streamlit primary theme color */
+            [data-testid="stSidebar"] .stButton > button[kind="primary"] {
+                background: linear-gradient(135deg, #3b82f6, #06b6d4) !important;
+                border: none !important;
+                color: white !important;
+                font-weight: 600 !important;
+                border-radius: 12px !important;
+            }
+            [data-testid="stSidebar"] .stButton > button[kind="primary"]:hover {
+                filter: brightness(1.08);
+            }
+            /* File uploader — neutralise any purple focus/border remnants */
+            [data-testid="stSidebar"] [data-testid="stFileUploader"] section {
+                border-color: rgba(59,130,246,0.25) !important;
+            }
+            [data-testid="stSidebar"] [data-testid="stFileUploader"] section:hover {
+                border-color: rgba(59,130,246,0.50) !important;
             }
             </style>
             """,
