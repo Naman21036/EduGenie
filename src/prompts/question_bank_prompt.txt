@@ -50,9 +50,7 @@ QUESTION DESIGN RULES:
 
 OUTPUT FORMAT:
 
-========================
 2 MARK QUESTIONS
-================
 
 Q1. Question text
 Difficulty: Easy
@@ -62,9 +60,7 @@ Difficulty: Easy
 
 ...
 
-========================
 5 MARK QUESTIONS
-================
 
 Q1. Question text
 Difficulty: Medium
@@ -74,9 +70,7 @@ Difficulty: Medium
 
 ...
 
-========================
 10 MARK QUESTIONS
-=================
 
 Q1. Question text
 Difficulty: Hard
@@ -86,9 +80,7 @@ Difficulty: Hard
 
 ...
 
-========================
 MOST IMPORTANT EXAM QUESTIONS
-=============================
 
 1. Question text
 
