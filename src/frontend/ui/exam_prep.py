@@ -1,9 +1,10 @@
 import json
 import streamlit as st
-from ingestion.retriever import retrieve
-from study_tools.mock_test_generator import generate_mock_test
-from study_tools.revision_sheet_generator import generate_revision_sheet
-from frontend.exam_prep.mock_test_engine import initialize_test, render_mock_test, reset_test
+import streamlit.components.v1 as components
+from src.ingestion.retriever import retrieve
+from src.study_tools.mock_test_generator import generate_mock_test
+from src.study_tools.revision_sheet_generator import generate_revision_sheet
+from src.frontend.exam_prep.mock_test_engine import initialize_test, render_mock_test, reset_test
 
 
 # ── CSS ──────────────────────────────────────────────────────────────────────
@@ -128,7 +129,7 @@ def _rr(label, ready):
 
 def render_exam_prep(vector_db):
 
-    st.markdown(EXAM_CSS, unsafe_allow_html=True)
+    components.html(EXAM_CSS, height=0)
 
     doc_count    = st.session_state.get("doc_count",   0)
     chunk_count  = st.session_state.get("chunk_count", 0)
