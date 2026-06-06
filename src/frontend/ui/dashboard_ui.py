@@ -11,8 +11,8 @@ DASHBOARD_CSS = """
 
 /* ── Hero ─────────────────────────────────────────── */
 .dash-hero {
-    background: linear-gradient(135deg, #0c1120 0%, #111827 60%, #0f172a 100%);
-    border: 1px solid rgba(99,102,241,0.20);
+    background: linear-gradient(135deg, #111827 0%, #172554 50%, #1E3A8A 100%);
+    border: 1px solid rgba(59,130,246,0.20);
     border-radius: 20px;
     padding: 40px 48px;
     margin-bottom: 28px;
@@ -25,7 +25,7 @@ DASHBOARD_CSS = """
     top: -60px; right: -60px;
     width: 260px; height: 260px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%);
     pointer-events: none;
 }
 .dash-hero-eyebrow {
@@ -36,9 +36,9 @@ DASHBOARD_CSS = """
     font-weight: 600;
     letter-spacing: 0.09em;
     text-transform: uppercase;
-    color: #818cf8;
-    background: rgba(99,102,241,0.1);
-    border: 1px solid rgba(99,102,241,0.22);
+    color: #60A5FA;
+    background: rgba(59,130,246,0.1);
+    border: 1px solid rgba(59,130,246,0.22);
     border-radius: 20px;
     padding: 4px 12px;
     margin-bottom: 16px;
@@ -46,12 +46,12 @@ DASHBOARD_CSS = """
 .dash-hero h1 {
     font-size: 2.6rem;
     font-weight: 800;
-    color: #f1f5f9;
+    color: #F8FAFC;
     letter-spacing: -0.03em;
     line-height: 1.15;
     margin: 0 0 12px;
 }
-.dash-hero h1 span { color: #818cf8; }
+.dash-hero h1 span { color: #60A5FA; }
 .dash-hero-sub {
     font-size: 15px;
     color: #64748b;
@@ -73,12 +73,12 @@ DASHBOARD_CSS = """
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.08);
     font-size: 12.5px;
-    color: #94a3b8;
+    color: #94A3B8;
 }
 .dash-hero-pill .pip {
     width: 6px; height: 6px;
     border-radius: 50%;
-    background: #6366f1;
+    background: #3B82F6;
     flex-shrink: 0;
 }
 .dash-hero-pill .pip.green { background: #34d399; }
@@ -104,7 +104,7 @@ DASHBOARD_CSS = """
 
 /* ── Workspace nav cards ──────────────────────────── */
 .nav-card {
-    background: #0f172a;
+    background: #0F172A;
     border: 1px solid rgba(255,255,255,0.07);
     border-radius: 16px;
     padding: 28px 24px;
@@ -123,8 +123,8 @@ DASHBOARD_CSS = """
     background: transparent;
     transition: background 0.18s ease;
 }
-.nav-card:hover { border-color: rgba(99,102,241,0.35); transform: translateY(-2px); background: #111827; }
-.nav-card:hover::before { background: linear-gradient(90deg, #6366f1, #8b5cf6); }
+.nav-card:hover { border-color: rgba(59,130,246,0.35); transform: translateY(-2px); background: #111827; }
+.nav-card:hover::before { background: linear-gradient(90deg, #3B82F6, #06B6D4); }
 .nav-card-icon {
     font-size: 26px;
     margin-bottom: 14px;
@@ -146,7 +146,7 @@ DASHBOARD_CSS = """
 .nav-card-cta {
     font-size: 12px;
     font-weight: 600;
-    color: #6366f1;
+    color: #3B82F6;
     display: flex;
     align-items: center;
     gap: 4px;
@@ -160,7 +160,7 @@ DASHBOARD_CSS = """
     margin-bottom: 6px;
 }
 .metric-box {
-    background: #0c1120;
+    background: #0F172A;
     border: 1px solid rgba(255,255,255,0.06);
     border-radius: 14px;
     padding: 18px 20px;
@@ -176,7 +176,7 @@ DASHBOARD_CSS = """
 .metric-box .m-val {
     font-size: 28px;
     font-weight: 800;
-    color: #a5b4fc;
+    color: #93C5FD;
     letter-spacing: -0.03em;
     line-height: 1;
 }
@@ -191,7 +191,7 @@ DASHBOARD_CSS = """
 
 /* ── Pipeline ─────────────────────────────────────── */
 .pipeline {
-    background: #0c1120;
+    background: #0F172A;
     border: 1px solid rgba(255,255,255,0.06);
     border-radius: 16px;
     padding: 24px 28px;
@@ -230,7 +230,7 @@ DASHBOARD_CSS = """
     color: #475569;
     border: 1.5px solid rgba(255,255,255,0.08);
 }
-.pipeline-step .ps-text { font-size: 12.5px; color: #94a3b8; }
+.pipeline-step .ps-text { font-size: 12.5px; color: #94A3B8; }
 .pipeline-step .ps-text.done { color: #e2e8f0; }
 .pipeline-connector {
     width: 32px;
@@ -243,7 +243,7 @@ DASHBOARD_CSS = """
 
 /* ── Activity ─────────────────────────────────────── */
 .activity-list {
-    background: #0c1120;
+    background: #0F172A;
     border: 1px solid rgba(255,255,255,0.06);
     border-radius: 16px;
     overflow: hidden;
@@ -259,12 +259,12 @@ DASHBOARD_CSS = """
 .activity-row .a-dot {
     width: 8px; height: 8px;
     border-radius: 50%;
-    background: #6366f1;
+    background: #3B82F6;
     flex-shrink: 0;
 }
 .activity-row .a-text {
     font-size: 13px;
-    color: #94a3b8;
+    color: #94A3B8;
     flex: 1;
 }
 .activity-row .a-time {
@@ -280,8 +280,8 @@ DASHBOARD_CSS = """
 
 /* ── AI Recommendation ────────────────────────────── */
 .ai-rec {
-    background: linear-gradient(135deg, #0f172a, #111827);
-    border: 1px solid rgba(99,102,241,0.2);
+    background: linear-gradient(135deg, #0F172A, #111827);
+    border: 1px solid rgba(59,130,246,0.2);
     border-radius: 16px;
     padding: 22px 24px;
     display: flex;
@@ -291,7 +291,7 @@ DASHBOARD_CSS = """
 .ai-rec-icon {
     width: 38px; height: 38px;
     border-radius: 10px;
-    background: rgba(99,102,241,0.15);
+    background: rgba(59,130,246,0.15);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -304,7 +304,7 @@ DASHBOARD_CSS = """
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #6366f1;
+    color: #3B82F6;
     margin-bottom: 5px;
 }
 .ai-rec-body .rec-text {
