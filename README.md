@@ -297,7 +297,7 @@ Add screenshots of:
 
 **Naman Gupta**
 
-Machine Learning Enthusiast | AI Developer | Quantitative Finance Aspirant
+Machine Learning Enthusiast | AI Developer
 
 BIT Mesra
 
