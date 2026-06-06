@@ -11,7 +11,7 @@ def get_llm():
     llm= ChatGroq(
         model= LLM_MODEL,
         temperature=TEMPERATURE,
-        max_tokens=512,
+        max_tokens= 2048,
     )
     
     return llm
