@@ -1,5 +1,4 @@
 import streamlit as st
-import streamlit.components.v1 as components
 from datetime import datetime
 
 
@@ -579,7 +578,7 @@ def _ai_recommendation(processed, activity_log):
 def render_dashboard():
 
     # Inject styles once
-    components.html(DASHBOARD_CSS, height=0)
+    st.markdown(DASHBOARD_CSS, unsafe_allow_html=True)
 
     # Read session state
     doc_count = st.session_state.get("doc_count", 0)
