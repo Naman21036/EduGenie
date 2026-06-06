@@ -6,162 +6,253 @@ from study_tools.revision_sheet_generator import generate_revision_sheet
 from frontend.exam_prep.mock_test_engine import initialize_test, render_mock_test, reset_test
 
 
-# ── CSS ──────────────────────────────────────────────────────────────────────
+# ── Design Tokens ─────────────────────────────────────────────────────────────
+# Centralised token map — change here, propagates everywhere.
+_BLUE_500  = "#3b82f6"
+_BLUE_400  = "#60a5fa"
+_BLUE_300  = "#93c5fd"
+_BLUE_GLOW = "rgba(59,130,246,0.12)"
+_BLUE_RING = "rgba(59,130,246,0.22)"
+_GREEN_500 = "#22c55e"
+_GREEN_400 = "#4ade80"
 
-EXAM_CSS = """
+# ── CSS ───────────────────────────────────────────────────────────────────────
+EXAM_CSS = f"""
 <style>
-/* ── Page header ── */
-.ep-header { margin-bottom: 22px; }
-.ep-header h2 {
-    font-size: 1.35rem;
+/* ═══════════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════════ */
+.ep-wrap * {{ box-sizing: border-box; }}
+
+/* ═══════════════════════════════════════════════
+   PAGE HEADER
+═══════════════════════════════════════════════ */
+.ep-header {{ margin-bottom: 24px; }}
+.ep-header h2 {{
+    font-size: 1.4rem;
     font-weight: 700;
     color: #f1f5f9;
-    margin: 0 0 4px;
-    letter-spacing: -0.02em;
-}
-.ep-header p { font-size: 13px; color: #475569; margin: 0; }
+    margin: 0 0 5px;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+}}
+.ep-header p {{
+    font-size: 13px;
+    color: #64748b;
+    margin: 0;
+    line-height: 1.5;
+}}
 
-/* ── Section label ── */
-.ep-label {
+/* ═══════════════════════════════════════════════
+   SECTION LABEL  (divider + uppercase tag)
+═══════════════════════════════════════════════ */
+.ep-label {{
+    display: flex;
+    align-items: center;
+    gap: 10px;
     font-size: 10.5px;
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: #475569;
-    margin: 22px 0 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.ep-label::after { content:""; flex:1; height:1px; background:rgba(255,255,255,0.05); }
+    margin: 28px 0 14px;
+}}
+.ep-label::after {{
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.05);
+}}
 
-/* ── Feature cards ── */
-.ep-features { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.ep-feature {
+/* ═══════════════════════════════════════════════
+   FEATURE CARDS
+═══════════════════════════════════════════════ */
+.ep-features {{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}}
+.ep-feature {{
     background: #0f172a;
     border: 1px solid rgba(255,255,255,0.07);
     border-radius: 14px;
     padding: 20px 22px;
     position: relative;
     overflow: hidden;
-}
-.ep-feature::before {
+    transition: border-color 0.2s;
+}}
+.ep-feature:hover {{ border-color: rgba(255,255,255,0.13); }}
+.ep-feature::before {{
     content: "";
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 2px;
     border-radius: 14px 14px 0 0;
-}
-.ep-feature.mock::before     { background: #6366f1; }
-.ep-feature.revision::before { background: #22c55e; }
-.ep-feature .ef-icon  { font-size: 24px; margin-bottom: 10px; }
-.ep-feature h4 { font-size: 14px; font-weight: 700; color: #e2e8f0; margin: 0 0 6px; }
-.ep-feature p  { font-size: 12.5px; color: #475569; margin: 0 0 12px; line-height: 1.5; }
-.ep-feature ul { padding-left: 16px; margin: 0; }
-.ep-feature li { font-size: 12px; color: #64748b; margin-bottom: 3px; }
-
-/* ── Difficulty selector ── */
-.diff-row { display: flex; gap: 8px; }
-.diff-btn {
-    flex: 1;
-    background: #0f172a;
-    border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 10px;
-    padding: 10px;
-    text-align: center;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 600;
+}}
+.ep-feature.mock::before     {{ background: {_BLUE_500}; }}
+.ep-feature.revision::before {{ background: {_GREEN_500}; }}
+.ep-feature .ef-icon  {{ font-size: 22px; margin-bottom: 10px; display: block; }}
+.ep-feature h4 {{
+    font-size: 14px;
+    font-weight: 700;
+    color: #e2e8f0;
+    margin: 0 0 6px;
+}}
+.ep-feature p  {{
+    font-size: 12.5px;
     color: #64748b;
-    transition: all 0.15s;
-}
-.diff-btn.active { border-color: #6366f1; color: #a5b4fc; background: rgba(99,102,241,0.08); }
+    margin: 0 0 10px;
+    line-height: 1.55;
+}}
+.ep-feature ul {{ padding-left: 16px; margin: 0; }}
+.ep-feature li {{ font-size: 12px; color: #475569; margin-bottom: 4px; line-height: 1.4; }}
 
-/* ── Prep overview ── */
-.prep-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
-.prep-stat {
+/* ═══════════════════════════════════════════════
+   PREP STATS GRID
+═══════════════════════════════════════════════ */
+.prep-stats {{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}}
+.prep-stat {{
     background: #0c1120;
-    border: 1px solid rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.06);
     border-radius: 12px;
-    padding: 14px 16px;
-}
-.prep-stat .ps-val { font-size: 22px; font-weight: 800; color: #a5b4fc; letter-spacing:-0.02em; }
-.prep-stat .ps-lbl { font-size: 11px; color: #475569; margin-top: 3px; }
+    padding: 16px 18px;
+}}
+.prep-stat .ps-val {{
+    font-size: 24px;
+    font-weight: 800;
+    color: {_BLUE_300};
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 4px;
+}}
+.prep-stat .ps-val.green {{ color: {_GREEN_400}; }}
+.prep-stat .ps-lbl {{
+    font-size: 11px;
+    color: #475569;
+    line-height: 1.3;
+}}
 
-/* ── Readiness panel ── */
-.readiness-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.readiness-panel {
+/* ═══════════════════════════════════════════════
+   READINESS + RECOMMENDATION  (2-col grid)
+═══════════════════════════════════════════════ */
+.readiness-grid {{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}}
+.readiness-panel {{
     background: #0c1120;
     border: 1px solid rgba(255,255,255,0.06);
     border-radius: 14px;
     padding: 18px 20px;
-}
-.readiness-panel .rp-title {
-    font-size: 11px;
+}}
+.rp-title {{
+    font-size: 10.5px;
     font-weight: 700;
-    letter-spacing: 0.07em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: #475569;
     margin: 0 0 14px;
     padding-bottom: 10px;
     border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-.readiness-row {
+}}
+.readiness-row {{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 8px 0;
+    padding: 9px 0;
     border-bottom: 1px solid rgba(255,255,255,0.04);
     font-size: 13px;
-}
-.readiness-row:last-child { border-bottom: none; }
-.readiness-row .rr-label { color: #94a3b8; }
-.readiness-row .rr-badge {
+}}
+.readiness-row:last-child {{ border-bottom: none; }}
+.rr-label {{ color: #94a3b8; }}
+.rr-badge {{
     font-size: 11px;
     font-weight: 600;
-    padding: 2px 8px;
+    padding: 2px 9px;
     border-radius: 20px;
-}
-.rr-badge.ready   { background: rgba(34,197,94,0.1);  color: #4ade80; }
-.rr-badge.pending { background: rgba(99,102,241,0.1); color: #818cf8; }
+    white-space: nowrap;
+}}
+.rr-badge.ready   {{ background: rgba(34,197,94,0.12); color: {_GREEN_400}; }}
+.rr-badge.pending {{ background: {_BLUE_GLOW};          color: {_BLUE_400}; }}
 
-/* ── AI recommendation ── */
-.ep-rec {
-    background: linear-gradient(135deg, #0f172a, #111827);
-    border: 1px solid rgba(99,102,241,0.18);
+/* ═══════════════════════════════════════════════
+   AI RECOMMENDATION PANEL
+═══════════════════════════════════════════════ */
+.ep-rec {{
+    background: linear-gradient(145deg, #0f172a, #0c1526);
+    border: 1px solid {_BLUE_RING};
     border-radius: 14px;
     padding: 18px 20px;
-}
-.ep-rec .rec-tag {
+    height: 100%;
+}}
+.rec-tag {{
     font-size: 10.5px;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #6366f1;
-    margin: 0 0 8px;
-}
-.ep-rec .rec-body { font-size: 13px; color: #cbd5e1; line-height: 1.65; }
-.ep-rec ol { padding-left: 18px; margin: 8px 0 0; }
-.ep-rec li { font-size: 13px; color: #94a3b8; margin-bottom: 4px; }
+    color: {_BLUE_400};
+    margin: 0 0 10px;
+}}
+.rec-body {{
+    font-size: 13px;
+    color: #cbd5e1;
+    line-height: 1.65;
+}}
+.rec-body ol {{
+    padding-left: 18px;
+    margin: 8px 0 0;
+}}
+.rec-body li {{
+    font-size: 13px;
+    color: #94a3b8;
+    margin-bottom: 5px;
+    line-height: 1.5;
+}}
 
-/* ── Action area ── */
-.ep-action {
+/* ═══════════════════════════════════════════════
+   GENERATE MATERIAL SECTION
+═══════════════════════════════════════════════ */
+.ep-action {{
     background: #0c1120;
-    border: 1px solid rgba(99,102,241,0.14);
+    border: 1px solid rgba(255,255,255,0.07);
     border-radius: 14px;
     padding: 20px 22px;
-}
-.ep-action .ea-title {
+    margin-bottom: 14px;
+}}
+.ea-title {{
     font-size: 13px;
     font-weight: 700;
     color: #e2e8f0;
-    margin: 0 0 14px;
-}
+    margin: 0 0 6px;
+}}
+.ea-subtitle {{
+    font-size: 12px;
+    color: #475569;
+    margin: 0;
+}}
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE  –  collapse to single column below ~720 px
+═══════════════════════════════════════════════ */
+@media (max-width: 720px) {{
+    .ep-features,
+    .prep-stats,
+    .readiness-grid {{ grid-template-columns: 1fr; }}
+    .prep-stats      {{ grid-template-columns: 1fr 1fr; }}
+}}
 </style>
 """
 
 
-def safe_json(data):
+# ── Utility helpers ────────────────────────────────────────────────────────────
+
+def _safe_json(data) -> dict:
+    """Safely coerce *data* to a dict (best-effort JSON parse for strings)."""
     if isinstance(data, dict):
         return data
     if isinstance(data, str):
@@ -172,7 +263,46 @@ def safe_json(data):
     return {}
 
 
-def render_revision_sheet(sheet):
+def _readiness_row(label: str, ready: bool) -> str:
+    """Return a single readiness-checklist row as an HTML string."""
+    cls = "ready" if ready else "pending"
+    txt = "Ready"  if ready else "Pending"
+    return (
+        f'<div class="readiness-row">'
+        f'  <span class="rr-label">{label}</span>'
+        f'  <span class="rr-badge {cls}">{txt}</span>'
+        f'</div>'
+    )
+
+
+def _stat_card(value, label: str, green: bool = False) -> str:
+    """Return a single prep-stat card as an HTML string."""
+    cls = ' green' if green else ''
+    return (
+        f'<div class="prep-stat">'
+        f'  <div class="ps-val{cls}">{value}</div>'
+        f'  <div class="ps-lbl">{label}</div>'
+        f'</div>'
+    )
+
+
+def _feature_card(variant: str, icon: str, title: str, desc: str, bullets: list[str]) -> str:
+    """Return a feature card as an HTML string."""
+    li_html = "".join(f"<li>{b}</li>" for b in bullets)
+    return (
+        f'<div class="ep-feature {variant}">'
+        f'  <span class="ef-icon">{icon}</span>'
+        f'  <h4>{title}</h4>'
+        f'  <p>{desc}</p>'
+        f'  <ul>{li_html}</ul>'
+        f'</div>'
+    )
+
+
+# ── Revision sheet renderer ────────────────────────────────────────────────────
+
+def render_revision_sheet(sheet: dict) -> None:
+    """Render a parsed revision-sheet dict using native Streamlit widgets."""
     if not sheet.get("success", True):
         st.error(sheet.get("error", "JSON Parsing Failed"))
         st.code(sheet.get("raw_response", ""))
@@ -182,7 +312,7 @@ def render_revision_sheet(sheet):
     if definitions:
         st.markdown("#### 📖 Definitions")
         for d in definitions:
-            st.markdown(f"**{d.get('term','')}**")
+            st.markdown(f"**{d.get('term', '')}**")
             st.caption(d.get("definition", ""))
 
     formulas = sheet.get("important_formulas", [])
@@ -205,32 +335,22 @@ def render_revision_sheet(sheet):
             st.markdown(f"• {q}")
 
 
-# ── Helper: build readiness rows ─────────────────────────────────────────────
+# ── Main page renderer ─────────────────────────────────────────────────────────
 
-def _readiness_row(label, ready):
-    badge_cls = "ready" if ready else "pending"
-    badge_txt = "Ready"  if ready else "Pending"
-    return f"""
-    <div class="readiness-row">
-        <span class="rr-label">{label}</span>
-        <span class="rr-badge {badge_cls}">{badge_txt}</span>
-    </div>
-    """
+def render_exam_prep(vector_db) -> None:
+    """Render the full Exam Preparation page."""
 
-
-# ── Main render ──────────────────────────────────────────────────────────────
-
-def render_exam_prep(vector_db):
-
+    # Inject scoped CSS once
     st.markdown(EXAM_CSS, unsafe_allow_html=True)
 
-    doc_count   = st.session_state.get("doc_count", 0)
-    chunk_count = st.session_state.get("chunk_count", 0)
-    topic_count = st.session_state.get("topic_count", 0)
-    processed   = st.session_state.get("processed", False)
+    # ── Pull session state ────────────────────────────────────────────────────
+    doc_count    = st.session_state.get("doc_count", 0)
+    chunk_count  = st.session_state.get("chunk_count", 0)
+    topic_count  = st.session_state.get("topic_count", 0)
+    processed    = st.session_state.get("processed", False)
     activity_log = st.session_state.get("activity_log", [])
 
-    # ── Page header ──────────────────────────────────
+    # ── Page header ───────────────────────────────────────────────────────────
     st.markdown(
         """
         <div class="ep-header">
@@ -241,153 +361,132 @@ def render_exam_prep(vector_db):
         unsafe_allow_html=True,
     )
 
-    # ── Feature cards ─────────────────────────────────
+    # ── Feature cards ─────────────────────────────────────────────────────────
     st.markdown('<div class="ep-label">Features</div>', unsafe_allow_html=True)
+
+    mock_card = _feature_card(
+        "mock", "📝", "Mock Test",
+        "Interactive, exam-style questions generated from your material.",
+        ["Multiple choice questions", "Instant scoring", "Difficulty control"],
+    )
+    revision_card = _feature_card(
+        "revision", "⚡", "Revision Sheet",
+        "Condensed summary of key definitions, formulas and concepts.",
+        ["Important definitions", "Core formulas", "Key exam questions"],
+    )
     st.markdown(
-        """
-        <div class="ep-features">
-            <div class="ep-feature mock">
-                <div class="ef-icon">📝</div>
-                <h4>Mock Test</h4>
-                <p>Interactive, exam-style questions generated from your material.</p>
-                <ul>
-                    <li>Multiple choice questions</li>
-                    <li>Instant scoring</li>
-                    <li>Difficulty control</li>
-                </ul>
-            </div>
-            <div class="ep-feature revision">
-                <div class="ef-icon">⚡</div>
-                <h4>Revision Sheet</h4>
-                <p>Condensed summary of key definitions, formulas and concepts.</p>
-                <ul>
-                    <li>Important definitions</li>
-                    <li>Core formulas</li>
-                    <li>Key exam questions</li>
-                </ul>
-            </div>
-        </div>
-        """,
+        f'<div class="ep-features">{mock_card}{revision_card}</div>',
         unsafe_allow_html=True,
     )
 
-    # ── Difficulty selector ───────────────────────────
+    # ── Difficulty selector ───────────────────────────────────────────────────
     st.markdown('<div class="ep-label">Difficulty</div>', unsafe_allow_html=True)
 
     if "exam_difficulty" not in st.session_state:
         st.session_state.exam_difficulty = "Mixed"
 
-    diff_col1, diff_col2, diff_col3, diff_col4 = st.columns(4, gap="small")
-    for col, level in zip(
-        [diff_col1, diff_col2, diff_col3, diff_col4],
-        ["Easy", "Medium", "Hard", "Mixed"],
-    ):
+    difficulty_levels = ["Easy", "Medium", "Hard", "Mixed"]
+    diff_cols = st.columns(4, gap="small")
+    for col, level in zip(diff_cols, difficulty_levels):
         with col:
-            active = st.session_state.exam_difficulty == level
+            is_active = st.session_state.exam_difficulty == level
             if st.button(
                 level,
                 key=f"diff_{level}",
                 use_container_width=True,
-                type="primary" if active else "secondary",
+                type="primary" if is_active else "secondary",
             ):
                 st.session_state.exam_difficulty = level
                 st.rerun()
 
-    # ── Preparation overview ──────────────────────────
+    # ── Preparation overview ──────────────────────────────────────────────────
     st.markdown('<div class="ep-label">Preparation Overview</div>', unsafe_allow_html=True)
 
     readiness_score = 0
-    if processed:
-        readiness_score += 40
-    if "Generated Notes" in activity_log:
-        readiness_score += 20
-    if "Generated Flashcards" in activity_log:
-        readiness_score += 20
-    if "Generated Question Bank" in activity_log:
-        readiness_score += 20
+    if processed:                                    readiness_score += 40
+    if "Generated Notes"         in activity_log:   readiness_score += 20
+    if "Generated Flashcards"    in activity_log:   readiness_score += 20
+    if "Generated Question Bank" in activity_log:   readiness_score += 20
 
+    stats_html = "".join([
+        _stat_card(doc_count,   "Documents"),
+        _stat_card(chunk_count, "Knowledge Chunks"),
+        _stat_card(topic_count, "Topics Available"),
+        _stat_card(f"{readiness_score}%", "Readiness Score", green=True),
+    ])
     st.markdown(
-        f"""
-        <div class="prep-stats">
-            <div class="prep-stat">
-                <div class="ps-val">{doc_count}</div>
-                <div class="ps-lbl">Documents</div>
-            </div>
-            <div class="prep-stat">
-                <div class="ps-val">{chunk_count}</div>
-                <div class="ps-lbl">Knowledge Chunks</div>
-            </div>
-            <div class="prep-stat">
-                <div class="ps-val">{topic_count}</div>
-                <div class="ps-lbl">Topics Available</div>
-            </div>
-            <div class="prep-stat">
-                <div class="ps-val" style="color:#4ade80">{readiness_score}%</div>
-                <div class="ps-lbl">Readiness Score</div>
-            </div>
-        </div>
-        """,
+        f'<div class="prep-stats">{stats_html}</div>',
         unsafe_allow_html=True,
     )
 
-    # ── Study readiness + AI recommendation ──────────
+    # ── Study readiness + AI recommendation ──────────────────────────────────
     st.markdown('<div class="ep-label">Study Readiness</div>', unsafe_allow_html=True)
 
-    has_notes     = "Generated Notes"         in activity_log
-    has_flash     = "Generated Flashcards"    in activity_log
-    has_qbank     = "Generated Question Bank" in activity_log
-    has_mock      = "Generated Mock Test"     in activity_log
+    has_notes = "Generated Notes"         in activity_log
+    has_flash = "Generated Flashcards"    in activity_log
+    has_qbank = "Generated Question Bank" in activity_log
+    has_mock  = "Generated Mock Test"     in activity_log
 
-    readiness_html = (
-        _readiness_row("Mock Test",     has_mock)  +
-        _readiness_row("Revision Sheet", processed) +
-        _readiness_row("Question Bank",  has_qbank) +
-        _readiness_row("Flashcards",     has_flash)
-    )
+    checklist_rows = "".join([
+        _readiness_row("Mock Test",      has_mock),
+        _readiness_row("Revision Sheet", processed),
+        _readiness_row("Question Bank",  has_qbank),
+        _readiness_row("Flashcards",     has_flash),
+    ])
 
-    # AI recommendation text
+    # Derive contextual AI recommendation
     if not processed:
         rec_text = "Upload and process a PDF to unlock exam preparation tools."
-        rec_seq  = ""
+        rec_steps: list[str] = []
     elif not has_notes:
         rec_text = "Start with Study Tools to build your notes before attempting a mock test."
-        rec_seq  = "<ol><li>Generate Notes</li><li>Create Flashcards</li><li>Run Mock Test</li></ol>"
+        rec_steps = ["Generate Notes", "Create Flashcards", "Run Mock Test"]
     elif not has_flash:
         rec_text = "Notes are ready. Generate flashcards to strengthen recall before testing."
-        rec_seq  = "<ol><li>Create Flashcards</li><li>Revision Sheet</li><li>Mock Test</li></ol>"
+        rec_steps = ["Create Flashcards", "Revision Sheet", "Mock Test"]
     else:
         rec_text = "You have sufficient material. Recommended exam preparation sequence:"
-        rec_seq  = "<ol><li>Revision Sheet</li><li>Flashcards review</li><li>Mock Test</li></ol>"
+        rec_steps = ["Revision Sheet", "Flashcards review", "Mock Test"]
 
-    rg_col, rec_col = st.columns([1, 1], gap="medium")
+    if rec_steps:
+        rec_ol = "<ol>" + "".join(f"<li>{s}</li>" for s in rec_steps) + "</ol>"
+    else:
+        rec_ol = ""
 
-    with rg_col:
+    left_col, right_col = st.columns(2, gap="medium")
+
+    with left_col:
         st.markdown(
             f"""
             <div class="readiness-panel">
                 <div class="rp-title">Readiness Checklist</div>
-                {readiness_html}
+                {checklist_rows}
             </div>
             """,
             unsafe_allow_html=True,
         )
 
-    with rec_col:
+    with right_col:
         st.markdown(
             f"""
             <div class="ep-rec">
                 <div class="rec-tag">✦ AI Recommendation</div>
-                <div class="rec-body">{rec_text}{rec_seq}</div>
+                <div class="rec-body">{rec_text}{rec_ol}</div>
             </div>
             """,
             unsafe_allow_html=True,
         )
 
-    # ── Generation controls ───────────────────────────
+    # ── Material generation ───────────────────────────────────────────────────
     st.markdown('<div class="ep-label">Generate Material</div>', unsafe_allow_html=True)
 
     st.markdown(
-        '<div class="ep-action"><div class="ea-title">Enter a topic to generate exam material</div></div>',
+        """
+        <div class="ep-action">
+            <div class="ea-title">Enter a topic to generate exam material</div>
+            <p class="ea-subtitle">Type any subject, chapter, or concept covered in your uploaded documents</p>
+        </div>
+        """,
         unsafe_allow_html=True,
     )
 
@@ -398,13 +497,13 @@ def render_exam_prep(vector_db):
         label_visibility="collapsed",
     )
 
-    gen_col1, gen_col2 = st.columns(2, gap="small")
-    with gen_col1:
-        mock_test_btn = st.button("📝 Generate Mock Test",    use_container_width=True, type="primary")
-    with gen_col2:
+    btn_col1, btn_col2 = st.columns(2, gap="small")
+    with btn_col1:
+        mock_test_btn = st.button("📝 Generate Mock Test",     use_container_width=True, type="primary")
+    with btn_col2:
         revision_btn  = st.button("⚡ Generate Revision Sheet", use_container_width=True)
 
-    # ── Generation logic ──────────────────────────────
+    # ── Generation logic ──────────────────────────────────────────────────────
     if mock_test_btn or revision_btn:
         if not topic:
             st.warning("Please enter a topic first.")
@@ -421,7 +520,7 @@ def render_exam_prep(vector_db):
             st.markdown("---")
             st.markdown("#### ⚡ Revision Sheet")
             sheet = generate_revision_sheet(context)
-            render_revision_sheet(safe_json(sheet))
+            render_revision_sheet(_safe_json(sheet))
             if "Generated Revision Sheet" not in activity_log:
                 st.session_state.activity_log.append("Generated Revision Sheet")
 
@@ -445,7 +544,7 @@ def render_exam_prep(vector_db):
             if "Generated Mock Test" not in activity_log:
                 st.session_state.activity_log.append("Generated Mock Test")
 
-    # ── Mock test UI ──────────────────────────────────
+    # ── Interactive mock test UI ───────────────────────────────────────────────
     if "mock_test" in st.session_state:
         st.markdown("---")
         st.markdown("#### 📝 Interactive Mock Test")
