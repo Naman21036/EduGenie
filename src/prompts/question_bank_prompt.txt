@@ -19,19 +19,21 @@ INSTRUCTIONS:
 QUESTION DISTRIBUTION:
 
 • {num_2_mark} questions worth 2 marks each
+
 • {num_5_mark} questions worth 5 marks each
+
 • {num_10_mark} questions worth 10 marks each
 
 QUESTION DESIGN RULES:
 
-2 MARK QUESTIONS:
+### 2 MARK QUESTIONS
 
 * Short factual questions
 * Definitions
 * Basic concepts
 * Direct recall
 
-5 MARK QUESTIONS:
+### 5 MARK QUESTIONS
 
 * Explanations
 * Comparisons
@@ -39,7 +41,7 @@ QUESTION DESIGN RULES:
 * Conceptual understanding
 * Moderate analytical thinking
 
-10 MARK QUESTIONS:
+### 10 MARK QUESTIONS
 
 * Detailed explanations
 * Derivations
@@ -50,47 +52,68 @@ QUESTION DESIGN RULES:
 
 OUTPUT FORMAT:
 
-2 MARK QUESTIONS
+# 2 MARK QUESTIONS
 
 Q1. Question text
+
 Difficulty: Easy
 
 Q2. Question text
+
 Difficulty: Easy
 
 ...
 
-5 MARK QUESTIONS
+# 5 MARK QUESTIONS
 
 Q1. Question text
+
 Difficulty: Medium
 
 Q2. Question text
+
 Difficulty: Medium
 
 ...
 
-10 MARK QUESTIONS
+# 10 MARK QUESTIONS
 
 Q1. Question text
+
 Difficulty: Hard
 
 Q2. Question text
+
 Difficulty: Hard
 
 ...
 
-MOST IMPORTANT EXAM QUESTIONS
+# MOST IMPORTANT EXAM QUESTIONS
 
-1. Question text
+Select ONLY 5 questions from the entire question bank above.
 
-2. Question text
+Rules:
 
-3. Question text
+1. Do NOT generate new questions.
+2. Do NOT rewrite questions.
+3. Select the most important questions that students must prepare for the exam.
+4. Prefer conceptual, analytical, application based, derivation based, and frequently examinable questions.
+5. Avoid simple definition based questions unless absolutely essential.
+6. Questions may come from the 2 mark, 5 mark, or 10 mark sections.
+7. Return only the selected 5 questions.
+8. Mention the section from which each question was selected.
 
-...
+Format:
 
-Generate the 10 most important examination questions that a student must prepare before the exam.
+1. [5 MARK] Question text
+
+2. [10 MARK] Question text
+
+3. [5 MARK] Question text
+
+4. [10 MARK] Question text
+
+5. [2 MARK] Question text
 
 IMPORTANT:
 
