@@ -177,6 +177,68 @@ ANALYSIS_CSS = """
     color: #e2e8f0;
     margin: 0 0 14px;
 }
+/* ─────────────────────────────────────────────
+   ANALYSIS BUTTON OVERRIDE
+───────────────────────────────────────────── */
+
+div[data-testid="stButton"] > button {
+
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #0891b2
+    ) !important;
+
+    color: #ffffff !important;
+
+    border: none !important;
+
+    border-radius: 12px !important;
+
+    font-weight: 600 !important;
+
+    transition: all .2s ease !important;
+}
+
+div[data-testid="stButton"] > button:hover {
+
+    background: linear-gradient(
+        135deg,
+        #3b82f6,
+        #06b6d4
+    ) !important;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(
+            6,
+            182,
+            212,
+            .35
+        ) !important;
+}
+
+div[data-testid="stButton"] > button p {
+
+    color: #ffffff !important;
+}
+
+div[data-testid="stButton"] > button:disabled {
+
+    background: #1e293b !important;
+
+    color: #64748b !important;
+
+    border: 1px solid rgba(
+        255,
+        255,
+        255,
+        .08
+    ) !important;
+
+    box-shadow: none !important;
+}
 </style>
 """
 
