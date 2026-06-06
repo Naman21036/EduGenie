@@ -1,6 +1,7 @@
 import os
 
 import streamlit as st
+import streamlit.components.v1 as components
 from frontend.components.sidebar import render_sidebar
 from frontend.components.navbar import render_navbar
 
@@ -34,7 +35,7 @@ st.set_page_config(
 # GLOBAL CSS
 # ==================================================
 
-st.markdown(
+components.html(
     """
     <style>
     /* ── App background ── */
@@ -156,7 +157,7 @@ st.markdown(
     }
     </style>
     """,
-    unsafe_allow_html=True,
+    height=0,
 )
 
 
