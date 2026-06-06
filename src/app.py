@@ -18,21 +18,16 @@ from utils.logger import get_logger
 
 logger = get_logger()
 
-
-# ==================================================
 # PAGE CONFIG
-# ==================================================
+
 
 st.set_page_config(
     page_title="EduGenie AI",
     page_icon="🎓",
     layout="wide",
 )
-
-
-# ==================================================
 # GLOBAL CSS
-# ==================================================
+
 
 st.markdown(
     """
@@ -158,11 +153,7 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
-
-
-# ==================================================
 # SESSION STATE
-# ==================================================
 
 defaults = {
     "documents": None,
@@ -183,18 +174,12 @@ defaults = {
 for key, val in defaults.items():
     if key not in st.session_state:
         st.session_state[key] = val
-
-
-# ==================================================
 # SIDEBAR
-# ==================================================
 
 uploaded_files, process_button = render_sidebar()
 
-
-# ==================================================
 # DOCUMENT PROCESSING
-# ==================================================
+
 
 if process_button:
     if not uploaded_files:
@@ -230,10 +215,8 @@ if process_button:
                 logger.exception("Document processing failed")
                 st.error(str(e))
 
-
-# ==================================================
 # NAVIGATION
-# ==================================================
+
 
 navbar_selection = render_navbar()
 
@@ -245,10 +228,8 @@ else:
 
 selected = st.session_state.selected_page
 
-
-# ==================================================
 # PAGE ROUTING
-# ==================================================
+
 
 if selected == "Dashboard":
     render_dashboard()
