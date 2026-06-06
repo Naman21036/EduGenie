@@ -1,7 +1,7 @@
 import streamlit as st
 
-from src.ingestion.retriever import retrieve
-from src.study_tools.question_bank_generator import (
+from ingestion.retriever import retrieve
+from study_tools.question_bank_generator import (
     generate_question_bank
 )
 
