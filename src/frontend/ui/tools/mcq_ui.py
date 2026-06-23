@@ -157,7 +157,7 @@ def render_mcqs(vector_db):
     # ── Header ───────────────────────────────────────
     st.markdown(
         '<div class="mcq-header">'
-        '<h3>MCQ Generator</h3>'
+        '<h3>🎯 MCQ Generator</h3>'
         '<p>Generate exam-style multiple choice questions with instant answer reveal.</p>'
         '</div>',
         unsafe_allow_html=True,
@@ -185,7 +185,7 @@ def render_mcqs(vector_db):
 
     # ── Generate ──────────────────────────────────────
     generate_btn = st.button(
-        f"Generate {int(num_mcqs)} MCQ{'s' if num_mcqs != 1 else ''}",
+        f"🎯 Generate {int(num_mcqs)} MCQ{'s' if num_mcqs != 1 else ''}",
         key="mcq_btn",
         use_container_width=True,
     )
