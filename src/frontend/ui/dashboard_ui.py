@@ -344,10 +344,10 @@ def _hero(processed, file_names, doc_count, chunk_count):
                     📄 {file_label}{extra}
                 </span>
                 <span class="dash-hero-pill">
-                    🗂 {doc_count} pages
+                    📑 {doc_count} pages
                 </span>
                 <span class="dash-hero-pill">
-                    🧩 {chunk_count} chunks
+                    🔤 {chunk_count} chunks
                 </span>
             </div>
         </div>
@@ -359,7 +359,7 @@ def _hero(processed, file_names, doc_count, chunk_count):
 def _workspace_cards():
     cards = [
         {
-            "icon": "📝",
+            "icon": "📖",
             "title": "Study Tools",
             "desc": "Generate notes, flashcards and question banks from your documents.",
             "page": "Study Tools",
@@ -371,7 +371,7 @@ def _workspace_cards():
             "page": "Analysis",
         },
         {
-            "icon": "📋",
+            "icon": "✍️",
             "title": "Exam Prep",
             "desc": "Build revision sheets and run interactive mock tests.",
             "page": "Exam Prep",
