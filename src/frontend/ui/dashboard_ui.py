@@ -1,5 +1,4 @@
 import streamlit as st
-from datetime import datetime
 
 
 # ── Shared dark-theme CSS injected once ─────────────────────────────────────
@@ -504,8 +503,8 @@ def _activity(activity_log):
         rows_html += (
             '<div class="activity-row">'
             '<div class="a-dot"></div>'
-            f'<div class="a-text">{item}</div>'
-            '<div class="a-time">just now</div>'
+            f'<div class="a-text">{item["label"]}</div>'
+            f'<div class="a-time">{item["time"]}</div>'
             '</div>'
         )
 
@@ -526,17 +525,17 @@ def _ai_recommendation(processed, activity_log):
             "Your documents are ready. Start with Study Tools to generate "
             "structured notes and flashcards for active recall."
         )
-    elif "Generated Notes" in activity_log and "Generated Flashcards" not in activity_log:
+    elif any(e["label"] == "Generated Notes" for e in activity_log) and not any(e["label"].startswith("Generated") and "Flashcard" in e["label"] for e in activity_log):
         rec = (
             "Notes are ready. Generate flashcards next to reinforce key "
             "concepts through spaced repetition."
         )
-    elif "Generated Flashcards" in activity_log and "Generated Mock Test" not in activity_log:
+    elif any(e["label"].startswith("Generated") and "Flashcard" in e["label"] for e in activity_log) and not any(e["label"] == "Generated Mock Test" for e in activity_log):
         rec = (
             "Flashcards are set. Head to Exam Prep and run a mock test "
             "to evaluate your retention before the real thing."
         )
-    elif "Generated Mock Test" in activity_log:
+    elif any(e["label"] == "Generated Mock Test" for e in activity_log):
         rec = (
             "You have completed a full study cycle. Use Analysis to identify "
             "coverage gaps and focus your revision on lower-scored topics."
