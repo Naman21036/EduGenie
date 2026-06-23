@@ -1,4 +1,6 @@
 import json
+from datetime import datetime
+
 import streamlit as st
 
 from ingestion.retriever import retrieve
@@ -76,50 +78,6 @@ MCQ_CSS = """
     flex-shrink: 0;
     margin-top: 1px;
 }
-/* ── Generate Button Override ───────────────────── */
-
-div[data-testid="stButton"] > button {
-
-    background: linear-gradient(
-        135deg,
-        #2563eb,
-        #0891b2
-    ) !important;
-
-    color: #ffffff !important;
-
-    border: none !important;
-
-    border-radius: 12px !important;
-
-    font-weight: 600 !important;
-
-    transition: all .2s ease !important;
-}
-
-div[data-testid="stButton"] > button:hover {
-
-    background: linear-gradient(
-        135deg,
-        #3b82f6,
-        #06b6d4
-    ) !important;
-
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 8px 20px rgba(
-            6,
-            182,
-            212,
-            .35
-        ) !important;
-}
-
-div[data-testid="stButton"] > button p {
-
-    color: #ffffff !important;
-}
 </style>
 """
 
@@ -157,7 +115,7 @@ def render_mcqs(vector_db):
     # ── Header ───────────────────────────────────────
     st.markdown(
         '<div class="mcq-header">'
-        '<h3>🎯 MCQ Generator</h3>'
+        '<h3>🔘 MCQ Generator</h3>'
         '<p>Generate exam-style multiple choice questions with instant answer reveal.</p>'
         '</div>',
         unsafe_allow_html=True,
@@ -185,7 +143,7 @@ def render_mcqs(vector_db):
 
     # ── Generate ──────────────────────────────────────
     generate_btn = st.button(
-        f"🎯 Generate {int(num_mcqs)} MCQ{'s' if num_mcqs != 1 else ''}",
+        f"🔘 Generate {int(num_mcqs)} MCQ{'s' if num_mcqs != 1 else ''}",
         key="mcq_btn",
         use_container_width=True,
     )
@@ -256,5 +214,5 @@ def render_mcqs(vector_db):
         if "activity_log" not in st.session_state:
             st.session_state.activity_log = []
         entry = f"Generated {len(mcqs)} MCQs"
-        if entry not in st.session_state.activity_log:
-            st.session_state.activity_log.append(entry)
+        if not any(e["label"] == entry for e in st.session_state.activity_log):
+            st.session_state.activity_log.append({"label": entry, "time": datetime.now().strftime("%H:%M")})
