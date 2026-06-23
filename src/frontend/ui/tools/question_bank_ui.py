@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import streamlit as st
 
 from ingestion.retriever import retrieve
@@ -79,65 +81,6 @@ QB_CSS = """
     padding-bottom: 10px;
     border-bottom: 1px solid rgba(255,255,255,0.05);
 }
-/* ── Generate Button Override ───────────────────── */
-
-div[data-testid="stButton"] > button {
-
-    background: linear-gradient(
-        135deg,
-        #2563eb,
-        #0891b2
-    ) !important;
-
-    color: #ffffff !important;
-
-    border: none !important;
-
-    border-radius: 12px !important;
-
-    font-weight: 600 !important;
-
-    transition: all .2s ease !important;
-}
-
-div[data-testid="stButton"] > button:hover {
-
-    background: linear-gradient(
-        135deg,
-        #3b82f6,
-        #06b6d4
-    ) !important;
-
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 8px 20px rgba(
-            6,
-            182,
-            212,
-            .35
-        ) !important;
-}
-
-div[data-testid="stButton"] > button p {
-
-    color: #ffffff !important;
-}
-
-/* Disabled state */
-
-div[data-testid="stButton"] > button:disabled {
-
-    background: #1e293b !important;
-
-    color: #64748b !important;
-
-    border: 1px solid rgba(255,255,255,0.08) !important;
-
-    box-shadow: none !important;
-
-    cursor: not-allowed !important;
-}
 </style>
 """
 
@@ -149,7 +92,7 @@ def render_question_bank(vector_db):
     # ── Header ───────────────────────────────────────
     st.markdown(
         '<div class="qb-header">'
-        '<h3>📚 Question Bank Generator</h3>'
+        '<h3>🗃️ Question Bank Generator</h3>'
         '<p>Build a comprehensive set of questions.</p>'
         '</div>',
         unsafe_allow_html=True,
@@ -224,7 +167,7 @@ def render_question_bank(vector_db):
 
     # ── Generate ──────────────────────────────────────
     generate_btn = st.button(
-        f"📚 Generate {total} Question{'s' if total != 1 else ''}",
+        f"🗃️ Generate {total} Question{'s' if total != 1 else ''}",
         key="qb_btn",
         use_container_width=True,
         disabled=(total == 0),
@@ -271,5 +214,5 @@ def render_question_bank(vector_db):
         if "activity_log" not in st.session_state:
             st.session_state.activity_log = []
         entry = f"Generated Question Bank ({total} questions)"
-        if entry not in st.session_state.activity_log:
-            st.session_state.activity_log.append(entry)
+        if not any(e["label"] == entry for e in st.session_state.activity_log):
+            st.session_state.activity_log.append({"label": entry, "time": datetime.now().strftime("%H:%M")})
