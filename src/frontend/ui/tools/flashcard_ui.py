@@ -112,7 +112,7 @@ def render_flashcards(vector_db):
     # ── Header ───────────────────────────────────────
     st.markdown(
         '<div class="flash-header">'
-        '<h3>Flashcard Generator</h3>'
+        '<h3>🃏 Flashcard Generator</h3>'
         '<p>Create interactive flip cards for active recall and spaced repetition.</p>'
         '</div>',
         unsafe_allow_html=True,
@@ -140,7 +140,7 @@ def render_flashcards(vector_db):
 
     # ── Generate ──────────────────────────────────────
     generate_btn = st.button(
-        f"Generate {int(num_cards)} Flashcard{'s' if num_cards != 1 else ''}",
+        f"🃏 Generate {int(num_cards)} Flashcard{'s' if num_cards != 1 else ''}",
         key="flash_btn",
         use_container_width=True,
     )
