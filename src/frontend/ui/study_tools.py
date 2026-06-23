@@ -1,5 +1,6 @@
 import streamlit as st
 from frontend.ui.tool_router import render_selected_tool
+from frontend.components.icons import icon
 
 
 STUDY_TOOLS_CSS = """
@@ -53,7 +54,8 @@ STUDY_TOOLS_CSS = """
 .tool-card:hover::before { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
 .tool-card.active { border-color: rgba(59,130,246,0.5); background: #111827; }
 .tool-card.active::before { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
-.tool-card .tc-icon { font-size: 24px; margin-bottom: 12px; display: block; }
+.tool-card .tc-icon { margin-bottom: 12px; display: block; color: #60a5fa; }
+.tool-card .tc-icon .ui-icon { width: 24px; height: 24px; }
 .tool-card h4 { font-size: 14px; font-weight: 700; color: #e2e8f0; margin: 0 0 5px; }
 .tool-card p { font-size: 12px; color: #475569; margin: 0 0 14px; line-height: 1.5; }
 .tool-card ul { padding-left: 15px; margin: 0; }
@@ -73,28 +75,28 @@ STUDY_TOOLS_CSS = """
 _TOOLS = [
     {
         "key": "notes",
-        "icon": "📄",
+        "icon": "notes",
         "title": "Notes Generator",
         "desc": "Structured, topic-focused study notes from your documents.",
         "features": ["Hierarchical summaries", "Key definitions", "Concept breakdown"],
     },
     {
         "key": "mcqs",
-        "icon": "🎯",
+        "icon": "mcq",
         "title": "MCQ Generator",
         "desc": "Exam-style multiple choice questions with instant answer reveal.",
         "features": ["Difficulty control", "Instant scoring", "Detailed answers"],
     },
     {
         "key": "flashcards",
-        "icon": "🃏",
+        "icon": "flashcards",
         "title": "Flashcards",
         "desc": "Interactive flip cards for active recall and spaced repetition.",
         "features": ["Flip animation", "Front & back format", "Batch generation"],
     },
     {
         "key": "question_bank",
-        "icon": "📚",
+        "icon": "question_bank",
         "title": "Question Bank",
         "desc": "Comprehensive question set across 2, 5 and 10 mark levels.",
         "features": ["2 / 5 / 10 mark tiers", "Exam-ready format", "Full coverage"],
@@ -109,7 +111,7 @@ def render_study_tools(vector_db):
     # ── Page header ──────────────────────────────────
     st.markdown(
         '<div class="st-header">'
-        '<h2>📖 Study Tools</h2>'
+        '<h2>Study Tools</h2>'
         '<p>Generate notes, flashcards, MCQs and question banks directly from your documents</p>'
         '</div>',
         unsafe_allow_html=True,
@@ -128,7 +130,7 @@ def render_study_tools(vector_db):
             features_html = "".join(f"<li>{f}</li>" for f in tool["features"])
             st.markdown(
                 f'<div class="tool-card {active_cls}">'
-                f'<span class="tc-icon">{tool["icon"]}</span>'
+                f'<span class="tc-icon">{icon(tool["icon"], size="lg", css_class="ui-icon--accent")}</span>'
                 f'<h4>{tool["title"]}</h4>'
                 f'<p>{tool["desc"]}</p>'
                 f'<ul>{features_html}</ul>'

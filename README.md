@@ -1,22 +1,24 @@
-# 🎓 EduGenie AI
+# EduGenie AI
 
 > Transform PDFs into Notes, Flashcards, MCQs, Question Banks, Mock Tests, Revision Sheets, and AI Powered Insights.
 
 EduGenie AI is an intelligent learning assistant designed to help students convert study material into exam ready resources. By leveraging Large Language Models, Retrieval Augmented Generation (RAG), and vector search, EduGenie enables learners to interact with their documents and generate personalized study content instantly.
+
 ---
-🌐 Live Demo
+
+## Live Demo
 
 Try EduGenie AI here:
 
-👉 https://edugenie-naman.streamlit.app/
+https://edugenie-naman.streamlit.app/
 
 No installation required. Upload your study PDFs and start generating notes, flashcards, MCQs, question banks, revision sheets, mock tests, and AI powered insights instantly.
 
 ---
 
-## ✨ Features
+## Features
 
-## 📄 Document Support
+### Document Support
 
 EduGenie AI is currently optimized for academic PDFs and study material ranging from **10–20 pages**, with support for larger documents depending on content complexity and system resources.
 
@@ -29,7 +31,7 @@ The platform uses:
 
 This architecture is designed to scale to larger document collections through efficient chunk based retrieval and semantic search.
 
-### 📚 Study Tools
+### Study Tools
 
 Generate high quality learning material from uploaded PDFs:
 
@@ -40,7 +42,7 @@ Generate high quality learning material from uploaded PDFs:
 
 ---
 
-### 📊 Content Analysis
+### Content Analysis
 
 Gain insights into your study material:
 
@@ -51,7 +53,7 @@ Gain insights into your study material:
 
 ---
 
-### 📝 Exam Preparation
+### Exam Preparation
 
 Prepare effectively with AI generated exam resources:
 
@@ -62,7 +64,7 @@ Prepare effectively with AI generated exam resources:
 
 ---
 
-### 🤖 AI Chat Assistant
+### AI Chat Assistant
 
 Interact directly with your uploaded documents:
 
@@ -74,7 +76,7 @@ Interact directly with your uploaded documents:
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```text
 PDF Upload
@@ -103,7 +105,7 @@ Study Tools / Analysis / Chat
 
 ---
 
-## ⚙️ Tech Stack
+## Tech Stack
 
 ### Frontend
 
@@ -137,7 +139,7 @@ Study Tools / Analysis / Chat
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```text
 EduGenie/
@@ -177,7 +179,7 @@ EduGenie/
 
 ---
 
-## 🚀 Installation
+## Installation
 
 ### 1. Clone Repository
 
@@ -231,7 +233,7 @@ streamlit run src/app.py
 
 ---
 
-## 💡 How It Works
+## How It Works
 
 ### Step 1
 
@@ -255,7 +257,7 @@ The LLM generates intelligent responses, notes, flashcards, questions, and analy
 
 ---
 
-## 🎯 Use Cases
+## Use Cases
 
 * Exam Preparation
 * Revision Planning
@@ -267,7 +269,7 @@ The LLM generates intelligent responses, notes, flashcards, questions, and analy
 
 ---
 
-## 🔮 Future Improvements
+## Future Improvements
 
 * Multi Document Comparison
 * PDF Export
@@ -281,7 +283,7 @@ The LLM generates intelligent responses, notes, flashcards, questions, and analy
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 Add screenshots of:
 
@@ -293,7 +295,7 @@ Add screenshots of:
 
 ---
 
-## 👨‍💻 Author
+## Author
 
 **Naman Gupta**
 
@@ -303,7 +305,7 @@ BIT Mesra
 
 ---
 
-## ⭐ Support
+## Support
 
 If you found this project useful, consider giving it a star on GitHub.
 

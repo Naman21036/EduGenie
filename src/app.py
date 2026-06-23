@@ -13,6 +13,7 @@ from frontend.ui.study_tools import render_study_tools
 from frontend.ui.analysis import render_analysis
 from frontend.ui.exam_prep import render_exam_prep
 from frontend.ui.chatbot_ui import render_chatbot
+from frontend.components.icons import inject_icon_styles
 
 from utils.logger import get_logger
 
@@ -23,14 +24,15 @@ logger = get_logger()
 
 st.set_page_config(
     page_title="EduGenie AI",
-    page_icon="🎓",
+    page_icon=":material/menu_book:",
     layout="wide",
 )
 # GLOBAL CSS
 
 
 st.markdown(
-    """
+    inject_icon_styles()
+    + """
     <style>
     /* ── App background ── */
     .stApp {

@@ -4,6 +4,7 @@ from ingestion.retriever import retrieve
 from study_tools.mock_test_generator import generate_mock_test
 from study_tools.revision_sheet_generator import generate_revision_sheet
 from frontend.exam_prep.mock_test_engine import initialize_test, render_mock_test, reset_test
+from frontend.components.icons import icon
 
 
 # ── Design Tokens ─────────────────────────────────────────────────────────────
@@ -91,7 +92,8 @@ EXAM_CSS = f"""
 }}
 .ep-feature.mock::before     {{ background: {_BLUE_500}; }}
 .ep-feature.revision::before {{ background: {_GREEN_500}; }}
-.ep-feature .ef-icon  {{ font-size: 22px; margin-bottom: 10px; display: block; }}
+.ep-feature .ef-icon  {{ margin-bottom: 10px; display: block; color: {_BLUE_400}; }}
+.ep-feature .ef-icon .ui-icon {{ width: 22px; height: 22px; }}
 .ep-feature h4 {{
     font-size: 14px;
     font-weight: 700;
@@ -333,12 +335,13 @@ def _stat_card(value, label: str, green: bool = False) -> str:
     )
 
 
-def _feature_card(variant: str, icon: str, title: str, desc: str, bullets: list[str]) -> str:
+def _feature_card(variant: str, icon_name: str, title: str, desc: str, bullets: list[str]) -> str:
     """Return a feature card as an HTML string."""
     li_html = "".join(f"<li>{b}</li>" for b in bullets)
+    icon_html = icon(icon_name, size="lg", css_class="ui-icon--accent")
     return (
         f'<div class="ep-feature {variant}">'
-        f'  <span class="ef-icon">{icon}</span>'
+        f'  <span class="ef-icon">{icon_html}</span>'
         f'  <h4>{title}</h4>'
         f'  <p>{desc}</p>'
         f'  <ul>{li_html}</ul>'
@@ -357,27 +360,27 @@ def render_revision_sheet(sheet: dict) -> None:
 
     definitions = sheet.get("important_definitions", [])
     if definitions:
-        st.markdown("#### 📖 Definitions")
+        st.markdown("#### Definitions")
         for d in definitions:
             st.markdown(f"**{d.get('term', '')}**")
             st.caption(d.get("definition", ""))
 
     formulas = sheet.get("important_formulas", [])
     if formulas:
-        st.markdown("#### 🧮 Formulas")
+        st.markdown("#### Formulas")
         for f in formulas:
             st.code(f.get("formula", ""))
             st.caption(f.get("explanation", ""))
 
     concepts = sheet.get("important_concepts", [])
     if concepts:
-        st.markdown("#### 💡 Key Concepts")
+        st.markdown("#### Key Concepts")
         for c in concepts:
             st.markdown(f"• {c}")
 
     questions = sheet.get("most_important_questions", [])
     if questions:
-        st.markdown("#### 🔥 Most Important Questions")
+        st.markdown("#### Most Important Questions")
         for q in questions:
             st.markdown(f"• {q}")
 
@@ -401,7 +404,7 @@ def render_exam_prep(vector_db) -> None:
     st.markdown(
         """
         <div class="ep-header">
-            <h2>📝 Exam Preparation</h2>
+            <h2>Exam Preparation</h2>
             <p>Generate exam-ready material instantly — mock tests, revision sheets and practice questions</p>
         </div>
         """,
@@ -412,12 +415,12 @@ def render_exam_prep(vector_db) -> None:
     st.markdown('<div class="ep-label">Features</div>', unsafe_allow_html=True)
 
     mock_card = _feature_card(
-        "mock", "📝", "Mock Test",
+        "mock", "mock_test", "Mock Test",
         "Interactive, exam-style questions generated from your material.",
         ["Multiple choice questions", "Instant scoring", "Difficulty control"],
     )
     revision_card = _feature_card(
-        "revision", "⚡", "Revision Sheet",
+        "revision", "revision", "Revision Sheet",
         "Condensed summary of key definitions, formulas and concepts.",
         ["Important definitions", "Core formulas", "Key exam questions"],
     )
@@ -516,7 +519,7 @@ def render_exam_prep(vector_db) -> None:
         st.markdown(
             f"""
             <div class="ep-rec">
-                <div class="rec-tag">✦ AI Recommendation</div>
+                <div class="rec-tag">Recommendation</div>
                 <div class="rec-body">{rec_text}{rec_ol}</div>
             </div>
             """,
@@ -545,9 +548,9 @@ def render_exam_prep(vector_db) -> None:
 
     btn_col1, btn_col2 = st.columns(2, gap="small")
     with btn_col1:
-        mock_test_btn = st.button("📝 Generate Mock Test",     use_container_width=True)
+        mock_test_btn = st.button("Generate Mock Test",     use_container_width=True)
     with btn_col2:
-        revision_btn  = st.button("⚡ Generate Revision Sheet", use_container_width=True)
+        revision_btn  = st.button("Generate Revision Sheet", use_container_width=True)
 
     # ── Generation logic ──────────────────────────────────────────────────────
     if mock_test_btn or revision_btn:
@@ -564,7 +567,7 @@ def render_exam_prep(vector_db) -> None:
 
         if revision_btn:
             st.markdown("---")
-            st.markdown("#### ⚡ Revision Sheet")
+            st.markdown("#### Revision Sheet")
             sheet = generate_revision_sheet(context)
             render_revision_sheet(_safe_json(sheet))
             if "Generated Revision Sheet" not in activity_log:
@@ -593,6 +596,6 @@ def render_exam_prep(vector_db) -> None:
     # ── Interactive mock test UI ───────────────────────────────────────────────
     if "mock_test" in st.session_state:
         st.markdown("---")
-        st.markdown("#### 📝 Interactive Mock Test")
+        st.markdown("#### Interactive Mock Test")
         render_mock_test()
         reset_test()

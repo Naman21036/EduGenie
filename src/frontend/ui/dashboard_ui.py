@@ -1,6 +1,8 @@
 import streamlit as st
 from datetime import datetime
 
+from frontend.components.icons import icon
+
 
 # ── Shared dark-theme CSS injected once ─────────────────────────────────────
 
@@ -126,9 +128,13 @@ DASHBOARD_CSS = """
 .nav-card:hover { border-color: rgba(59,130,246,0.35); transform: translateY(-2px); background: #111827; }
 .nav-card:hover::before { background: linear-gradient(90deg, #3B82F6, #06B6D4); }
 .nav-card-icon {
-    font-size: 26px;
     margin-bottom: 14px;
     display: block;
+    color: #60a5fa;
+}
+.nav-card-icon .ui-icon {
+    width: 26px;
+    height: 26px;
 }
 .nav-card h3 {
     font-size: 15px;
@@ -295,8 +301,12 @@ DASHBOARD_CSS = """
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
     flex-shrink: 0;
+    color: #60a5fa;
+}
+.ai-rec-icon .ui-icon {
+    width: 20px;
+    height: 20px;
 }
 .ai-rec-body {}
 .ai-rec-body .rec-label {
@@ -328,7 +338,7 @@ def _hero(processed, file_names, doc_count, chunk_count):
         f"""
         <div class="dash-hero">
             <div class="dash-hero-eyebrow">
-                ✦ AI Learning Platform
+                AI Learning Platform
             </div>
             <h1>EduGenie <span>AI</span></h1>
             <p class="dash-hero-sub">
@@ -341,13 +351,13 @@ def _hero(processed, file_names, doc_count, chunk_count):
                     {status_txt}
                 </span>
                 <span class="dash-hero-pill">
-                    📄 {file_label}{extra}
+                    {file_label}{extra}
                 </span>
                 <span class="dash-hero-pill">
-                    🗂 {doc_count} pages
+                    {doc_count} pages
                 </span>
                 <span class="dash-hero-pill">
-                    🧩 {chunk_count} chunks
+                    {chunk_count} chunks
                 </span>
             </div>
         </div>
@@ -359,25 +369,25 @@ def _hero(processed, file_names, doc_count, chunk_count):
 def _workspace_cards():
     cards = [
         {
-            "icon": "📝",
+            "icon": "notes",
             "title": "Study Tools",
             "desc": "Generate notes, flashcards and question banks from your documents.",
             "page": "Study Tools",
         },
         {
-            "icon": "📊",
+            "icon": "analysis",
             "title": "Analysis",
             "desc": "Topic extraction, coverage mapping and importance ranking.",
             "page": "Analysis",
         },
         {
-            "icon": "📋",
+            "icon": "exam",
             "title": "Exam Prep",
             "desc": "Build revision sheets and run interactive mock tests.",
             "page": "Exam Prep",
         },
         {
-            "icon": "💬",
+            "icon": "chat",
             "title": "AI Chat",
             "desc": "Ask questions directly from your uploaded PDFs.",
             "page": "Chat",
@@ -396,7 +406,7 @@ def _workspace_cards():
             st.markdown(
                 f"""
                 <div class="nav-card">
-                    <span class="nav-card-icon">{card['icon']}</span>
+                    <span class="nav-card-icon">{icon(card['icon'], size="lg", css_class="ui-icon--accent")}</span>
                     <h3>{card['title']}</h3>
                     <p>{card['desc']}</p>
                     <div class="nav-card-cta">Open → </div>
@@ -562,7 +572,7 @@ def _ai_recommendation(processed, activity_log):
     st.markdown(
         f"""
         <div class="ai-rec">
-            <div class="ai-rec-icon">✦</div>
+            <div class="ai-rec-icon">{icon("insight", size="lg", css_class="ui-icon--accent")}</div>
             <div class="ai-rec-body">
                 <div class="rec-label">Suggested next step</div>
                 <div class="rec-text">{rec}</div>
