@@ -3,6 +3,16 @@ from chatbot.chatbot import chat, plain_text_content
 import html
 
 
+def _sanitize_chat_history():
+    st.session_state.chat_history = [
+        {
+            "role": msg["role"],
+            "content": plain_text_content(msg["content"]),
+        }
+        for msg in st.session_state.chat_history
+    ]
+
+
 # ── Page-level CSS ───────────────────────────────────────────────────────────
 
 CHAT_CSS = """
@@ -369,37 +379,30 @@ def _welcome_state():
 
 
 def _render_messages(chat_history):
-
-    thread_html = '<div class="chat-thread">'
+    parts = ['<div class="chat-thread">']
 
     for msg in chat_history:
-
         role = msg["role"]
-
-        content = html.escape(plain_text_content(msg["content"]))
+        content = html.escape(msg["content"])
         content = content.replace("\n", "<br>")
 
         if role == "user":
-
-            thread_html += f"""
-            <div class="msg-row user">
-                <div class="msg-avatar user-av">👤</div>
-                <div class="msg-bubble user">{content}</div>
-            </div>
-            """
-
+            parts.append(
+                '<div class="msg-row user">'
+                '<div class="msg-avatar user-av">👤</div>'
+                f'<div class="msg-bubble user">{content}</div>'
+                '</div>'
+            )
         else:
+            parts.append(
+                '<div class="msg-row">'
+                '<div class="msg-avatar bot-av">✦</div>'
+                f'<div class="msg-bubble bot">{content}</div>'
+                '</div>'
+            )
 
-            thread_html += f"""
-            <div class="msg-row">
-                <div class="msg-avatar bot-av">✦</div>
-                <div class="msg-bubble bot">{content}</div>
-            </div>
-            """
-
-    thread_html += "</div>"
-
-    st.markdown(thread_html, unsafe_allow_html=True)
+    parts.append("</div>")
+    st.markdown("".join(parts), unsafe_allow_html=True)
 
 
 def render_chatbot(vector_db):
@@ -417,6 +420,9 @@ def render_chatbot(vector_db):
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
 
+    _sanitize_chat_history()
+    print("DEBUG chat_history:", st.session_state.chat_history)
+
     # ── Header ───────────────────────────────────────
     _page_header(processed, doc_count, chunk_count)
 
@@ -428,8 +434,6 @@ def render_chatbot(vector_db):
 
     with chat_col:
         chat_history = st.session_state.chat_history
-
-        print("DEBUG chat_history:", st.session_state.chat_history)
 
         if not chat_history:
             _welcome_state()
@@ -458,7 +462,10 @@ def render_chatbot(vector_db):
 
     if final_question:
         st.session_state.chat_history.append(
-            {"role": "user", "content": final_question}
+            {
+                "role": "user",
+                "content": plain_text_content(final_question),
+            }
         )
 
         prior_history = st.session_state.chat_history[:-1]
@@ -471,7 +478,10 @@ def render_chatbot(vector_db):
             )
 
         st.session_state.chat_history.append(
-            {"role": "assistant", "content": answer}
+            {
+                "role": "assistant",
+                "content": plain_text_content(answer),
+            }
         )
 
         # Log activity once
