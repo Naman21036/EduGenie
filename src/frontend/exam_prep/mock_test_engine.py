@@ -28,7 +28,7 @@ def render_mock_test():
     )
 
     st.subheader(
-        "Interactive Mock Test"
+        "📝 Interactive Mock Test"
     )
 
     for idx, question in enumerate(
@@ -63,7 +63,7 @@ def render_mock_test():
         st.divider()
 
     if st.button(
-        "Submit Test",
+        "🚀 Submit Test",
         use_container_width=True
     ):
 
@@ -137,7 +137,7 @@ def show_results():
     )
 
     st.subheader(
-        "Answer Review"
+        "📋 Answer Review"
     )
 
     for idx, question in enumerate(
@@ -189,7 +189,7 @@ def show_results():
 def reset_test():
 
     if st.button(
-        "New Test"
+        "🔄 New Test"
     ):
 
         if "mock_test" in st.session_state:
