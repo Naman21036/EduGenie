@@ -1,5 +1,5 @@
 import streamlit as st
-from chatbot.chatbot import chat
+from chatbot.chatbot import chat, plain_text_content
 import html
 
 
@@ -376,7 +376,7 @@ def _render_messages(chat_history):
 
         role = msg["role"]
 
-        content = html.escape(msg["content"])
+        content = html.escape(plain_text_content(msg["content"]))
         content = content.replace("\n", "<br>")
 
         if role == "user":
@@ -429,6 +429,8 @@ def render_chatbot(vector_db):
     with chat_col:
         chat_history = st.session_state.chat_history
 
+        print("DEBUG chat_history:", st.session_state.chat_history)
+
         if not chat_history:
             _welcome_state()
         else:
@@ -459,11 +461,13 @@ def render_chatbot(vector_db):
             {"role": "user", "content": final_question}
         )
 
+        prior_history = st.session_state.chat_history[:-1]
+
         with st.spinner("Thinking…"):
             answer = chat(
                 final_question,
                 vector_db,
-                st.session_state.chat_history,
+                prior_history,
             )
 
         st.session_state.chat_history.append(

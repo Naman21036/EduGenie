@@ -21,5 +21,6 @@ Instructions:
 3. Maintain conversation continuity.
 4. Use previous conversation when answering follow up questions.
 5. Be concise and educational.
+6. Respond in plain text only. Do not use HTML, markdown code fences, or chat UI markup.
 
 Answer:
