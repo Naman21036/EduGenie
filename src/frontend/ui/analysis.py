@@ -260,7 +260,7 @@ def render_topics(result):
         st.info("No topics returned.")
         return
     for item in topics:
-        with st.expander(f"📚 {item.get('topic', 'Unknown')}", expanded=False):
+        with st.expander(f"🏷️ {item.get('topic', 'Unknown')}", expanded=False):
             for sub in item.get("subtopics", []):
                 st.markdown(f"• {sub}")
 
@@ -299,7 +299,7 @@ def _panel_topics(topics_result):
     if not topics:
         body = (
             '<div class="ws-empty">'
-            '<div class="ws-empty-icon">🧠</div>'
+            '<div class="ws-empty-icon">🔍</div>'
             '<p class="ws-empty-title">No topics extracted yet</p>'
             '<p class="ws-empty-sub">Run Topic Extraction to populate this panel.</p>'
             '</div>'
@@ -329,7 +329,7 @@ def _panel_coverage(coverage_result):
     if not coverage:
         body = (
             '<div class="ws-empty">'
-            '<div class="ws-empty-icon">📈</div>'
+            '<div class="ws-empty-icon">🗺️</div>'
             '<p class="ws-empty-title">No coverage data yet</p>'
             '<p class="ws-empty-sub">Run Topic Coverage to populate this panel.</p>'
             '</div>'
@@ -364,7 +364,7 @@ def _panel_ranking(importance_result):
     if not ranked:
         body = (
             '<div class="ws-empty">'
-            '<div class="ws-empty-icon">⭐</div>'
+            '<div class="ws-empty-icon">🏆</div>'
             '<p class="ws-empty-title">No rankings yet</p>'
             '<p class="ws-empty-sub">Run Importance Ranking to populate this panel.</p>'
             '</div>'
@@ -416,17 +416,17 @@ def render_analysis(vector_db):
     st.markdown(
         '<div class="module-grid">'
         '<div class="module-card extract">'
-        '<div class="mc-icon">🧠</div>'
+        '<div class="mc-icon">🔍</div>'
         '<h4>Topic Extraction</h4>'
         '<p>Identify all major topics and subtopics present in your documents.</p>'
         '</div>'
         '<div class="module-card coverage">'
-        '<div class="mc-icon">📈</div>'
+        '<div class="mc-icon">🗺️</div>'
         '<h4>Topic Coverage</h4>'
         '<p>Visualise how thoroughly each topic is covered across your material.</p>'
         '</div>'
         '<div class="module-card ranking">'
-        '<div class="mc-icon">⭐</div>'
+        '<div class="mc-icon">🏆</div>'
         '<h4>Importance Ranking</h4>'
         '<p>Score and rank topics by their significance and exam relevance.</p>'
         '</div>'
@@ -499,11 +499,11 @@ def render_analysis(vector_db):
 
     col1, col2, col3 = st.columns(3, gap="small")
     with col1:
-        topic_extract   = st.button("🧠 Extract Topics",     use_container_width=True)
+        topic_extract   = st.button("🔍 Extract Topics",     use_container_width=True)
     with col2:
-        topic_coverage  = st.button("📈 Topic Coverage",     use_container_width=True)
+        topic_coverage  = st.button("🗺️ Topic Coverage",     use_container_width=True)
     with col3:
-        importance_rank = st.button("⭐ Rank by Importance",  use_container_width=True)
+        importance_rank = st.button("🏆 Rank by Importance",  use_container_width=True)
 
     #Results
     if topic_extract or topic_coverage or importance_rank:
@@ -520,7 +520,7 @@ def render_analysis(vector_db):
 
         if topic_extract:
             st.markdown("---")
-            st.markdown("#### 🧠 Extracted Topics")
+            st.markdown("#### 🔍 Extracted Topics")
             result = generate_topic_extractor(context)
             parsed = safe_json(result)
             st.session_state["analysis_topics_result"] = parsed
@@ -528,7 +528,7 @@ def render_analysis(vector_db):
 
         if topic_coverage:
             st.markdown("---")
-            st.markdown("#### 📈 Topic Coverage")
+            st.markdown("#### 🗺️ Topic Coverage")
             result = generate_topic_coverage(context)
             parsed = safe_json(result)
             st.session_state["analysis_coverage_result"] = parsed
@@ -536,7 +536,7 @@ def render_analysis(vector_db):
 
         if importance_rank:
             st.markdown("---")
-            st.markdown("#### ⭐ Importance Ranking")
+            st.markdown("#### 🏆 Importance Ranking")
             topics_raw = generate_topic_extractor(context)
             result = generate_importance_ranker(context, topics_raw)
             parsed = safe_json(result)
