@@ -1,7 +1,5 @@
 import streamlit as st
 
-from frontend.components.icons import icon
-
 
 def render_sidebar():
 
@@ -46,12 +44,8 @@ def render_sidebar():
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                font-size: 18px;
                 flex-shrink: 0;
-                color: #ffffff;
-            }
-            .sb-wordmark .icon .ui-icon {
-                width: 18px;
-                height: 18px;
             }
             .sb-wordmark .name {
                 font-size: 16px;
@@ -179,9 +173,9 @@ def render_sidebar():
 
         # ── Wordmark ─────────────────────────────────────
         st.markdown(
-            f"""
+            """
             <div class="sb-wordmark">
-                <div class="icon">{icon("logo", size="md", css_class="ui-icon--white")}</div>
+                <div class="icon">🎓</div>
                 <div>
                     <div class="name">EduGenie</div>
                     <div class="tag">AI Learning Platform</div>
@@ -220,7 +214,7 @@ def render_sidebar():
         )
 
         process = st.button(
-            "Process Documents",
+            "⚡  Process Documents",
             use_container_width=True,
             type="primary",
         )
@@ -264,12 +258,12 @@ def render_sidebar():
         col_a, col_b = st.columns(2)
 
         with col_a:
-            if st.button("Clear Chat", use_container_width=True):
+            if st.button("🗑 Clear Chat", use_container_width=True):
                 st.session_state.chat_history = []
                 st.success("Chat cleared")
 
         with col_b:
-            if st.button("Reset Session", use_container_width=True):
+            if st.button("🔄 Reset", use_container_width=True):
                 for key in list(st.session_state.keys()):
                     del st.session_state[key]
                 st.rerun()
