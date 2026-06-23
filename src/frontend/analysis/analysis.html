@@ -1,46 +1,100 @@
 <div class="analysis-page">
 
-    <header class="page-header">
+    <div class="page-header">
 
         <h1>
-            Content Analysis
+            📊 Content Analysis
         </h1>
 
         <p>
-            Extract topics, measure coverage, and rank material by importance
+            Understand your learning material
         </p>
 
-    </header>
+    </div>
 
     <div class="analysis-grid">
 
         <div class="analysis-card">
 
-            <h2>Topic Extraction</h2>
+            <div class="icon">
+                🧠
+            </div>
+
+            <h2>
+                Topic Extraction
+            </h2>
 
             <p>
-                Identify major topics and subtopics in your documents
+                Identify key concepts
             </p>
 
         </div>
 
         <div class="analysis-card">
 
-            <h2>Topic Coverage</h2>
+            <div class="icon">
+                📈
+            </div>
+
+            <h2>
+                Topic Coverage
+            </h2>
 
             <p>
-                Measure how thoroughly each topic is represented
+                Measure topic distribution
             </p>
 
         </div>
 
         <div class="analysis-card">
 
-            <h2>Importance Ranking</h2>
+            <div class="icon">
+                ⭐
+            </div>
+
+            <h2>
+                Importance Ranking
+            </h2>
 
             <p>
-                Score topics by significance and exam relevance
+                Rank topics by significance
             </p>
+
+        </div>
+
+    </div>
+
+    <div class="analytics-panel">
+
+        <h2>
+            Learning Insights
+        </h2>
+
+        <div class="stat-grid">
+
+            <div class="stat-card">
+
+                <h3>
+                    {{TOPICS}}
+                </h3>
+
+                <span>
+                    Topics Found
+                </span>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h3>
+                    {{CHUNKS}}
+                </h3>
+
+                <span>
+                    Chunks Analyzed
+                </span>
+
+            </div>
 
         </div>
 
