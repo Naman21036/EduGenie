@@ -1,36 +1,106 @@
 <div class="exam-page">
 
-    <header class="page-header">
+    <div class="page-header">
 
         <h1>
-            Exam Preparation
+            📝 Exam Preparation
         </h1>
 
         <p>
-            Mock tests, revision sheets, and practice material
+            Generate exam ready material instantly
         </p>
 
-    </header>
+    </div>
 
     <div class="exam-grid">
 
-        <div class="exam-card">
+        <div
+            class="exam-card"
+            id="mock-card"
+        >
 
-            <h2>Mock Test</h2>
+            <div class="icon">
+                📋
+            </div>
+
+            <h2>
+                Mock Test
+            </h2>
 
             <p>
-                Interactive exam-style questions with scoring
+                Full length exam simulation
             </p>
 
         </div>
 
-        <div class="exam-card">
+        <div
+            class="exam-card"
+            id="revision-card"
+        >
 
-            <h2>Revision Sheet</h2>
+            <div class="icon">
+                ⚡
+            </div>
+
+            <h2>
+                Revision Sheet
+            </h2>
 
             <p>
-                Condensed definitions, formulas, and key concepts
+                Last minute revision notes
             </p>
+
+        </div>
+
+    </div>
+
+    <div class="difficulty-panel">
+
+        <h2>
+            Difficulty Selection
+        </h2>
+
+        <div class="difficulty-grid">
+
+            <button>
+                Easy
+            </button>
+
+            <button>
+                Medium
+            </button>
+
+            <button>
+                Hard
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="stats-panel">
+
+        <div class="stat-card">
+
+            <h2>
+                {{DOCS}}
+            </h2>
+
+            <span>
+                Documents Available
+            </span>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h2>
+                {{CHUNKS}}
+            </h2>
+
+            <span>
+                Knowledge Chunks
+            </span>
 
         </div>
 
