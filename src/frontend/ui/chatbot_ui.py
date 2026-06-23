@@ -1,17 +1,6 @@
 import streamlit as st
 from chatbot.chatbot import chat, plain_text_content
-from frontend.components.icons import icon
 import html
-
-
-def _sanitize_chat_history():
-    st.session_state.chat_history = [
-        {
-            "role": msg["role"],
-            "content": plain_text_content(msg["content"]),
-        }
-        for msg in st.session_state.chat_history
-    ]
 
 
 # ── Page-level CSS ───────────────────────────────────────────────────────────
@@ -69,12 +58,8 @@ CHAT_CSS = """
     padding: 40px 20px 28px;
 }
 .welcome-wrap .wc-icon {
+    font-size: 40px;
     margin-bottom: 14px;
-    color: #60a5fa;
-}
-.welcome-wrap .wc-icon .ui-icon {
-    width: 36px;
-    height: 36px;
 }
 .welcome-wrap h3 {
     font-size: 1.3rem;
@@ -111,8 +96,7 @@ CHAT_CSS = """
     border-color: rgba(59,130,246,0.35);
     background: #111827;
 }
-.prompt-card .pc-icon { margin-bottom: 6px; color: #60a5fa; }
-.prompt-card .pc-icon .ui-icon { width: 18px; height: 18px; }
+.prompt-card .pc-icon { font-size: 18px; margin-bottom: 6px; }
 .prompt-card .pc-title {
     font-size: 12.5px;
     font-weight: 600;
@@ -146,15 +130,12 @@ CHAT_CSS = """
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 14px;
     flex-shrink: 0;
     margin-top: 2px;
 }
-.msg-avatar .ui-icon {
-    width: 14px;
-    height: 14px;
-}
-.msg-avatar.user-av { background: #2563eb; color: #ffffff; }
-.msg-avatar.bot-av  { background: #1e293b; border: 1px solid rgba(59,130,246,0.25); color: #60a5fa; }
+.msg-avatar.user-av { background: #2563eb; }
+.msg-avatar.bot-av  { background: #1e293b; border: 1px solid rgba(59,130,246,0.25); }
 
 .msg-bubble {
     max-width: 72%;
@@ -289,7 +270,7 @@ def _page_header(processed, doc_count, chunk_count):
         f"""
         <div class="chat-header">
             <div class="chat-header-left">
-                <h2>EduGenie Assistant</h2>
+                <h2>🤖 EduGenie Assistant</h2>
                 <p>Ask questions from your uploaded documents</p>
             </div>
             <div class="kb-status {kb_cls}">
@@ -340,18 +321,18 @@ def _knowledge_panel(doc_count, chunk_count, topic_count, file_names, processed)
 
 
 SUGGESTED_PROMPTS = [
-    ("summarize", "Summarise the document", "Give me a concise overview of the main content"),
-    ("concepts", "Explain key concepts", "What are the most important ideas covered?"),
-    ("questions", "Generate exam questions", "Create 5 exam-style questions from this material"),
-    ("notes", "Create revision notes", "Produce structured revision notes for this topic"),
+    ("📄", "Summarise the document", "Give me a concise overview of the main content"),
+    ("🧠", "Explain key concepts", "What are the most important ideas covered?"),
+    ("🎯", "Generate exam questions", "Create 5 exam-style questions from this material"),
+    ("📚", "Create revision notes", "Produce structured revision notes for this topic"),
 ]
 
 
 def _welcome_state():
     st.markdown(
-        f"""
+        """
         <div class="welcome-wrap">
-            <div class="wc-icon">{icon("chat", size="xl", css_class="ui-icon--accent")}</div>
+            <div class="wc-icon">✦</div>
             <h3>How can I help you today?</h3>
             <p>Ask anything about your uploaded PDFs — I can summarise, explain, quiz and more.</p>
         </div>
@@ -365,13 +346,13 @@ def _welcome_state():
     )
 
     cols = st.columns(2, gap="small")
-    for i, (icon_name, title, desc) in enumerate(SUGGESTED_PROMPTS):
+    for i, (icon, title, desc) in enumerate(SUGGESTED_PROMPTS):
         with cols[i % 2]:
             # Visual card
             st.markdown(
                 f"""
                 <div class="prompt-card">
-                    <div class="pc-icon">{icon(icon_name, size="md", css_class="ui-icon--accent")}</div>
+                    <div class="pc-icon">{icon}</div>
                     <div class="pc-title">{title}</div>
                     <div class="pc-desc">{desc}</div>
                 </div>
@@ -388,30 +369,37 @@ def _welcome_state():
 
 
 def _render_messages(chat_history):
-    parts = ['<div class="chat-thread">']
+
+    thread_html = '<div class="chat-thread">'
 
     for msg in chat_history:
+
         role = msg["role"]
-        content = html.escape(msg["content"])
+
+        content = html.escape(plain_text_content(msg["content"]))
         content = content.replace("\n", "<br>")
 
         if role == "user":
-            parts.append(
-                '<div class="msg-row user">'
-                f'<div class="msg-avatar user-av">{icon("user", size="sm", css_class="ui-icon--white")}</div>'
-                f'<div class="msg-bubble user">{content}</div>'
-                '</div>'
-            )
-        else:
-            parts.append(
-                '<div class="msg-row">'
-                f'<div class="msg-avatar bot-av">{icon("assistant", size="sm")}</div>'
-                f'<div class="msg-bubble bot">{content}</div>'
-                '</div>'
-            )
 
-    parts.append("</div>")
-    st.markdown("".join(parts), unsafe_allow_html=True)
+            thread_html += f"""
+            <div class="msg-row user">
+                <div class="msg-avatar user-av">👤</div>
+                <div class="msg-bubble user">{content}</div>
+            </div>
+            """
+
+        else:
+
+            thread_html += f"""
+            <div class="msg-row">
+                <div class="msg-avatar bot-av">✦</div>
+                <div class="msg-bubble bot">{content}</div>
+            </div>
+            """
+
+    thread_html += "</div>"
+
+    st.markdown(thread_html, unsafe_allow_html=True)
 
 
 def render_chatbot(vector_db):
@@ -429,9 +417,6 @@ def render_chatbot(vector_db):
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
 
-    _sanitize_chat_history()
-    print("DEBUG chat_history:", st.session_state.chat_history)
-
     # ── Header ───────────────────────────────────────
     _page_header(processed, doc_count, chunk_count)
 
@@ -444,6 +429,8 @@ def render_chatbot(vector_db):
     with chat_col:
         chat_history = st.session_state.chat_history
 
+        print("DEBUG chat_history:", st.session_state.chat_history)
+
         if not chat_history:
             _welcome_state()
         else:
@@ -454,7 +441,7 @@ def render_chatbot(vector_db):
         # ── Input row ────────────────────────────────
         clear_col, _ = st.columns([1, 5])
         with clear_col:
-            if st.button("Clear", key="clear_chat"):
+            if st.button("🗑 Clear", key="clear_chat"):
                 st.session_state.chat_history = []
                 st.rerun()
 
@@ -471,10 +458,7 @@ def render_chatbot(vector_db):
 
     if final_question:
         st.session_state.chat_history.append(
-            {
-                "role": "user",
-                "content": plain_text_content(final_question),
-            }
+            {"role": "user", "content": final_question}
         )
 
         prior_history = st.session_state.chat_history[:-1]
@@ -487,10 +471,7 @@ def render_chatbot(vector_db):
             )
 
         st.session_state.chat_history.append(
-            {
-                "role": "assistant",
-                "content": plain_text_content(answer),
-            }
+            {"role": "assistant", "content": answer}
         )
 
         # Log activity once
