@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import streamlit as st
 from chatbot.chatbot import chat, plain_text_content
 import html
@@ -224,50 +226,6 @@ CHAT_CSS = """
     height: 1px;
     background: rgba(255,255,255,0.05);
 }
-/* Chat Page Button Override */
-
-div[data-testid="stButton"] > button {
-
-    background: linear-gradient(
-        135deg,
-        #2563eb,
-        #0891b2
-    ) !important;
-
-    color: #ffffff !important;
-
-    border: none !important;
-
-    border-radius: 12px !important;
-
-    font-weight: 600 !important;
-
-    transition: all .2s ease !important;
-}
-
-div[data-testid="stButton"] > button:hover {
-
-    background: linear-gradient(
-        135deg,
-        #3b82f6,
-        #06b6d4
-    ) !important;
-
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 8px 20px rgba(
-            6,
-            182,
-            212,
-            .35
-        ) !important;
-}
-
-div[data-testid="stButton"] > button p {
-
-    color: #ffffff !important;
-}
 </style>
 """
 
@@ -421,7 +379,6 @@ def render_chatbot(vector_db):
         st.session_state.chat_history = []
 
     _sanitize_chat_history()
-    print("DEBUG chat_history:", st.session_state.chat_history)
 
     # ── Header ───────────────────────────────────────
     _page_header(processed, doc_count, chunk_count)
@@ -485,7 +442,8 @@ def render_chatbot(vector_db):
         )
 
         # Log activity once
-        if "AI Chat" not in st.session_state.get("activity_log", []):
-            st.session_state.activity_log.append("AI Chat")
+        log = st.session_state.get("activity_log", [])
+        if not any(e["label"] == "AI Chat" for e in log):
+            st.session_state.activity_log.append({"label": "AI Chat", "time": datetime.now().strftime("%H:%M")})
 
         st.rerun()
