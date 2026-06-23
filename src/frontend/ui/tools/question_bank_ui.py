@@ -149,7 +149,7 @@ def render_question_bank(vector_db):
     # ── Header ───────────────────────────────────────
     st.markdown(
         '<div class="qb-header">'
-        '<h3>Question Bank Generator</h3>'
+        '<h3>📚 Question Bank Generator</h3>'
         '<p>Build a comprehensive set of questions.</p>'
         '</div>',
         unsafe_allow_html=True,
@@ -224,7 +224,7 @@ def render_question_bank(vector_db):
 
     # ── Generate ──────────────────────────────────────
     generate_btn = st.button(
-        f"Generate {total} Question{'s' if total != 1 else ''}",
+        f"📚 Generate {total} Question{'s' if total != 1 else ''}",
         key="qb_btn",
         use_container_width=True,
         disabled=(total == 0),
