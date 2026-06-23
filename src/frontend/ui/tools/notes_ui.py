@@ -98,7 +98,7 @@ def render_notes(vector_db):
     # ── Header ───────────────────────────────────────
     st.markdown(
         '<div class="notes-header">'
-        '<h3>Notes Generator</h3>'
+        '<h3>📄 Notes Generator</h3>'
         '<p>Generate structured, topic-focused study notes from your uploaded documents.</p>'
         '</div>',
         unsafe_allow_html=True,
@@ -126,7 +126,7 @@ def render_notes(vector_db):
 
     # ── Generate ──────────────────────────────────────
     generate_btn = st.button(
-        "Generate Notes",
+        "📄 Generate Notes",
         key="notes_btn",
         use_container_width=True,
     )
