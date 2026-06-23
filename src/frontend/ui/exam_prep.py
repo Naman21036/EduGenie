@@ -401,7 +401,7 @@ def render_exam_prep(vector_db) -> None:
     st.markdown(
         """
         <div class="ep-header">
-            <h2>📝 Exam Preparation</h2>
+            <h2>🎓 Exam Preparation</h2>
             <p>Generate exam-ready material instantly — mock tests, revision sheets and practice questions</p>
         </div>
         """,
@@ -412,12 +412,12 @@ def render_exam_prep(vector_db) -> None:
     st.markdown('<div class="ep-label">Features</div>', unsafe_allow_html=True)
 
     mock_card = _feature_card(
-        "mock", "📝", "Mock Test",
+        "mock", "✏️", "Mock Test",
         "Interactive, exam-style questions generated from your material.",
         ["Multiple choice questions", "Instant scoring", "Difficulty control"],
     )
     revision_card = _feature_card(
-        "revision", "⚡", "Revision Sheet",
+        "revision", "📋", "Revision Sheet",
         "Condensed summary of key definitions, formulas and concepts.",
         ["Important definitions", "Core formulas", "Key exam questions"],
     )
@@ -545,9 +545,9 @@ def render_exam_prep(vector_db) -> None:
 
     btn_col1, btn_col2 = st.columns(2, gap="small")
     with btn_col1:
-        mock_test_btn = st.button("📝 Generate Mock Test",     use_container_width=True)
+        mock_test_btn = st.button("✏️ Generate Mock Test",     use_container_width=True)
     with btn_col2:
-        revision_btn  = st.button("⚡ Generate Revision Sheet", use_container_width=True)
+        revision_btn  = st.button("📋 Generate Revision Sheet", use_container_width=True)
 
     # ── Generation logic ──────────────────────────────────────────────────────
     if mock_test_btn or revision_btn:
@@ -564,7 +564,7 @@ def render_exam_prep(vector_db) -> None:
 
         if revision_btn:
             st.markdown("---")
-            st.markdown("#### ⚡ Revision Sheet")
+            st.markdown("#### 📋 Revision Sheet")
             sheet = generate_revision_sheet(context)
             render_revision_sheet(_safe_json(sheet))
             if "Generated Revision Sheet" not in activity_log:
@@ -593,6 +593,6 @@ def render_exam_prep(vector_db) -> None:
     # ── Interactive mock test UI ───────────────────────────────────────────────
     if "mock_test" in st.session_state:
         st.markdown("---")
-        st.markdown("#### 📝 Interactive Mock Test")
+        st.markdown("#### ✏️ Interactive Mock Test")
         render_mock_test()
         reset_test()
