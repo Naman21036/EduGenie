@@ -331,10 +331,10 @@ def _knowledge_panel(doc_count, chunk_count, topic_count, file_names, processed)
 
 
 SUGGESTED_PROMPTS = [
-    ("📄", "Summarise the document", "Give me a concise overview of the main content"),
-    ("🧠", "Explain key concepts", "What are the most important ideas covered?"),
-    ("🎯", "Generate exam questions", "Create 5 exam-style questions from this material"),
-    ("📚", "Create revision notes", "Produce structured revision notes for this topic"),
+    ("📋", "Summarise the document", "Give me a concise overview of the main content"),
+    ("💡", "Explain key concepts", "What are the most important ideas covered?"),
+    ("✏️", "Generate exam questions", "Create 5 exam-style questions from this material"),
+    ("📖", "Create revision notes", "Produce structured revision notes for this topic"),
 ]
 
 
