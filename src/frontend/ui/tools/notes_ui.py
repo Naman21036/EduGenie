@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import streamlit as st
 
 from ingestion.retriever import retrieve
@@ -48,45 +50,6 @@ NOTES_CSS = """
     padding-bottom: 10px;
     border-bottom: 1px solid rgba(255,255,255,0.05);
 }
-/* Generate button override */
-
-div[data-testid="stButton"] > button {
-
-    background: linear-gradient(
-        135deg,
-        #2563eb,
-        #0891b2
-    ) !important;
-
-    color: #ffffff !important;
-
-    border: none !important;
-
-    border-radius: 12px !important;
-
-    font-weight: 600 !important;
-
-    transition: all .2s ease !important;
-}
-
-div[data-testid="stButton"] > button:hover {
-
-    background: linear-gradient(
-        135deg,
-        #3b82f6,
-        #06b6d4
-    ) !important;
-
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 8px 20px rgba(
-            6,
-            182,
-            212,
-            .35
-        ) !important;
-}
 </style>
 """
 
@@ -98,7 +61,7 @@ def render_notes(vector_db):
     # ── Header ───────────────────────────────────────
     st.markdown(
         '<div class="notes-header">'
-        '<h3>📄 Notes Generator</h3>'
+        '<h3>📝 Notes Generator</h3>'
         '<p>Generate structured, topic-focused study notes from your uploaded documents.</p>'
         '</div>',
         unsafe_allow_html=True,
@@ -126,7 +89,7 @@ def render_notes(vector_db):
 
     # ── Generate ──────────────────────────────────────
     generate_btn = st.button(
-        "📄 Generate Notes",
+        "📝 Generate Notes",
         key="notes_btn",
         use_container_width=True,
     )
@@ -162,5 +125,5 @@ def render_notes(vector_db):
         # ── Activity log ──────────────────────────────
         if "activity_log" not in st.session_state:
             st.session_state.activity_log = []
-        if "Generated Notes" not in st.session_state.activity_log:
-            st.session_state.activity_log.append("Generated Notes")
+        if not any(e["label"] == "Generated Notes" for e in st.session_state.activity_log):
+            st.session_state.activity_log.append({"label": "Generated Notes", "time": datetime.now().strftime("%H:%M")})
