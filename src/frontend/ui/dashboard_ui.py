@@ -470,26 +470,18 @@ def _pipeline(processed):
         dot_cls = "done" if done else "pending"
         txt_cls = "done" if done else ""
         icon = "✓" if done else str(idx + 1)
-        connector = ""
+        steps_html += (
+            f'<div class="pipeline-step">'
+            f'<div class="ps-dot {dot_cls}">{icon}</div>'
+            f'<div class="ps-text {txt_cls}">{label}</div>'
+            f'</div>'
+        )
         if idx < len(steps) - 1:
             conn_cls = "done" if done else ""
-            connector = f'<div class="pipeline-connector {conn_cls}"></div>'
-        steps_html += f"""
-        <div class="pipeline-step">
-            <div class="ps-dot {dot_cls}">{icon}</div>
-            <div class="ps-text {txt_cls}">{label}</div>
-        </div>
-        {connector}
-        """
+            steps_html += f'<div class="pipeline-connector {conn_cls}"></div>'
 
     st.markdown(
-        f"""
-        <div class="pipeline">
-            <div class="pipeline-steps">
-                {steps_html}
-            </div>
-        </div>
-        """,
+        f'<div class="pipeline"><div class="pipeline-steps">{steps_html}</div></div>',
         unsafe_allow_html=True,
     )
 
@@ -509,13 +501,13 @@ def _activity(activity_log):
 
     rows_html = ""
     for item in reversed(activity_log[-10:]):
-        rows_html += f"""
-        <div class="activity-row">
-            <div class="a-dot"></div>
-            <div class="a-text">{item}</div>
-            <div class="a-time">just now</div>
-        </div>
-        """
+        rows_html += (
+            '<div class="activity-row">'
+            '<div class="a-dot"></div>'
+            f'<div class="a-text">{item}</div>'
+            '<div class="a-time">just now</div>'
+            '</div>'
+        )
 
     st.markdown(
         f'<div class="activity-list">{rows_html}</div>',
