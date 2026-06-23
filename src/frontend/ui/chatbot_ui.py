@@ -1,5 +1,6 @@
 import streamlit as st
 from chatbot.chatbot import chat
+import html
 
 
 # ── Page-level CSS ───────────────────────────────────────────────────────────
@@ -368,25 +369,36 @@ def _welcome_state():
 
 
 def _render_messages(chat_history):
+
     thread_html = '<div class="chat-thread">'
+
     for msg in chat_history:
+
         role = msg["role"]
-        content = msg["content"]
+
+        content = html.escape(msg["content"])
+        content = content.replace("\n", "<br>")
+
         if role == "user":
+
             thread_html += f"""
             <div class="msg-row user">
                 <div class="msg-avatar user-av">👤</div>
                 <div class="msg-bubble user">{content}</div>
             </div>
             """
+
         else:
+
             thread_html += f"""
             <div class="msg-row">
                 <div class="msg-avatar bot-av">✦</div>
                 <div class="msg-bubble bot">{content}</div>
             </div>
             """
+
     thread_html += "</div>"
+
     st.markdown(thread_html, unsafe_allow_html=True)
 
 
