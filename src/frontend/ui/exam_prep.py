@@ -1,4 +1,6 @@
 import json
+from datetime import datetime
+
 import streamlit as st
 from ingestion.retriever import retrieve
 from study_tools.mock_test_generator import generate_mock_test
@@ -246,52 +248,6 @@ EXAM_CSS = f"""
     .prep-stats {{ grid-template-columns: 1fr 1fr; }}
 }}
 
-/* ═══════════════════════════════════════════════
-   EXAM PREP BUTTON OVERRIDE
-═══════════════════════════════════════════════ */
-
-div[data-testid="stButton"] > button {{
-
-    background: linear-gradient(
-        135deg,
-        #2563eb,
-        #0891b2
-    ) !important;
-
-    color: #ffffff !important;
-
-    border: none !important;
-
-    border-radius: 12px !important;
-
-    font-weight: 600 !important;
-
-    transition: all .2s ease !important;
-}}
-
-div[data-testid="stButton"] > button:hover {{
-
-    background: linear-gradient(
-        135deg,
-        #3b82f6,
-        #06b6d4
-    ) !important;
-
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 8px 20px rgba(
-            6,
-            182,
-            212,
-            .35
-        ) !important;
-}}
-
-div[data-testid="stButton"] > button p {{
-    color: #ffffff !important;
-}}
-
 </style>
 """
 
@@ -448,11 +404,14 @@ def render_exam_prep(vector_db) -> None:
     # ── Preparation overview ──────────────────────────────────────────────────
     st.markdown('<div class="ep-label">Preparation Overview</div>', unsafe_allow_html=True)
 
+    def _has(label):
+        return any(e["label"].startswith(label) for e in activity_log)
+
     readiness_score = 0
-    if processed:                                    readiness_score += 40
-    if "Generated Notes"         in activity_log:   readiness_score += 20
-    if "Generated Flashcards"    in activity_log:   readiness_score += 20
-    if "Generated Question Bank" in activity_log:   readiness_score += 20
+    if processed:               readiness_score += 40
+    if _has("Generated Notes"): readiness_score += 20
+    if _has("Generated") and any("Flashcard" in e["label"] for e in activity_log): readiness_score += 20
+    if _has("Generated Question Bank"):                                             readiness_score += 20
 
     stats_html = "".join([
         _stat_card(doc_count,   "Documents"),
@@ -468,10 +427,10 @@ def render_exam_prep(vector_db) -> None:
     # ── Study readiness + AI recommendation ──────────────────────────────────
     st.markdown('<div class="ep-label">Study Readiness</div>', unsafe_allow_html=True)
 
-    has_notes = "Generated Notes"         in activity_log
-    has_flash = "Generated Flashcards"    in activity_log
-    has_qbank = "Generated Question Bank" in activity_log
-    has_mock  = "Generated Mock Test"     in activity_log
+    has_notes = _has("Generated Notes")
+    has_flash = any("Flashcard" in e["label"] for e in activity_log)
+    has_qbank = _has("Generated Question Bank")
+    has_mock  = _has("Generated Mock Test")
 
     checklist_rows = "".join([
         _readiness_row("Mock Test",      has_mock),
@@ -567,8 +526,8 @@ def render_exam_prep(vector_db) -> None:
             st.markdown("#### 📋 Revision Sheet")
             sheet = generate_revision_sheet(context)
             render_revision_sheet(_safe_json(sheet))
-            if "Generated Revision Sheet" not in activity_log:
-                st.session_state.activity_log.append("Generated Revision Sheet")
+            if not _has("Generated Revision Sheet"):
+                st.session_state.activity_log.append({"label": "Generated Revision Sheet", "time": datetime.now().strftime("%H:%M")})
 
         if mock_test_btn:
             difficulty = st.session_state.get("exam_difficulty", "Mixed")
@@ -587,8 +546,8 @@ def render_exam_prep(vector_db) -> None:
                 return
 
             initialize_test(mock_test)
-            if "Generated Mock Test" not in activity_log:
-                st.session_state.activity_log.append("Generated Mock Test")
+            if not _has("Generated Mock Test"):
+                st.session_state.activity_log.append({"label": "Generated Mock Test", "time": datetime.now().strftime("%H:%M")})
 
     # ── Interactive mock test UI ───────────────────────────────────────────────
     if "mock_test" in st.session_state:
