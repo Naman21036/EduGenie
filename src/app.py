@@ -13,7 +13,7 @@ from frontend.ui.study_tools import render_study_tools
 from frontend.ui.analysis import render_analysis
 from frontend.ui.exam_prep import render_exam_prep
 from frontend.ui.chatbot_ui import render_chatbot
-from frontend.components.icons import inject_icon_styles
+from frontend.components.icons import ICON_CSS_RULES
 
 from utils.logger import get_logger
 
@@ -31,9 +31,9 @@ st.set_page_config(
 
 
 st.markdown(
-    inject_icon_styles()
-    + """
+    f"""
     <style>
+    {ICON_CSS_RULES}
     /* ── App background ── */
     .stApp {
         background: #020617;

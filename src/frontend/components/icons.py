@@ -1,7 +1,6 @@
 """Shared SVG icon helpers for production UI (no emoji)."""
 
-ICON_CSS = """
-<style>
+ICON_CSS_RULES = """
 .ui-icon {
     display: inline-flex;
     align-items: center;
@@ -47,7 +46,6 @@ ICON_CSS = """
     background: rgba(59, 130, 246, 0.22);
     color: #bfdbfe;
 }
-</style>
 """
 
 _SVG = {
@@ -164,11 +162,6 @@ _SVG = {
         '<path d="M12 16v-4"/><path d="M12 8h.01"/>'
     ),
 }
-
-
-def inject_icon_styles():
-    """Return CSS for icons; inject once per page via st.markdown."""
-    return ICON_CSS
 
 
 def icon(name, size="md", css_class=""):
