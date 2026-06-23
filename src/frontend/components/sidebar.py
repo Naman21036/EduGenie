@@ -278,12 +278,12 @@ def render_sidebar():
             )
             items_html = ""
             for item in reversed(activity_log[-6:]):
-                items_html += f"""
-                <div class="sb-activity-item">
-                    <div class="dot"></div>
-                    <span>{item}</span>
-                </div>
-                """
+                items_html += (
+                    '<div class="sb-activity-item">'
+                    '<div class="dot"></div>'
+                    f'<span>{item["label"]}</span>'
+                    '</div>'
+                )
             st.markdown(items_html, unsafe_allow_html=True)
 
     return uploaded_files, process
