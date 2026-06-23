@@ -73,28 +73,28 @@ STUDY_TOOLS_CSS = """
 _TOOLS = [
     {
         "key": "notes",
-        "icon": "📄",
+        "icon": "📝",
         "title": "Notes Generator",
         "desc": "Structured, topic-focused study notes from your documents.",
         "features": ["Hierarchical summaries", "Key definitions", "Concept breakdown"],
     },
     {
         "key": "mcqs",
-        "icon": "🎯",
+        "icon": "🔘",
         "title": "MCQ Generator",
         "desc": "Exam-style multiple choice questions with instant answer reveal.",
         "features": ["Difficulty control", "Instant scoring", "Detailed answers"],
     },
     {
         "key": "flashcards",
-        "icon": "🃏",
+        "icon": "📇",
         "title": "Flashcards",
         "desc": "Interactive flip cards for active recall and spaced repetition.",
         "features": ["Flip animation", "Front & back format", "Batch generation"],
     },
     {
         "key": "question_bank",
-        "icon": "📚",
+        "icon": "🗃️",
         "title": "Question Bank",
         "desc": "Comprehensive question set across 2, 5 and 10 mark levels.",
         "features": ["2 / 5 / 10 mark tiers", "Exam-ready format", "Full coverage"],
