@@ -25,7 +25,7 @@ EduGenie AI is currently optimized for academic PDFs and study material ranging 
 The platform uses:
 
 - Recursive text chunking
-- Voyage AI embeddings
+- Huggingface embeddings
 - FAISS vector search
 - Retrieval Augmented Generation (RAG)
 
