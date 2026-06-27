@@ -25,7 +25,7 @@ EduGenie AI is currently optimized for academic PDFs and study material ranging 
 The platform uses:
 
 - Recursive text chunking
-- Huggingface embeddings
+- HuggingFace embeddings
 - FAISS vector search
 - Retrieval Augmented Generation (RAG)
 
@@ -121,7 +121,7 @@ Study Tools / Analysis / Chat
 
 * LangChain
 * Groq LLM
-* Voyage AI Embeddings
+* HuggingFace Embeddings
 
 ### Vector Database
 
