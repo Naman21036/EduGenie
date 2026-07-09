@@ -20,7 +20,7 @@ def parse_json_response(content):
 
         return json.loads(content)
 
-    except Exception as e:
+    except json.JSONDecodeError as e:
 
         return {
             "success": False,

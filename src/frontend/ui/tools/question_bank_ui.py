@@ -89,7 +89,6 @@ def render_question_bank(vector_db):
 
     st.markdown(QB_CSS, unsafe_allow_html=True)
 
-    # ── Header ───────────────────────────────────────
     st.markdown(
         '<div class="qb-header">'
         '<h3>🗃️ Question Bank Generator</h3>'
@@ -98,7 +97,6 @@ def render_question_bank(vector_db):
         unsafe_allow_html=True,
     )
 
-    # ── Configuration panel ───────────────────────────
     st.markdown(
         '<div class="qb-config"><div class="qc-title">Configuration</div></div>',
         unsafe_allow_html=True,
@@ -139,7 +137,6 @@ def render_question_bank(vector_db):
             key="qb_10mark",
         )
 
-    # ── Live preview panel ────────────────────────────
     total = int(num_2_mark) + int(num_5_mark) + int(num_10_mark)
 
     st.markdown(
@@ -165,7 +162,6 @@ def render_question_bank(vector_db):
         unsafe_allow_html=True,
     )
 
-    # ── Generate ──────────────────────────────────────
     generate_btn = st.button(
         f"🗃️ Generate {total} Question{'s' if total != 1 else ''}",
         key="qb_btn",
@@ -203,14 +199,12 @@ def render_question_bank(vector_db):
             st.error("The model returned an empty question bank. Please try again.")
             return
 
-        # ── Results ───────────────────────────────────
         st.markdown(
             '<div class="qb-result"><div class="qr-title">Generated Question Bank</div></div>',
             unsafe_allow_html=True,
         )
         st.markdown(questions)
 
-        # ── Activity log ──────────────────────────────
         if "activity_log" not in st.session_state:
             st.session_state.activity_log = []
         entry = f"Generated Question Bank ({total} questions)"

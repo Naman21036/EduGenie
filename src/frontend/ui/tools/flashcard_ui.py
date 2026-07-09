@@ -67,7 +67,6 @@ def render_flashcards(vector_db):
 
     st.markdown(FLASH_CSS, unsafe_allow_html=True)
 
-    # ── Header ───────────────────────────────────────
     st.markdown(
         '<div class="flash-header">'
         '<h3>📇 Flashcard Generator</h3>'
@@ -76,7 +75,6 @@ def render_flashcards(vector_db):
         unsafe_allow_html=True,
     )
 
-    # ── Configuration panel ───────────────────────────
     st.markdown(
         '<div class="flash-config"><div class="fc-title">Configuration</div></div>',
         unsafe_allow_html=True,
@@ -96,7 +94,6 @@ def render_flashcards(vector_db):
         key="flash_count",
     )
 
-    # ── Generate ──────────────────────────────────────
     generate_btn = st.button(
         f"📇 Generate {int(num_cards)} Flashcard{'s' if num_cards != 1 else ''}",
         key="flash_btn",
@@ -141,7 +138,6 @@ def render_flashcards(vector_db):
 
         render_flashcard_cards(cards)
 
-        # ── Activity log ──────────────────────────────
         if "activity_log" not in st.session_state:
             st.session_state.activity_log = []
         entry = f"Generated {len(cards)} Flashcards"

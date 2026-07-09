@@ -5,22 +5,12 @@ langchain
 langchain-core
 langchain-community
 langchain-groq
-langchain-voyageai
 langchain-text-splitters
 langchain-huggingface
 sentence-transformers
 faiss-cpu
 
 groq
-voyageai
 
 pypdf
 python-dotenv
-
-numpy
-pandas
-
-requests
-beautifulsoup4
-
-tiktoken

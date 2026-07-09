@@ -6,11 +6,8 @@ from analysis.topic_coverage import generate_topic_coverage
 from analysis.importance_ranker import generate_importance_ranker
 
 
-#CSS 
-
 ANALYSIS_CSS = """
 <style>
-/* ── Page header ── */
 .an-header { margin-bottom: 22px; }
 .an-header h2 {
     font-size: 1.35rem;
@@ -21,7 +18,6 @@ ANALYSIS_CSS = """
 }
 .an-header p { font-size: 13px; color: #475569; margin: 0; }
 
-/* ── Section label ── */
 .an-label {
     font-size: 10.5px;
     font-weight: 700;
@@ -35,7 +31,6 @@ ANALYSIS_CSS = """
 }
 .an-label::after { content:""; flex:1; height:1px; background:rgba(255,255,255,0.05); }
 
-/* ── Module cards (top row) ── */
 .module-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
 .module-card {
     background: #0f172a;
@@ -59,7 +54,6 @@ ANALYSIS_CSS = """
 .module-card h4 { font-size: 14px; font-weight: 700; color: #e2e8f0; margin: 0 0 5px; }
 .module-card p  { font-size: 12px; color: #475569; margin: 0; line-height: 1.5; }
 
-/* ── Insight stat bar ── */
 .insight-bar { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
 .insight-box {
     background: #0c1120;
@@ -73,7 +67,7 @@ ANALYSIS_CSS = """
 .insight-box.status .ib-val.ready   { color: #4ade80; }
 .insight-box.status .ib-val.waiting { color: #f87171; }
 
-/* ── Workspace panel (used inside st.columns, one per column) ── */
+/* Workspace panel: one instance rendered per st.columns() slot */
 .ws-panel {
     background: #0c1120;
     border: 1px solid rgba(255,255,255,0.06);
@@ -164,7 +158,6 @@ ANALYSIS_CSS = """
     margin: 0;
 }
 
-/* ── Action area ── */
 .action-area {
     background: #0c1120;
     border: 1px solid rgba(59,130,246,0.18);
@@ -191,8 +184,6 @@ def safe_json(data):
             return {}
     return {}
 
-
-#Result renderers (clean Streamlit native)
 
 def render_topics(result):
     topics = result.get("topics", [])
@@ -331,8 +322,6 @@ def _panel_ranking(importance_result):
     )
 
 
-# Main render
-
 def render_analysis(vector_db):
 
     st.markdown(ANALYSIS_CSS, unsafe_allow_html=True)
@@ -342,7 +331,6 @@ def render_analysis(vector_db):
     topic_count = st.session_state.get("topic_count", 0)
     processed   = st.session_state.get("processed", False)
 
-    # Page header
     st.markdown(
         '<div class="an-header">'
         '<h2>📊 Content Analysis</h2>'
@@ -351,7 +339,6 @@ def render_analysis(vector_db):
         unsafe_allow_html=True,
     )
 
-    #Analysis modules
     st.markdown('<div class="an-label">Analysis Modules</div>', unsafe_allow_html=True)
     st.markdown(
         '<div class="module-grid">'
@@ -374,7 +361,6 @@ def render_analysis(vector_db):
         unsafe_allow_html=True,
     )
 
-    #Learning insights
     st.markdown('<div class="an-label">Learning Insights</div>', unsafe_allow_html=True)
 
     status_cls = "ready" if processed else "waiting"
@@ -403,7 +389,6 @@ def render_analysis(vector_db):
     )
     st.markdown(insight_html, unsafe_allow_html=True)
 
-    #Analysis workspace 
     st.markdown('<div class="an-label">Analysis Workspace</div>', unsafe_allow_html=True)
 
     topics_result     = st.session_state.get("analysis_topics_result", None)
@@ -421,7 +406,6 @@ def render_analysis(vector_db):
     with ws_col3:
         st.markdown(_panel_ranking(importance_result), unsafe_allow_html=True)
 
-    #Action area 
     st.markdown('<div class="an-label">Generate Analysis</div>', unsafe_allow_html=True)
     st.markdown(
         '<div class="action-area">'
@@ -445,7 +429,6 @@ def render_analysis(vector_db):
     with col3:
         importance_rank = st.button("🏆 Rank by Importance",  use_container_width=True)
 
-    #Results
     if topic_extract or topic_coverage or importance_rank:
         if not topic:
             st.warning("Please enter a topic first.")

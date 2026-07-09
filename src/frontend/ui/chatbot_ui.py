@@ -1,8 +1,8 @@
+import html
 from datetime import datetime
 
 import streamlit as st
 from chatbot.chatbot import chat, plain_text_content
-import html
 
 
 def _sanitize_chat_history():
@@ -15,11 +15,8 @@ def _sanitize_chat_history():
     ]
 
 
-# ── Page-level CSS ───────────────────────────────────────────────────────────
-
 CHAT_CSS = """
 <style>
-/* ── Page header ── */
 .chat-header {
     display: flex;
     align-items: center;
@@ -61,10 +58,8 @@ CHAT_CSS = """
 .kb-dot.ready { background: #4ade80; }
 .kb-dot.waiting { background: #f87171; }
 
-/* ── Layout columns ── */
 .chat-layout { display: flex; gap: 20px; align-items: flex-start; }
 
-/* ── Welcome state ── */
 .welcome-wrap {
     text-align: center;
     padding: 40px 20px 28px;
@@ -87,7 +82,6 @@ CHAT_CSS = """
     line-height: 1.6;
 }
 
-/* ── Suggested prompt cards ── */
 .prompt-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -121,7 +115,6 @@ CHAT_CSS = """
     margin: 0;
 }
 
-/* ── Message thread ── */
 .chat-thread {
     display: flex;
     flex-direction: column;
@@ -168,7 +161,6 @@ CHAT_CSS = """
     border-bottom-left-radius: 4px;
 }
 
-/* ── Knowledge panel ── */
 .kb-panel {
     background: #0c1120;
     border: 1px solid rgba(255,255,255,0.06);
@@ -200,7 +192,6 @@ CHAT_CSS = """
 .kb-row .kr-val   { color: #60a5fa; font-weight: 600; }
 .kb-row .kr-val.ready { color: #4ade80; }
 
-/* ── Input row ── */
 .input-row {
     display: flex;
     gap: 8px;
@@ -208,7 +199,6 @@ CHAT_CSS = """
     margin-top: 12px;
 }
 
-/* ── Section label ── */
 .section-label {
     font-size: 10.5px;
     font-weight: 700;
@@ -316,7 +306,6 @@ def _welcome_state():
     cols = st.columns(2, gap="small")
     for i, (icon, title, desc) in enumerate(SUGGESTED_PROMPTS):
         with cols[i % 2]:
-            # Visual card
             st.markdown(
                 f"""
                 <div class="prompt-card">
@@ -327,7 +316,6 @@ def _welcome_state():
                 """,
                 unsafe_allow_html=True,
             )
-            # Functional button underneath
             if st.button(
                 title,
                 key=f"prompt_{i}",
@@ -365,10 +353,8 @@ def _render_messages(chat_history):
 
 def render_chatbot(vector_db):
 
-    # Inject CSS once
     st.markdown(CHAT_CSS, unsafe_allow_html=True)
 
-    # Read state
     doc_count   = st.session_state.get("doc_count", 0)
     chunk_count = st.session_state.get("chunk_count", 0)
     topic_count = st.session_state.get("topic_count", 0)
@@ -380,10 +366,8 @@ def render_chatbot(vector_db):
 
     _sanitize_chat_history()
 
-    # ── Header ───────────────────────────────────────
     _page_header(processed, doc_count, chunk_count)
 
-    # ── Two-column layout: chat | knowledge panel ────
     chat_col, panel_col = st.columns([5, 1], gap="medium")
 
     with panel_col:
@@ -397,24 +381,20 @@ def render_chatbot(vector_db):
         else:
             _render_messages(chat_history)
 
-        st.markdown("")  # breathing room
+        st.markdown("")  # vertical spacing before the clear button
 
-        # ── Input row ────────────────────────────────
         clear_col, _ = st.columns([1, 5])
         with clear_col:
             if st.button("🗑 Clear", key="clear_chat"):
                 st.session_state.chat_history = []
                 st.rerun()
 
-    # ── Chat input (full width, below columns) ───────
-    # Pre-fill from suggested prompt click
     prefill = st.session_state.pop("_prefill_prompt", "")
 
     question = st.chat_input(
         "Ask a question about your documents…",
     )
 
-    # Accept either typed input or prefill
     final_question = question or prefill
 
     if final_question:
@@ -441,7 +421,6 @@ def render_chatbot(vector_db):
             }
         )
 
-        # Log activity once
         log = st.session_state.get("activity_log", [])
         if not any(e["label"] == "AI Chat" for e in log):
             st.session_state.activity_log.append({"label": "AI Chat", "time": datetime.now().strftime("%H:%M")})

@@ -1,14 +1,10 @@
 import streamlit as st
 
 
-# ── Shared dark-theme CSS injected once ─────────────────────────────────────
-
 DASHBOARD_CSS = """
 <style>
-/* ── Base resets for dashboard ── */
 .dash-root * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
 
-/* ── Hero ─────────────────────────────────────────── */
 .dash-hero {
     background: linear-gradient(135deg, #111827 0%, #172554 50%, #1E3A8A 100%);
     border: 1px solid rgba(59,130,246,0.20);
@@ -82,7 +78,6 @@ DASHBOARD_CSS = """
 }
 .dash-hero-pill .pip.green { background: #34d399; }
 
-/* ── Section label ────────────────────────────────── */
 .dash-section-label {
     font-size: 10.5px;
     font-weight: 700;
@@ -101,7 +96,6 @@ DASHBOARD_CSS = """
     background: rgba(255,255,255,0.05);
 }
 
-/* ── Workspace nav cards ──────────────────────────── */
 .nav-card {
     background: #0F172A;
     border: 1px solid rgba(255,255,255,0.07);
@@ -151,7 +145,6 @@ DASHBOARD_CSS = """
     gap: 4px;
 }
 
-/* ── Metrics ──────────────────────────────────────── */
 .metric-row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -188,7 +181,6 @@ DASHBOARD_CSS = """
 .metric-box.status .m-val.ready { color: #34d399; }
 .metric-box.status .m-val.waiting { color: #f87171; }
 
-/* ── Pipeline ─────────────────────────────────────── */
 .pipeline {
     background: #0F172A;
     border: 1px solid rgba(255,255,255,0.06);
@@ -240,7 +232,6 @@ DASHBOARD_CSS = """
 }
 .pipeline-connector.done { background: rgba(52,211,153,0.3); }
 
-/* ── Activity ─────────────────────────────────────── */
 .activity-list {
     background: #0F172A;
     border: 1px solid rgba(255,255,255,0.06);
@@ -277,7 +268,6 @@ DASHBOARD_CSS = """
     text-align: center;
 }
 
-/* ── AI Recommendation ────────────────────────────── */
 .ai-rec {
     background: linear-gradient(135deg, #0F172A, #111827);
     border: 1px solid rgba(59,130,246,0.2);
@@ -391,7 +381,6 @@ def _workspace_cards():
     cols = st.columns(4, gap="small")
     for col, card in zip(cols, cards):
         with col:
-            # Render the visual card via HTML
             st.markdown(
                 f"""
                 <div class="nav-card">
@@ -403,8 +392,7 @@ def _workspace_cards():
                 """,
                 unsafe_allow_html=True,
             )
-            # Streamlit button that actually routes — hidden behind the card visually
-            # We show it with minimal height so it appears as part of the card footer
+            # Button is styled transparent in app.py CSS so it sits invisibly under the HTML card above
             if st.button(
                 f"Open {card['title']}",
                 key=f"nav_card_{card['page']}",
@@ -564,14 +552,10 @@ def _ai_recommendation(processed, activity_log):
     )
 
 
-# ── Public render function ───────────────────────────────────────────────────
-
 def render_dashboard():
 
-    # Inject styles once
     st.markdown(DASHBOARD_CSS, unsafe_allow_html=True)
 
-    # Read session state
     doc_count = st.session_state.get("doc_count", 0)
     chunk_count = st.session_state.get("chunk_count", 0)
     topic_count = st.session_state.get("topic_count", 0)
@@ -579,13 +563,11 @@ def render_dashboard():
     file_names = st.session_state.get("file_names", [])
     activity_log = st.session_state.get("activity_log", [])
 
-    # ── Sections ─────────────────────────────────────
     _hero(processed, file_names, doc_count, chunk_count)
     _workspace_cards()
     _metrics(doc_count, chunk_count, topic_count, processed)
     _pipeline(processed)
 
-    # Activity + Rec side-by-side
     left, right = st.columns([3, 2], gap="medium")
 
     with left:

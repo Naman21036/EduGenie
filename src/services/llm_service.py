@@ -2,22 +2,11 @@ from model.llm import get_llm
 
 llm = get_llm()
 
-def generate_response(prompt, temperature= 0.7, max_tokens= None):
+def generate_response(prompt):
 
     try:
 
-        if max_tokens is not None:
-
-            temp_llm = get_llm(
-                temperature=temperature,
-                max_tokens=max_tokens
-            )
-
-            response = temp_llm.invoke(prompt)
-
-        else:
-
-            response = llm.invoke(prompt)
+        response = llm.invoke(prompt)
 
         return response.content
 

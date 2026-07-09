@@ -3,12 +3,7 @@ import streamlit.components.v1 as components
 
 
 def render_flashcards(cards):
-    """Render a grid of flip cards using components.html.
-
-    Card front: blue/cyan gradient (replaces old purple #312e81 → #4f46e5).
-    Card back: dark surface (unchanged).
-    All flip animation logic is preserved exactly.
-    """
+    """Render a grid of flip cards using components.html."""
 
     grid_items = ""
     for card in cards:
@@ -16,7 +11,6 @@ def render_flashcards(cards):
             continue
         front = card.get("front", "")
         back  = card.get("back", "")
-        # Escape braces that aren't part of Python f-string interpolation
         grid_items += (
             f'<div class="card">'
             f'<div class="card-inner">'

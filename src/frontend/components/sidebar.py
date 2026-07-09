@@ -5,7 +5,6 @@ def render_sidebar():
 
     with st.sidebar:
 
-        # ── Sidebar base styles ──────────────────────────
         st.markdown(
             """
             <style>
@@ -27,7 +26,6 @@ def render_sidebar():
                 text-transform: uppercase;
                 margin: 0 0 8px;
             }
-            /* Wordmark */
             .sb-wordmark {
                 display: flex;
                 align-items: center;
@@ -59,7 +57,6 @@ def render_sidebar():
                 font-weight: 500;
                 margin-top: 1px;
             }
-            /* Status pill */
             .sb-status {
                 display: inline-flex;
                 align-items: center;
@@ -83,7 +80,6 @@ def render_sidebar():
             .sb-dot { width: 6px; height: 6px; border-radius: 50%; }
             .sb-dot.ready { background: #34d399; }
             .sb-dot.waiting { background: #f87171; }
-            /* Section label */
             .sb-label {
                 font-size: 10.5px;
                 font-weight: 700;
@@ -94,7 +90,6 @@ def render_sidebar():
                 padding-bottom: 6px;
                 border-bottom: 1px solid rgba(255,255,255,0.04);
             }
-            /* Stat row */
             .sb-stats {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
@@ -130,7 +125,6 @@ def render_sidebar():
             }
             .sb-stat-full .lbl { font-size: 12px; color: #64748b; }
             .sb-stat-full .val { font-size: 16px; font-weight: 700; color: #60a5fa; }
-            /* Activity items */
             .sb-activity-item {
                 display: flex;
                 align-items: flex-start;
@@ -171,7 +165,6 @@ def render_sidebar():
             unsafe_allow_html=True,
         )
 
-        # ── Wordmark ─────────────────────────────────────
         st.markdown(
             """
             <div class="sb-wordmark">
@@ -185,7 +178,6 @@ def render_sidebar():
             unsafe_allow_html=True,
         )
 
-        # ── Status ───────────────────────────────────────
         is_ready = st.session_state.get("processed", False)
         status_class = "ready" if is_ready else "waiting"
         status_text = "Ready" if is_ready else "Waiting for upload"
@@ -200,7 +192,6 @@ def render_sidebar():
             unsafe_allow_html=True,
         )
 
-        # ── Upload section ───────────────────────────────
         st.markdown(
             '<div class="sb-label">Document Upload</div>',
             unsafe_allow_html=True,
@@ -219,7 +210,6 @@ def render_sidebar():
             type="primary",
         )
 
-        # ── Workspace stats ──────────────────────────────
         st.markdown(
             '<div class="sb-label">Workspace Stats</div>',
             unsafe_allow_html=True,
@@ -249,7 +239,6 @@ def render_sidebar():
             unsafe_allow_html=True,
         )
 
-        # ── Quick actions ────────────────────────────────
         st.markdown(
             '<div class="sb-label">Quick Actions</div>',
             unsafe_allow_html=True,
@@ -268,7 +257,6 @@ def render_sidebar():
                     del st.session_state[key]
                 st.rerun()
 
-        # ── Recent activity ──────────────────────────────
         activity_log = st.session_state.get("activity_log", [])
 
         if activity_log:

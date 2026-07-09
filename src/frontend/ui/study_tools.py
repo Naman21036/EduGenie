@@ -4,7 +4,6 @@ from frontend.ui.tool_router import render_selected_tool
 
 STUDY_TOOLS_CSS = """
 <style>
-/* ── Page header ── */
 .st-header { margin-bottom: 22px; }
 .st-header h2 {
     font-size: 1.35rem;
@@ -15,7 +14,6 @@ STUDY_TOOLS_CSS = """
 }
 .st-header p { font-size: 13px; color: #475569; margin: 0; }
 
-/* ── Section label ── */
 .st-label {
     font-size: 10.5px;
     font-weight: 700;
@@ -29,7 +27,6 @@ STUDY_TOOLS_CSS = """
 }
 .st-label::after { content:""; flex:1; height:1px; background:rgba(255,255,255,0.05); }
 
-/* ── Tool card ── */
 .tool-card {
     background: #0f172a;
     border: 1px solid rgba(255,255,255,0.07);
@@ -106,7 +103,6 @@ def render_study_tools(vector_db):
 
     st.markdown(STUDY_TOOLS_CSS, unsafe_allow_html=True)
 
-    # ── Page header ──────────────────────────────────
     st.markdown(
         '<div class="st-header">'
         '<h2>📖 Study Tools</h2>'
@@ -115,7 +111,6 @@ def render_study_tools(vector_db):
         unsafe_allow_html=True,
     )
 
-    # ── Tool selection cards ──────────────────────────
     st.markdown('<div class="st-label">Select a Tool</div>', unsafe_allow_html=True)
 
     selected_tool = st.session_state.get("selected_tool", None)
@@ -143,7 +138,6 @@ def render_study_tools(vector_db):
                 st.session_state.selected_tool = tool["key"]
                 st.rerun()
 
-    # ── Active tool renderer ──────────────────────────
     if selected_tool:
         st.markdown('<div class="st-label">Generate</div>', unsafe_allow_html=True)
         render_selected_tool(vector_db)

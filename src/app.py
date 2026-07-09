@@ -19,26 +19,19 @@ from utils.logger import get_logger
 
 logger = get_logger()
 
-# PAGE CONFIG
-
-
 st.set_page_config(
     page_title="EduGenie AI",
     page_icon="🎓",
     layout="wide",
 )
-# GLOBAL CSS
-
 
 st.markdown(
     """
     <style>
-    /* ── App background ── */
     .stApp {
         background: #020617;
     }
 
-    /* ── Max width + top padding ── */
     .block-container {
         max-width: 1440px;
         padding-top: 0.6rem;
@@ -46,12 +39,10 @@ st.markdown(
         padding-right: 2rem;
     }
 
-    /* ── Hide default Streamlit chrome ── */
     #MainMenu { visibility: hidden; }
     footer { visibility: hidden; }
     header { visibility: hidden; }
 
-    /* ── Streamlit primary button ── */
     .stButton > button[kind="primary"] {
         background: linear-gradient(135deg, #4f46e5, #6366f1);
         color: #fff;
@@ -67,7 +58,6 @@ st.markdown(
         transform: translateY(-1px);
     }
 
-    /* ── Secondary buttons ── */
     .stButton > button {
         border-radius: 10px;
         font-size: 13px;
@@ -101,7 +91,6 @@ st.markdown(
         color: #818cf8;
     }
 
-    /* ── Text inputs ── */
     .stTextInput > div > div > input {
         background: #0f172a;
         border: 1px solid rgba(255,255,255,0.1);
@@ -110,12 +99,10 @@ st.markdown(
         font-size: 14px;
     }
 
-    /* ── Divider ── */
     hr {
         border-color: rgba(255,255,255,0.06);
     }
 
-    /* ── Metrics widget ── */
     [data-testid="stMetric"] {
         background: #0c1120;
         border: 1px solid rgba(255,255,255,0.06);
@@ -125,10 +112,8 @@ st.markdown(
     [data-testid="stMetricLabel"] { color: #475569; font-size: 12px; }
     [data-testid="stMetricValue"] { color: #a5b4fc; font-size: 22px; }
 
-    /* ── Spinner ── */
     .stSpinner > div { border-top-color: #6366f1 !important; }
 
-    /* ── Alerts ── */
     .stAlert {
         background: #0f172a;
         border-radius: 12px;
@@ -136,7 +121,6 @@ st.markdown(
         color: #94a3b8;
     }
 
-    /* ── File uploader ── */
     [data-testid="stFileUploader"] {
         background: #0f172a;
         border: 1px dashed rgba(99,102,241,0.25);
@@ -144,14 +128,12 @@ st.markdown(
         padding: 12px;
     }
 
-    /* ── Chat input ── */
     .stChatInput > div {
         background: #0f172a;
         border: 1px solid rgba(99,102,241,0.2);
         border-radius: 12px;
     }
 
-    /* ── Page button override (gradient) ── */
     section.main div[data-testid="stButton"] > button {
         background: linear-gradient(135deg, #2563eb, #0891b2) !important;
         color: #ffffff !important;
@@ -177,7 +159,6 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
-# SESSION STATE
 
 defaults = {
     "documents": None,
@@ -198,12 +179,8 @@ defaults = {
 for key, val in defaults.items():
     if key not in st.session_state:
         st.session_state[key] = val
-# SIDEBAR
 
 uploaded_files, process_button = render_sidebar()
-
-# DOCUMENT PROCESSING
-
 
 if process_button:
     if not uploaded_files:
@@ -239,9 +216,6 @@ if process_button:
                 logger.exception("Document processing failed")
                 st.error(str(e))
 
-# NAVIGATION
-
-
 navbar_selection = render_navbar()
 
 if st.session_state.nav_target:
@@ -251,9 +225,6 @@ else:
     st.session_state.selected_page = navbar_selection
 
 selected = st.session_state.selected_page
-
-# PAGE ROUTING
-
 
 if selected == "Dashboard":
     render_dashboard()

@@ -112,7 +112,6 @@ def render_mcqs(vector_db):
 
     st.markdown(MCQ_CSS, unsafe_allow_html=True)
 
-    # ── Header ───────────────────────────────────────
     st.markdown(
         '<div class="mcq-header">'
         '<h3>🔘 MCQ Generator</h3>'
@@ -121,7 +120,6 @@ def render_mcqs(vector_db):
         unsafe_allow_html=True,
     )
 
-    # ── Configuration panel ───────────────────────────
     st.markdown(
         '<div class="mcq-config"><div class="mc-title">Configuration</div></div>',
         unsafe_allow_html=True,
@@ -141,7 +139,6 @@ def render_mcqs(vector_db):
         key="mcq_count",
     )
 
-    # ── Generate ──────────────────────────────────────
     generate_btn = st.button(
         f"🔘 Generate {int(num_mcqs)} MCQ{'s' if num_mcqs != 1 else ''}",
         key="mcq_btn",
@@ -178,7 +175,6 @@ def render_mcqs(vector_db):
             st.error("No questions were returned. Please try again.")
             return
 
-        # ── Render MCQ cards ──────────────────────────
         st.markdown(
             f'<p style="font-size:13px; color:#475569; margin:16px 0 12px;">'
             f'{len(mcqs)} question{"s" if len(mcqs) != 1 else ""} generated</p>',
@@ -210,7 +206,6 @@ def render_mcqs(vector_db):
             with st.expander("Show Answer"):
                 st.success(answer)
 
-        # ── Activity log ──────────────────────────────
         if "activity_log" not in st.session_state:
             st.session_state.activity_log = []
         entry = f"Generated {len(mcqs)} MCQs"

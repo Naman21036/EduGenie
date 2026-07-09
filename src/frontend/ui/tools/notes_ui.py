@@ -58,7 +58,6 @@ def render_notes(vector_db):
 
     st.markdown(NOTES_CSS, unsafe_allow_html=True)
 
-    # ── Header ───────────────────────────────────────
     st.markdown(
         '<div class="notes-header">'
         '<h3>📝 Notes Generator</h3>'
@@ -67,7 +66,6 @@ def render_notes(vector_db):
         unsafe_allow_html=True,
     )
 
-    # ── Configuration panel ───────────────────────────
     st.markdown(
         '<div class="notes-config"><div class="nc-title">Configuration</div></div>',
         unsafe_allow_html=True,
@@ -87,7 +85,6 @@ def render_notes(vector_db):
         key="notes_detail",
     )
 
-    # ── Generate ──────────────────────────────────────
     generate_btn = st.button(
         "📝 Generate Notes",
         key="notes_btn",
@@ -115,14 +112,12 @@ def render_notes(vector_db):
             st.error("The model returned empty notes. Please try again.")
             return
 
-        # ── Results ───────────────────────────────────
         st.markdown(
             '<div class="notes-result"><div class="nr-title">Generated Notes</div></div>',
             unsafe_allow_html=True,
         )
         st.markdown(notes)
 
-        # ── Activity log ──────────────────────────────
         if "activity_log" not in st.session_state:
             st.session_state.activity_log = []
         if not any(e["label"] == "Generated Notes" for e in st.session_state.activity_log):

@@ -8,8 +8,7 @@ from study_tools.revision_sheet_generator import generate_revision_sheet
 from frontend.exam_prep.mock_test_engine import initialize_test, render_mock_test, reset_test
 
 
-# ── Design Tokens ─────────────────────────────────────────────────────────────
-# Centralised token map — change here, propagates everywhere.
+# Centralised design tokens — change here, propagates everywhere.
 _BLUE_500  = "#3b82f6"
 _BLUE_400  = "#60a5fa"
 _BLUE_300  = "#93c5fd"
@@ -18,17 +17,10 @@ _BLUE_RING = "rgba(59,130,246,0.22)"
 _GREEN_500 = "#22c55e"
 _GREEN_400 = "#4ade80"
 
-# ── CSS ───────────────────────────────────────────────────────────────────────
 EXAM_CSS = f"""
 <style>
-/* ═══════════════════════════════════════════════
-   RESET & BASE
-═══════════════════════════════════════════════ */
 .ep-wrap * {{ box-sizing: border-box; }}
 
-/* ═══════════════════════════════════════════════
-   PAGE HEADER
-═══════════════════════════════════════════════ */
 .ep-header {{ margin-bottom: 24px; }}
 .ep-header h2 {{
     font-size: 1.4rem;
@@ -45,9 +37,6 @@ EXAM_CSS = f"""
     line-height: 1.5;
 }}
 
-/* ═══════════════════════════════════════════════
-   SECTION LABEL  (divider + uppercase tag)
-═══════════════════════════════════════════════ */
 .ep-label {{
     display: flex;
     align-items: center;
@@ -66,9 +55,6 @@ EXAM_CSS = f"""
     background: rgba(255,255,255,0.05);
 }}
 
-/* ═══════════════════════════════════════════════
-   FEATURE CARDS
-═══════════════════════════════════════════════ */
 .ep-features {{
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -109,9 +95,6 @@ EXAM_CSS = f"""
 .ep-feature ul {{ padding-left: 16px; margin: 0; }}
 .ep-feature li {{ font-size: 12px; color: #475569; margin-bottom: 4px; line-height: 1.4; }}
 
-/* ═══════════════════════════════════════════════
-   PREP STATS GRID
-═══════════════════════════════════════════════ */
 .prep-stats {{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -138,9 +121,6 @@ EXAM_CSS = f"""
     line-height: 1.3;
 }}
 
-/* ═══════════════════════════════════════════════
-   READINESS + RECOMMENDATION  (2-col grid)
-═══════════════════════════════════════════════ */
 .readiness-grid {{
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -182,9 +162,6 @@ EXAM_CSS = f"""
 .rr-badge.ready   {{ background: rgba(34,197,94,0.12); color: {_GREEN_400}; }}
 .rr-badge.pending {{ background: {_BLUE_GLOW};          color: {_BLUE_400}; }}
 
-/* ═══════════════════════════════════════════════
-   AI RECOMMENDATION PANEL
-═══════════════════════════════════════════════ */
 .ep-rec {{
     background: linear-gradient(145deg, #0f172a, #0c1526);
     border: 1px solid {_BLUE_RING};
@@ -216,9 +193,6 @@ EXAM_CSS = f"""
     line-height: 1.5;
 }}
 
-/* ═══════════════════════════════════════════════
-   GENERATE MATERIAL SECTION
-═══════════════════════════════════════════════ */
 .ep-action {{
     background: #0c1120;
     border: 1px solid rgba(255,255,255,0.07);
@@ -238,9 +212,7 @@ EXAM_CSS = f"""
     margin: 0;
 }}
 
-/* ═══════════════════════════════════════════════
-   RESPONSIVE  –  collapse to single column below ~720 px
-═══════════════════════════════════════════════ */
+/* Collapse to single column below ~720px */
 @media (max-width: 720px) {{
     .ep-features,
     .prep-stats,
@@ -251,8 +223,6 @@ EXAM_CSS = f"""
 </style>
 """
 
-
-# ── Utility helpers ────────────────────────────────────────────────────────────
 
 def _safe_json(data) -> dict:
     """Safely coerce *data* to a dict (best-effort JSON parse for strings)."""
@@ -302,8 +272,6 @@ def _feature_card(variant: str, icon: str, title: str, desc: str, bullets: list[
     )
 
 
-# ── Revision sheet renderer ────────────────────────────────────────────────────
-
 def render_revision_sheet(sheet: dict) -> None:
     """Render a parsed revision-sheet dict using native Streamlit widgets."""
     if not sheet.get("success", True):
@@ -338,22 +306,17 @@ def render_revision_sheet(sheet: dict) -> None:
             st.markdown(f"• {q}")
 
 
-# ── Main page renderer ─────────────────────────────────────────────────────────
-
 def render_exam_prep(vector_db) -> None:
     """Render the full Exam Preparation page."""
 
-    # Inject scoped CSS once
     st.markdown(EXAM_CSS, unsafe_allow_html=True)
 
-    # ── Pull session state ────────────────────────────────────────────────────
     doc_count    = st.session_state.get("doc_count", 0)
     chunk_count  = st.session_state.get("chunk_count", 0)
     topic_count  = st.session_state.get("topic_count", 0)
     processed    = st.session_state.get("processed", False)
     activity_log = st.session_state.get("activity_log", [])
 
-    # ── Page header ───────────────────────────────────────────────────────────
     st.markdown(
         """
         <div class="ep-header">
@@ -364,7 +327,6 @@ def render_exam_prep(vector_db) -> None:
         unsafe_allow_html=True,
     )
 
-    # ── Feature cards ─────────────────────────────────────────────────────────
     st.markdown('<div class="ep-label">Features</div>', unsafe_allow_html=True)
 
     mock_card = _feature_card(
@@ -382,7 +344,6 @@ def render_exam_prep(vector_db) -> None:
         unsafe_allow_html=True,
     )
 
-    # ── Difficulty selector ───────────────────────────────────────────────────
     st.markdown('<div class="ep-label">Difficulty</div>', unsafe_allow_html=True)
 
     if "exam_difficulty" not in st.session_state:
@@ -392,7 +353,6 @@ def render_exam_prep(vector_db) -> None:
     diff_cols = st.columns(4, gap="small")
     for col, level in zip(diff_cols, difficulty_levels):
         with col:
-            is_active = st.session_state.exam_difficulty == level
             if st.button(
                 level,
                 key=f"diff_{level}",
@@ -401,7 +361,6 @@ def render_exam_prep(vector_db) -> None:
                 st.session_state.exam_difficulty = level
                 st.rerun()
 
-    # ── Preparation overview ──────────────────────────────────────────────────
     st.markdown('<div class="ep-label">Preparation Overview</div>', unsafe_allow_html=True)
 
     def _has(label):
@@ -424,7 +383,6 @@ def render_exam_prep(vector_db) -> None:
         unsafe_allow_html=True,
     )
 
-    # ── Study readiness + AI recommendation ──────────────────────────────────
     st.markdown('<div class="ep-label">Study Readiness</div>', unsafe_allow_html=True)
 
     has_notes = _has("Generated Notes")
@@ -439,7 +397,6 @@ def render_exam_prep(vector_db) -> None:
         _readiness_row("Flashcards",     has_flash),
     ])
 
-    # Derive contextual AI recommendation
     if not processed:
         rec_text = "Upload and process a PDF to unlock exam preparation tools."
         rec_steps: list[str] = []
@@ -482,7 +439,6 @@ def render_exam_prep(vector_db) -> None:
             unsafe_allow_html=True,
         )
 
-    # ── Material generation ───────────────────────────────────────────────────
     st.markdown('<div class="ep-label">Generate Material</div>', unsafe_allow_html=True)
 
     st.markdown(
@@ -508,7 +464,6 @@ def render_exam_prep(vector_db) -> None:
     with btn_col2:
         revision_btn  = st.button("📋 Generate Revision Sheet", use_container_width=True)
 
-    # ── Generation logic ──────────────────────────────────────────────────────
     if mock_test_btn or revision_btn:
         if not topic:
             st.warning("Please enter a topic first.")
@@ -549,7 +504,6 @@ def render_exam_prep(vector_db) -> None:
             if not _has("Generated Mock Test"):
                 st.session_state.activity_log.append({"label": "Generated Mock Test", "time": datetime.now().strftime("%H:%M")})
 
-    # ── Interactive mock test UI ───────────────────────────────────────────────
     if "mock_test" in st.session_state:
         st.markdown("---")
         st.markdown("#### ✏️ Interactive Mock Test")
