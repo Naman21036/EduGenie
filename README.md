@@ -184,7 +184,7 @@ EduGenie/
 ### 1. Clone Repository
 
 ```bash
-git clone -b Deploy https://github.com/Naman21036/EduGenie
+git clone https://github.com/Naman21036/EduGenie
 
 cd EduGenie
 ```
